@@ -10,9 +10,10 @@ public class MainForm {
     private JPanel centerPanel;
     private JTextField searchLine;
     public JButton buttonAddNewReader;
-    private JButton buttonAddNewBook;
+    public JButton buttonAddNewBook;
     private JButton buttonReaderAction;
     private JButton buttonBookAction;
+    private JButton buttonGiveBookToReader;
 
     public MainForm(){
         //устанавливаем границу для левой панели

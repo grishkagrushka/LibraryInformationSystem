@@ -25,6 +25,7 @@
           <component id="75ac3" class="javax.swing.JButton" binding="buttonAddNewReader">
             <constraints/>
             <properties>
+              <actionCommand value=""/>
               <borderPainted value="true"/>
               <contentAreaFilled value="true"/>
               <font name="Consolas" size="14" style="0"/>
@@ -41,6 +42,7 @@
           <component id="d83b2" class="javax.swing.JButton" binding="buttonAddNewBook">
             <constraints/>
             <properties>
+              <actionCommand value=""/>
               <borderPainted value="true"/>
               <contentAreaFilled value="true"/>
               <font name="Consolas" size="14" style="0"/>
@@ -54,9 +56,27 @@
               <verticalTextPosition value="0"/>
             </properties>
           </component>
+          <component id="f7560" class="javax.swing.JButton" binding="buttonGiveBookToReader">
+            <constraints/>
+            <properties>
+              <actionCommand value=""/>
+              <borderPainted value="true"/>
+              <contentAreaFilled value="true"/>
+              <font name="Consolas" size="14" style="0"/>
+              <foreground color="-12828863"/>
+              <horizontalTextPosition value="0"/>
+              <maximumSize width="250" height="100"/>
+              <minimumSize width="250" height="100"/>
+              <preferredSize width="250" height="100"/>
+              <text value="Выдать книгу читателю"/>
+              <verticalAlignment value="0"/>
+              <verticalTextPosition value="0"/>
+            </properties>
+          </component>
           <component id="a54d8" class="javax.swing.JButton" binding="buttonReaderAction">
             <constraints/>
             <properties>
+              <actionCommand value=""/>
               <borderPainted value="true"/>
               <contentAreaFilled value="true"/>
               <font name="Consolas" size="14" style="0"/>
@@ -73,6 +93,7 @@
           <component id="2a5c2" class="javax.swing.JButton" binding="buttonBookAction">
             <constraints/>
             <properties>
+              <actionCommand value=""/>
               <borderPainted value="true"/>
               <contentAreaFilled value="true"/>
               <font name="Consolas" size="14" style="0"/>
@@ -102,7 +123,6 @@
           <component id="5d9b3" class="javax.swing.JTextField" binding="searchLine">
             <constraints border-constraint="North"/>
             <properties>
-              <caretPosition value="0"/>
               <font name="Consolas" size="48" style="0"/>
               <foreground color="-12828863"/>
               <maximumSize width="800" height="100"/>

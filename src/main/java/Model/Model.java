@@ -31,19 +31,6 @@ public class Model {
         }
     }
 
-    //добавление новой книги
-    public void addNewBook(){//TODO: нужно сделать, чтобы передавались параметры
-        try {
-            connector.statement.executeUpdate("INSERT INTO `library`.`книга` " +
-                    "(`Название`, `Автор`, `Год_издания`, " +
-                    "`Дата_поступления`, `Допустимый_срок_хранения`, `Статус_утерянности`, " +
-                    "`Стоимость`) VALUES ('Война и мир', 'Лев Николаевич Толстой', " +
-                    "'2008', '2015.09.01', '100', '0', '5000')");
-            System.out.println("Adding complete");
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        }
-    }
 
     //добавление нового читателя
     public void addNewReader(String surname, String name, String fathername,
@@ -112,12 +99,27 @@ public class Model {
         query = query + ")";
 
         System.out.println(query);
+        System.out.println("Adding complete!");
 
-        try{
+        /*try{
             connector.statement.executeUpdate(query);
             System.out.println("Adding complete!");
         }
         catch (SQLException throwable){
+            throwable.printStackTrace();
+        }*/
+    }
+
+    //добавление новой книги
+    public void addNewBook(){//TODO: нужно сделать, чтобы передавались параметры
+        try {
+            connector.statement.executeUpdate("INSERT INTO `library`.`книга` " +
+                    "(`Название`, `Автор`, `Год_издания`, " +
+                    "`Дата_поступления`, `Допустимый_срок_хранения`, `Статус_утерянности`, " +
+                    "`Стоимость`) VALUES ('Война и мир', 'Лев Николаевич Толстой', " +
+                    "'2008', '2015.09.01', '100', '0', '5000')");
+            System.out.println("Adding complete");
+        } catch (SQLException throwable) {
             throwable.printStackTrace();
         }
     }

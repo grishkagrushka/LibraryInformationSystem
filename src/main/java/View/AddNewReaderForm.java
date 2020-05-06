@@ -1,13 +1,14 @@
 package View;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 public class AddNewReaderForm {
     private JPanel addNewReaderPanel;
     private JPanel leftPanel;
-    private JButton buttonAddNewReader;
-    private JButton buttonAddNewBook;
+    public JButton buttonAddNewReader;
+    public JButton buttonAddNewBook;
     private JButton buttonReaderAction;
     private JButton buttonBookAction;
     private JPanel centerPanel;
@@ -32,8 +33,12 @@ public class AddNewReaderForm {
     private JLabel groupLabel;
     public JComboBox groupComboBox;
     private JLabel warningLabel;
+    private JButton buttonGiveBookToReader;
 
     public AddNewReaderForm(){
+        //устанавливаем границу для левой панели
+        Border border = BorderFactory.createLineBorder(Color.BLACK, 1, true);
+        leftPanel.setBorder(border);
     }
 
     public JPanel getAddNewReaderPanel() {

@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Model;
+import View.AddNewBookForm;
 import View.AddNewReaderForm;
 import View.MainForm;
 
@@ -40,12 +41,32 @@ public class Controller {
                 showAddNewReaderForm();
             }
         });
+        form.buttonAddNewBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewBookForm();
+            }
+        });
     }
 
     public void showAddNewReaderForm(){
         final AddNewReaderForm form = new AddNewReaderForm();
         frame.setContentPane(form.getAddNewReaderPanel());
         frame.revalidate();
+
+        form.buttonAddNewReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewReaderForm();
+            }
+        });
+
+        form.buttonAddNewBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewBookForm();
+            }
+        });
 
         form.addButton.addActionListener(new ActionListener() {
             @Override
@@ -77,6 +98,29 @@ public class Controller {
                     group = "";
                 }
                 model.addNewReader(surname, name, fathername, seasonTicket, position, department, chair, group);
+                JOptionPane.showMessageDialog(form.getAddNewReaderPanel(), "Новый читатель добавлен",
+                                                "Успех!", JOptionPane.INFORMATION_MESSAGE);
+                //showAddNewReaderForm();//TODO: так работает: после добавления форма перерисовывается заново, но нет уверенности, что так нормально делать
+            }
+        });
+    }
+
+    public void showAddNewBookForm(){
+        final AddNewBookForm form = new AddNewBookForm();
+        frame.setContentPane(form.getAddNewBookPanel());
+        frame.revalidate();
+
+        form.buttonAddNewReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewReaderForm();
+            }
+        });
+
+        form.buttonAddNewBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewBookForm();
             }
         });
     }
