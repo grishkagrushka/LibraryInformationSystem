@@ -2,6 +2,7 @@ package Model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLOutput;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -95,9 +96,9 @@ public class Model {
     }
 
     //добавление нового читателя
-    public boolean addNewReader(String surname, String name, String fathername,
-                                String seasonTicket, String position, String department,
-                                String chair, String group) {
+    public String addNewReader(String surname, String name, String fathername,
+                            String seasonTicket, String position, String department,
+                            String chair, String group) {
         //проверка переданных данных на валидность
         if (validatorToAddNewReader(surname, name, fathername)) {
             //первая часть запроса
@@ -146,7 +147,7 @@ public class Model {
             DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
             //int numLibraryCard =
             String beginningOfValidity = dateFormat.format(date.getTime());
-            query += ", '" + "1000000" + "'";
+            query += ", '" + "0" + "'";
             query += ", '" + beginningOfValidity + "'";
             date.add(Calendar.YEAR, 1);
             String endingOfValidity = dateFormat.format(date.getTime());
@@ -165,8 +166,8 @@ public class Model {
             query += ")";
 
             System.out.println(query);//TODO: не забыть убрать вывод в консоль
-            System.out.println("Adding complete!");//TODO: не забыть убрать вывод в консоль
-
+            System.out.println("Запрос сгенерирован!");
+            //отправка запроса на добавление в БД
             int num = 0;//количество добавленных строк. При успешном добавлении будет равен 1
             try {
                 num = connector.statement.executeUpdate(query);
@@ -175,16 +176,43 @@ public class Model {
             } catch (SQLException throwable) {
                 throwable.printStackTrace();
             }
-            return num != 0;
+            if (num == 0){
+                return "0";
+            }
+            //присвоение номера читательского билета
+            String cardNumber = "0";
+            ResultSet resultSet = null;
+            try {
+                //сначала нужно узнать id добавленного читателя
+                resultSet = connector.statement.executeQuery("SELECT `id` FROM `library`.`читатель` " +
+                        "WHERE (`Фамилия` = '" + surname +
+                        "' AND `Имя` = '" + name + "')");
+                resultSet.next();
+                int id = Integer.parseInt(resultSet.getString(1));
+                System.out.println(id);//TODO: не забыть убрать вывод в консоль
+                //меняем номер читательского билета
+                cardNumber = "" + id;
+                num = connector.statement.executeUpdate("UPDATE `library`.`читатель` SET `Номер_читательского_билета` = " +
+                                                            "'" + cardNumber + "' WHERE (`id` = '" + id +"')");
+            } catch (SQLException throwable) {
+                throwable.printStackTrace();
+            }
+            if(num == 0){
+                return "0";
+            }
+            return cardNumber;
         } else {
             System.out.println("Некорректные данные");//TODO: не забыть убрать вывод в консоль
-            return false;
+            return "0";
         }
     }
 
+    //присвоение читательского билета
+    //UPDATE `library`.`читатель` SET `Номер_читательского_билета` = '101' WHERE (`id` = '10');
+
     //добавление новой книги
     public boolean addNewBook(String bookName, String author, String publishingYear,
-                           String arrivalDate, String allowPeriod, String cost) {
+                              String arrivalDate, String allowPeriod, String cost) {
         if (validatorToAddNewBook(bookName, author, publishingYear, arrivalDate, allowPeriod, cost)) {
             //первая часть запроса
             String query = "INSERT INTO `library`.`книга`";
@@ -226,7 +254,7 @@ public class Model {
             query += ")";
 
             System.out.println(query);//TODO: не забыть убрать вывод в консоль
-            System.out.println("Adding complete!");//TODO: не забыть убрать вывод в консоль
+            System.out.println("Запрос сгенерирован!");//TODO: не забыть убрать вывод в консоль
 
             int num = 0;//количество внесённых строк в БД; если пройдёт удачно, то будет равно 1
             try {
@@ -237,8 +265,7 @@ public class Model {
                 throwable.printStackTrace();
             }
             return num != 0;
-        }
-        else{
+        } else {
             System.out.println("Некорректные данные");
             return false;
         }

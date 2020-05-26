@@ -110,10 +110,10 @@ public class Controller {
                     group = "";
                 }
                 //передаём управление в Model
-                boolean result = model.addNewReader(surname, name, fathername, seasonTicket, position, department, chair, group);
+                String result = model.addNewReader(surname, name, fathername, seasonTicket, position, department, chair, group);
                 //сообщение об успехе или неудаче добавления
-                if (result){
-                    JOptionPane.showMessageDialog(form.getAddNewReaderPanel(), "Новый читатель добавлен",
+                if (!result.equals("0")){
+                    JOptionPane.showMessageDialog(form.getAddNewReaderPanel(), "Новый читатель добавлен\nНомер читательского билета: " + result,
                             "Успех!", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else{
