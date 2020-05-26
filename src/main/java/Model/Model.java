@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import static java.lang.Integer.parseInt;
+
 public class Model {
     Connector connector;
 
@@ -32,7 +34,7 @@ public class Model {
     }
 
     //проверка корректности введёных данных при добавлении нового читателя
-    private boolean isValidDataToAddNewReader(String surname, String name, String fathername) {
+    private boolean validatorToAddNewReader(String surname, String name, String fathername) {
         //проверка фамилии: строка должна начинаться на большую букву и состоять только из кириллицы
         boolean isValidSurname = surname.matches("[А-Я][а-я]*");
         if (!isValidSurname) {
@@ -43,9 +45,49 @@ public class Model {
         if (!isValidName) {
             return false;
         }
-        //проверка отчества таким же образом
+        //проверка отчества таким же образом; разрешено, чтобы отчество было не заполнено
         boolean isValidFathername = fathername.matches("[А-Я][а-я]*");
-        if (!isValidFathername && !fathername.equals("")){
+        if (!isValidFathername && !fathername.equals("")) {
+            return false;
+        }
+
+        return true;
+    }
+
+    //проверка корректности введённых данных при добавлении новой книги
+    private boolean validatorToAddNewBook(String bookName, String author, String publishingYear,
+                                          String arrivalDate, String allowPeriod, String cost) {
+        //проверка, что название книги не пустое
+        if (bookName.equals("")) {
+            return false;
+        }
+        //проверка, что в имени автора нет ничего, кроме кириллицы, тире и пробела, и оно начинается с большой буквы
+        boolean isValidAuthor = author.matches("[А-Я][А-Я,а-я, ,-]*");
+        if (!isValidAuthor) {
+            return false;
+        }
+        //проверка, что год издания книги находится в промежутке между 1990 и 2020, включая концы, и вообще является цифрами
+        boolean isValidPublishingYear = publishingYear.matches("[0-9][0-9][0-9][0-9]");
+        if (!isValidPublishingYear) {
+            return false;
+        }
+        int pubYear = Integer.parseInt(publishingYear);
+        if (pubYear < 1900 || pubYear > 2020) {
+            return false;
+        }
+        //проверка, что дата введена в формате yyyy.MM.dd
+        boolean isValidArrivalDate = arrivalDate.matches("[1,2][0,1,9][0-9][0-9]\\.[0,1][0-9]\\.[0-3][0-9]");
+        if (!isValidArrivalDate && !arrivalDate.equals("")) {
+            return false;
+        }
+        //проверка, что в поле "Допустимый срок хранения" введено число, или оно пустое
+        boolean isValidAllowPeriod = allowPeriod.matches("[0-9]*");
+        if (!isValidAllowPeriod && !allowPeriod.equals("")) {
+            return false;
+        }
+        //проверка, что цена книги является целым или нецелым числом
+        boolean isValidCost = cost.matches("[0-9]*\\.?[0-9]*");
+        if (!isValidCost && !cost.equals("")) {
             return false;
         }
 
@@ -57,7 +99,7 @@ public class Model {
                                 String seasonTicket, String position, String department,
                                 String chair, String group) {
         //проверка переданных данных на валидность
-        if (isValidDataToAddNewReader(surname, name, fathername)) {
+        if (validatorToAddNewReader(surname, name, fathername)) {
             //первая часть запроса
             String query = "INSERT INTO `library`.`читатель` ";
             query += "(`Фамилия`";
@@ -134,65 +176,72 @@ public class Model {
                 throwable.printStackTrace();
             }
             return num != 0;
-        }
-        else {
+        } else {
             System.out.println("Некорректные данные");//TODO: не забыть убрать вывод в консоль
             return false;
         }
     }
 
     //добавление новой книги
-    public void addNewBook(String bookName, String author, String publishingYear,
+    public boolean addNewBook(String bookName, String author, String publishingYear,
                            String arrivalDate, String allowPeriod, String cost) {
-        //первая часть запроса
-        String query = "INSERT INTO `library`.`книга`";
-        query += " (`Название`";
-        query += ", `Автор`";
-        query += ", `Год_издания`";
-        query += ", `Дата_поступления`";
-        query += ", `Допустимый_срок_хранения`";
-        query += ", `Стоимость`) VALUES (";
+        if (validatorToAddNewBook(bookName, author, publishingYear, arrivalDate, allowPeriod, cost)) {
+            //первая часть запроса
+            String query = "INSERT INTO `library`.`книга`";
+            query += " (`Название`";
+            query += ", `Автор`";
+            query += ", `Год_издания`";
+            query += ", `Дата_поступления`";
+            query += ", `Допустимый_срок_хранения`";
+            query += ", `Стоимость`) VALUES (";
 
-        //вторая часть запроса с переменными значениями
-        query += "'" + bookName + "'";
-        query += ", '" + author + "'";
-        query += ", '" + publishingYear + "'";
-        //если не указана дата прихода книги, то присваевается сегодняшняя
-        Calendar date = new GregorianCalendar();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
-        String today = dateFormat.format(date.getTime());
-        if (arrivalDate.equals("")) {
-            query += ", '" + today + "'";
-        } else {
-            query += ", '" + arrivalDate + "'";
+            //вторая часть запроса с переменными значениями
+            query += "'" + bookName + "'";
+            query += ", '" + author + "'";
+            query += ", '" + publishingYear + "'";
+            //если не указана дата прихода книги, то присваевается сегодняшняя
+            Calendar date = new GregorianCalendar();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
+            String today = dateFormat.format(date.getTime());
+            if (arrivalDate.equals("")) {
+                query += ", '" + today + "'";
+            } else {
+                query += ", '" + arrivalDate + "'";
+            }
+
+            //если не указан срок хранения книги, то устанавливается по умолчанию 30 дней
+            if (allowPeriod.equals("")) {
+                query += ", '" + "30" + "'";
+            } else {
+                query += ", '" + allowPeriod + "'";
+            }
+
+            //если не указана стоимость, то устанавливается по умолчанию 2000
+            if (cost.equals("")) {
+                query += ", '" + "2000" + "'";
+            } else {
+                query += ", '" + cost + "'";
+            }
+
+            query += ")";
+
+            System.out.println(query);//TODO: не забыть убрать вывод в консоль
+            System.out.println("Adding complete!");//TODO: не забыть убрать вывод в консоль
+
+            int num = 0;//количество внесённых строк в БД; если пройдёт удачно, то будет равно 1
+            try {
+                num = connector.statement.executeUpdate(query);
+                System.out.println("Adding complete");//TODO: не забыть убрать вывод в консоль
+                System.out.println(num);//TODO: не забыть убрать вывод в консоль
+            } catch (SQLException throwable) {
+                throwable.printStackTrace();
+            }
+            return num != 0;
         }
-
-        //если не указан срок хранения книги, то устанавливается по умолчанию 30 дней
-        if (allowPeriod.equals("")) {
-            query += ", '" + "30" + "'";
-        } else {
-            query += ", '" + allowPeriod + "'";
+        else{
+            System.out.println("Некорректные данные");
+            return false;
         }
-
-        //если не указана стоимость, то устанавливается по умолчанию 2000
-        if (cost.equals("")) {
-            query += ", '" + "2000" + "'";
-        } else {
-            query += ", '" + cost + "'";
-        }
-
-        query += ")";
-
-        System.out.println(query);//TODO: не забыть убрать вывод в консоль
-        System.out.println("Adding complete!");//TODO: не забыть убрать вывод в консоль
-
-
-        /*try {
-            connector.statement.executeUpdate(query);
-            System.out.println("Adding complete");//TODO: не забыть убрать вывод в консоль
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        }*/
     }
 
 }

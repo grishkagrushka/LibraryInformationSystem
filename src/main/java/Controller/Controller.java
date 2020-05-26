@@ -32,6 +32,7 @@ public class Controller {
         frame.setVisible(true);
     }
 
+    //главная форма
     public void showMainForm(){
         //отрисовка формы
         MainForm form = new MainForm();
@@ -54,6 +55,7 @@ public class Controller {
         });
     }
 
+    //форма добавления нового читателя
     public void showAddNewReaderForm(){
         //отрисовка формы
         final AddNewReaderForm form = new AddNewReaderForm();
@@ -124,6 +126,7 @@ public class Controller {
         });
     }
 
+    //форма добавления новой книги
     public void showAddNewBookForm(){
         //отрисовка формы
         final AddNewBookForm form = new AddNewBookForm();
@@ -158,10 +161,17 @@ public class Controller {
                 String allowPeriod = form.bookAllowPeriodTextField.getText();
                 String cost = form.bookCostTextField.getText();
                 //передаём управление в Model
-                model.addNewBook(bookName, author, publishingYear, arrivalDate, allowPeriod, cost);
-                //сообщение об успехе
-                JOptionPane.showMessageDialog(form.getAddNewBookPanel(), "Новая книга добавлена",
-                        "Успех!", JOptionPane.INFORMATION_MESSAGE);
+                boolean result = model.addNewBook(bookName, author, publishingYear, arrivalDate, allowPeriod, cost);
+                if(result) {
+                    //сообщение об успехе или неудаче добавления
+                    JOptionPane.showMessageDialog(form.getAddNewBookPanel(), "Новая книга добавлена",
+                            "Успех!", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else{
+                    JOptionPane.showMessageDialog(form.getAddNewBookPanel(), "Проверьте корректность введённых данных. Дата получения книги должна быть указана в формате yyyy.MM.dd",
+                            "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                }
+                showAddNewBookForm();
             }
         });
     }
