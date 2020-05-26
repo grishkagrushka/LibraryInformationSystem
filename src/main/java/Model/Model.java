@@ -36,74 +36,78 @@ public class Model {
     public void addNewReader(String surname, String name, String fathername,
                              String seasonTicket, String position, String department,
                              String chair, String group){
+        //первая часть запроса
        String query = "INSERT INTO `library`.`читатель` ";
-       query = query + "(`Фамилия`";
-       query = query + ", `Имя`";
+       query += "(`Фамилия`";
+       query += ", `Имя`";
        if (!(fathername.equals(""))){
-           query = query + ", `Отчество`";
+           query += ", `Отчество`";
        }
-       query = query + ", `Абонент`";
-       query = query + ", `Должность`";
-       query = query + ", `Номер_читательского_билета`";
-       query = query + ", `Начало_действия_читательского_билета`";
-       query = query + ", `Окончание_действия_читательского_билета`";
+       query += ", `Абонент`";
+       query += ", `Должность`";
+       query += ", `Номер_читательского_билета`";
+       query += ", `Начало_действия_читательского_билета`";
+       query += ", `Окончание_действия_читательского_билета`";
        if(!(department.equals(""))) {
-           query = query + ", `Факультет`";
+           query += ", `Факультет`";
        }
        if(!(chair.equals(""))) {
-           query = query + ", `Кафедра`";
+           query += ", `Кафедра`";
        }
        if(!(group.equals(""))) {
-           query = query + ", `Группа`";
+           query += ", `Группа`";
        }
-       query = query + ") VALUES (";
-       query = query + "'" + surname + "'";
-       query = query + ", '" + name + "'";
+
+       //часть запроса с переменными значениями
+       query += ") VALUES (";
+       query += "'" + surname + "'";
+       query += ", '" + name + "'";
        if (!(fathername.equals(""))){
-           query = query + ", '" + fathername + "'";
+           query += ", '" + fathername + "'";
         }
        if(!(seasonTicket.equals(""))){
-            query = query + ", '" + seasonTicket + "'";
+            query += ", '" + seasonTicket + "'";
        }
        else{
-           query = query + ", '" + "1" + "'";
+           query += ", '" + "1" + "'";
        }
 
         if(!(position.equals(""))){
-            query = query + ", '" + position + "'";
+            query += ", '" + position + "'";
         }
         else{
-            query = query + ", '" + "Студент" + "'";
+            query += ", '" + "Студент" + "'";
         }
 
+        //определение сегодняшней даты, когда читетель вводится в библиотеку
         Calendar date = new GregorianCalendar();
         DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
         //int numLibraryCard =
         String beginningOfValidity = dateFormat.format(date.getTime());
-        query = query + ", '" + "1000000" + "'";
-        query = query + ", '" + beginningOfValidity + "'";
+        query += ", '" + "1000000" + "'";
+        query += ", '" + beginningOfValidity + "'";
         date.add(Calendar.YEAR, 1);
         String endingOfValidity = dateFormat.format(date.getTime());
-        query = query + ", '" + endingOfValidity + "'";
+        query += ", '" + endingOfValidity + "'";
 
         if(!(department.equals(""))) {
-            query = query + ", '" + department + "'";
+            query += ", '" + department + "'";
         }
         if(!(chair.equals(""))) {
-            query = query + ", '" + chair + "'";
+            query += ", '" + chair + "'";
         }
         if(!(group.equals(""))) {
-            query = query + ", '" + group + "'";
+            query += ", '" + group + "'";
         }
 
-        query = query + ")";
+        query += ")";
 
         System.out.println(query);
-        System.out.println("Adding complete!");
+        System.out.println("Adding complete!");//TODO: не забыть убрать вывод в консоль
 
         /*try{
             connector.statement.executeUpdate(query);
-            System.out.println("Adding complete!");
+            System.out.println("Adding complete!");//TODO: не забыть убрать вывод в консоль
         }
         catch (SQLException throwable){
             throwable.printStackTrace();
@@ -111,14 +115,57 @@ public class Model {
     }
 
     //добавление новой книги
-    public void addNewBook(){//TODO: нужно сделать, чтобы передавались параметры
+    public void addNewBook(String bookName, String author, String publishingYear,
+                           String arrivalDate, String allowPeriod, String cost){
+        //первая часть запроса
+        String query = "INSERT INTO `library`.`книга`";
+        query += " (`Название`";
+        query += ", `Автор`";
+        query += ", `Год_издания`";
+        query += ", `Дата_поступления`";
+        query += ", `Допустимый_срок_хранения`";
+        query += ", `Стоимость`) VALUES (";
+
+        //вторая часть запроса с переменными значениями
+        query += "'" + bookName + "'";
+        query += ", '" + author + "'";
+        query += ", '" + publishingYear + "'";
+        //если не указана дата прихода книги, то присваевается сегодняшняя
+        Calendar date = new GregorianCalendar();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
+        String today = dateFormat.format(date.getTime());
+        if (arrivalDate.equals("")){
+            query += ", '" + today + "'";
+        }
+        else {
+            query += ", '" + arrivalDate + "'";
+        }
+
+        //если не указан срок хранения книги, то устанавливается по умолчанию 30 дней
+        if(allowPeriod.equals("")){
+            query += ", '" + "30" + "'";
+        }
+        else {
+            query += ", '" + allowPeriod + "'";
+        }
+
+        //если не указана стоимость, то устанавливается по умолчанию 2000
+        if (cost.equals("")){
+            query += ", '" + "2000" + "'";
+        }
+        else{
+            query += ", '" + cost + "'";
+        }
+
+        query += ")";
+
+        System.out.println(query);
+        System.out.println("Adding complete!");//TODO: не забыть убрать вывод в консоль
+
+
         try {
-            connector.statement.executeUpdate("INSERT INTO `library`.`книга` " +
-                    "(`Название`, `Автор`, `Год_издания`, " +
-                    "`Дата_поступления`, `Допустимый_срок_хранения`, `Статус_утерянности`, " +
-                    "`Стоимость`) VALUES ('Война и мир', 'Лев Николаевич Толстой', " +
-                    "'2008', '2015.09.01', '100', '0', '5000')");
-            System.out.println("Adding complete");
+            connector.statement.executeUpdate(query);
+            System.out.println("Adding complete");//TODO: не забыть убрать вывод в консоль
         } catch (SQLException throwable) {
             throwable.printStackTrace();
         }

@@ -33,14 +33,19 @@ public class Controller {
     }
 
     public void showMainForm(){
+        //отрисовка формы
         MainForm form = new MainForm();
         frame.setContentPane(form.getRootPanel());
+
+        //вызов "Добавление новго читателя"
         form.buttonAddNewReader.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showAddNewReaderForm();
             }
         });
+
+        //вызов "Добавление новой книги"
         form.buttonAddNewBook.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -50,10 +55,12 @@ public class Controller {
     }
 
     public void showAddNewReaderForm(){
+        //отрисовка формы
         final AddNewReaderForm form = new AddNewReaderForm();
         frame.setContentPane(form.getAddNewReaderPanel());
         frame.revalidate();
 
+        //нажатие на "Добавить нового читателя"- окно обновится
         form.buttonAddNewReader.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -61,6 +68,7 @@ public class Controller {
             }
         });
 
+        //нажатие на "Добавить новую книгу"
         form.buttonAddNewBook.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -68,9 +76,11 @@ public class Controller {
             }
         });
 
+        //нажатие на "добавить"
         form.addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //собираем данные с полей ввода
                 String surname = form.surnameTextField.getText();
                 String name = form.nameTextField.getText();
                 String fathername = form.fathernameTextField.getText();
@@ -97,19 +107,24 @@ public class Controller {
                 if(group.equals("Выберите группу")){
                     group = "";
                 }
+                //передаём управление в Model
                 model.addNewReader(surname, name, fathername, seasonTicket, position, department, chair, group);
+                //сообщение об успешном добавлении
                 JOptionPane.showMessageDialog(form.getAddNewReaderPanel(), "Новый читатель добавлен",
                                                 "Успех!", JOptionPane.INFORMATION_MESSAGE);
-                //showAddNewReaderForm();//TODO: так работает: после добавления форма перерисовывается заново, но нет уверенности, что так нормально делать
+                //перерисовываем форму, чтобы она обновилась
+                showAddNewReaderForm();
             }
         });
     }
 
     public void showAddNewBookForm(){
+        //отрисовка формы
         final AddNewBookForm form = new AddNewBookForm();
         frame.setContentPane(form.getAddNewBookPanel());
         frame.revalidate();
 
+        //вызов "Добавление нового читателя"
         form.buttonAddNewReader.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -117,10 +132,30 @@ public class Controller {
             }
         });
 
+        //вызов "Добавление новой книги"- окно обновится
         form.buttonAddNewBook.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showAddNewBookForm();
+            }
+        });
+
+        //вызов "добавить"
+        form.addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //собираем данные с полей ввода
+                String bookName = form.bookNameTextField.getText();
+                String author = form.authorNameTextField.getText();
+                String publishingYear = form.yearOfPublishingTextField.getText();
+                String arrivalDate = form.bookArrivalDateTextField.getText();
+                String allowPeriod = form.bookAllowPeriodTextField.getText();
+                String cost = form.bookCostTextField.getText();
+                //передаём управление в Model
+                model.addNewBook(bookName, author, publishingYear, arrivalDate, allowPeriod, cost);
+                //сообщение об успехе
+                JOptionPane.showMessageDialog(form.getAddNewBookPanel(), "Новая книга добавлена",
+                        "Успех!", JOptionPane.INFORMATION_MESSAGE);
             }
         });
     }

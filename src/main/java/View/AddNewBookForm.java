@@ -16,19 +16,19 @@ public class AddNewBookForm {
     private JPanel addNewBookSmallPanel;
     private JLabel addNewBookLabel;
     private JLabel bookNameLabel;
-    private JTextField bookNameTextField;
+    public JTextField bookNameTextField;
     private JLabel authorNameLabel;
-    private JTextField authorNameTextField;
+    public JTextField authorNameTextField;
     private JLabel yearOfPublishingLabel;
-    private JTextField yearOfPublishingTextField;
+    public JTextField yearOfPublishingTextField;
     private JLabel bookArrivalDateLabel;
     private JLabel bookAllowPeriodLabel;
     private JLabel bookCostLabel;
     private JLabel warningLabel;
-    private JButton addButton;
-    private JTextField bookArrivalDateTextField;
-    private JTextField bookAllowPeriodTextField;
-    private JTextField bookCostTextField;
+    public JButton addButton;
+    public JTextField bookArrivalDateTextField;
+    public JTextField bookAllowPeriodTextField;
+    public JTextField bookCostTextField;
     private JPanel northPanel;
 
     public AddNewBookForm(){
