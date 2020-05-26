@@ -8,12 +8,12 @@ public class MainForm {
     private JPanel rootPanel;
     private JPanel leftPanel;
     private JPanel centerPanel;
-    private JTextField searchLine;
     public JButton buttonAddNewReader;
     public JButton buttonAddNewBook;
     private JButton buttonReaderAction;
     private JButton buttonBookAction;
     private JButton buttonGiveBookToReader;
+    private JPanel northPanel;
 
     public MainForm(){
         //устанавливаем границу для левой панели

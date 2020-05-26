@@ -12,7 +12,6 @@ public class AddNewReaderForm {
     private JButton buttonReaderAction;
     private JButton buttonBookAction;
     private JPanel centerPanel;
-    private JTextField searchLine;
     private JPanel addNewReaderSmallPanel;
     private JLabel addNewReaderLabel;
     private JLabel surnameLabel;
@@ -34,6 +33,7 @@ public class AddNewReaderForm {
     public JComboBox groupComboBox;
     private JLabel warningLabel;
     private JButton buttonGiveBookToReader;
+    private JPanel northPanel;
 
     public AddNewReaderForm(){
         //устанавливаем границу для левой панели

@@ -13,7 +13,6 @@ public class AddNewBookForm {
     private JButton buttonReaderAction;
     private JButton buttonBookAction;
     private JPanel centerPanel;
-    private JTextField searchLine;
     private JPanel addNewBookSmallPanel;
     private JLabel addNewBookLabel;
     private JLabel bookNameLabel;
@@ -30,6 +29,7 @@ public class AddNewBookForm {
     private JTextField bookArrivalDateTextField;
     private JTextField bookAllowPeriodTextField;
     private JTextField bookCostTextField;
+    private JPanel northPanel;
 
     public AddNewBookForm(){
         //устанавливаем границу для левой панели

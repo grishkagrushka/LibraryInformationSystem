@@ -114,19 +114,6 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="66685" class="javax.swing.JTextField" binding="searchLine">
-            <constraints border-constraint="North"/>
-            <properties>
-              <font name="Consolas" size="48" style="0"/>
-              <foreground color="-12828863"/>
-              <maximumSize width="800" height="100"/>
-              <minimumSize width="800" height="100"/>
-              <opaque value="true"/>
-              <preferredSize width="800" height="100"/>
-              <scrollOffset value="0"/>
-              <text value="Введите книгу или читателя"/>
-            </properties>
-          </component>
           <grid id="67ccf" binding="addNewBookSmallPanel" layout-manager="FlowLayout" hgap="150" vgap="15" flow-align="1">
             <constraints border-constraint="Center"/>
             <properties>
@@ -284,6 +271,18 @@
                 </properties>
               </component>
             </children>
+          </grid>
+          <grid id="f60e" binding="northPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints border-constraint="North"/>
+            <properties>
+              <background color="-5277933"/>
+              <foreground color="-5277933"/>
+              <maximumSize width="900" height="100"/>
+              <minimumSize width="900" height="100"/>
+              <preferredSize width="900" height="100"/>
+            </properties>
+            <border type="none"/>
+            <children/>
           </grid>
         </children>
       </grid>
