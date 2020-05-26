@@ -108,10 +108,16 @@ public class Controller {
                     group = "";
                 }
                 //передаём управление в Model
-                model.addNewReader(surname, name, fathername, seasonTicket, position, department, chair, group);
-                //сообщение об успешном добавлении
-                JOptionPane.showMessageDialog(form.getAddNewReaderPanel(), "Новый читатель добавлен",
-                                                "Успех!", JOptionPane.INFORMATION_MESSAGE);
+                boolean result = model.addNewReader(surname, name, fathername, seasonTicket, position, department, chair, group);
+                //сообщение об успехе или неудаче добавления
+                if (result){
+                    JOptionPane.showMessageDialog(form.getAddNewReaderPanel(), "Новый читатель добавлен",
+                            "Успех!", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else{
+                    JOptionPane.showMessageDialog(form.getAddNewReaderPanel(), "Проверьте корректность введённых данных",
+                            "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                }
                 //перерисовываем форму, чтобы она обновилась
                 showAddNewReaderForm();
             }
