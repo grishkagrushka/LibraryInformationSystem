@@ -89,7 +89,7 @@
                   <text value="Пароль     "/>
                 </properties>
               </component>
-              <component id="9497e" class="javax.swing.JTextField" binding="passwordTextField">
+              <component id="4c0a7" class="javax.swing.JPasswordField" binding="passwordTextField">
                 <constraints/>
                 <properties>
                   <font name="Consolas" size="22" style="0"/>
