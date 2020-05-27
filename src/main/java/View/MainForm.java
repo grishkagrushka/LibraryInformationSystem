@@ -12,7 +12,7 @@ public class MainForm {
     public JButton buttonAddNewBook;
     private JButton buttonReaderAction;
     private JButton buttonBookAction;
-    private JButton buttonGiveBookToReader;
+    public JButton buttonGiveBookToReader;
     private JPanel northPanel;
 
     public MainForm(){

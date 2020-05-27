@@ -9,7 +9,7 @@ public class AddNewBookForm {
     private JPanel leftPanel;
     public JButton buttonAddNewReader;
     public JButton buttonAddNewBook;
-    private JButton buttonGiveBookToReader;
+    public JButton buttonGiveBookToReader;
     private JButton buttonReaderAction;
     private JButton buttonBookAction;
     private JPanel centerPanel;

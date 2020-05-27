@@ -3,6 +3,7 @@ package Controller;
 import Model.Model;
 import View.AddNewBookForm;
 import View.AddNewReaderForm;
+import View.GiveBookToReaderForm;
 import View.MainForm;
 
 import javax.swing.*;
@@ -53,6 +54,14 @@ public class Controller {
                 showAddNewBookForm();
             }
         });
+
+        //нажатие на "Выдать книгу читателю"
+        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveBookToReaderForm();
+            }
+        });
     }
 
     //форма добавления нового читателя
@@ -75,6 +84,14 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showAddNewBookForm();
+            }
+        });
+
+        //нажатие на "Выдать книгу читателю"
+        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveBookToReaderForm();
             }
         });
 
@@ -146,6 +163,14 @@ public class Controller {
             }
         });
 
+        //нажатие на "Выдать книгу читателю"
+        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveBookToReaderForm();
+            }
+        });
+
         //вызов "добавить"
         form.addButton.addActionListener(new ActionListener() {
             @Override
@@ -169,6 +194,37 @@ public class Controller {
                             "Ошибка!", JOptionPane.ERROR_MESSAGE);
                 }
                 showAddNewBookForm();
+            }
+        });
+    }
+
+    //форма выдачи книги читателю
+    public void showGiveBookToReaderForm(){
+        final GiveBookToReaderForm form = new GiveBookToReaderForm();
+        frame.setContentPane(form.getGiveBookToReaderPanel());
+        frame.revalidate();
+
+        //нажатие на "Добавить нового читателя"
+        form.buttonAddNewReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewReaderForm();
+            }
+        });
+
+        //нажатие на "Добавить новую книгу"
+        form.buttonAddNewBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewBookForm();
+            }
+        });
+
+        //нажатие на "Выдать книгу читателю"- окно обновится
+        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveBookToReaderForm();
             }
         });
     }

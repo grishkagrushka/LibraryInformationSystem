@@ -31,7 +31,7 @@ public class AddNewReaderForm {
     private JLabel groupLabel;
     private JComboBox groupComboBox;
     private JLabel warningLabel;
-    private JButton buttonGiveBookToReader;
+    public JButton buttonGiveBookToReader;
     private JPanel northPanel;
     public JTextField chairTextField;
     public JTextField groupTextField;
