@@ -11,7 +11,7 @@ public class AddNewBookForm {
     public JButton buttonAddNewBook;
     public JButton buttonGiveBookToReader;
     public JButton buttonReaderAction;
-    private JButton buttonBookAction;
+    public JButton buttonBookAction;
     private JPanel centerPanel;
     private JPanel addNewBookSmallPanel;
     private JLabel addNewBookLabel;

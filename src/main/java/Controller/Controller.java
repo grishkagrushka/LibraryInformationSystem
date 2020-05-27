@@ -11,11 +11,11 @@ public class Controller {
     JFrame frame;
     Model model;
 
-    public Controller(Model model){
+    public Controller(Model model) {
         this.model = model;
     }
 
-    public void start() throws Exception{
+    public void start() throws Exception {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         frame = new JFrame();
 
@@ -31,7 +31,7 @@ public class Controller {
     }
 
     //форма авторизации
-    public void showAuthorizationForm(){
+    public void showAuthorizationForm() {
         //отрисовка формы
         final AuthorizationForm form = new AuthorizationForm();
         frame.setContentPane(form.getAuthorizationPanel());
@@ -42,24 +42,24 @@ public class Controller {
                 String login = form.loginTextField.getText();
                 String password = form.passwordTextField.getText();
                 int authResult = model.authorization(login, password);
-                if(authResult == 0){
+                if (authResult == 0) {
                     //не вошли
                     JOptionPane.showMessageDialog(form.getAuthorizationPanel(), "Неверный логин или пароль",
                             "Ошибка!", JOptionPane.ERROR_MESSAGE);
                 }
-                if (authResult == 1){
+                if (authResult == 1) {
                     //вошли администратором
                     showMainForm();
                 }
-                if (authResult == 2){
+                if (authResult == 2) {
                     //вошли читателем
                 }
             }
         });
     }
-    
+
     //главная форма
-    public void showMainForm(){
+    public void showMainForm() {
         //отрисовка формы
         MainForm form = new MainForm();
         frame.setContentPane(form.getRootPanel());
@@ -96,10 +96,18 @@ public class Controller {
                 showReaderActionForm();
             }
         });
+
+        //нажатие на "Действия с книгами"
+        form.buttonBookAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookActionForm();
+            }
+        });
     }
 
     //форма добавления нового читателя
-    public void showAddNewReaderForm(){
+    public void showAddNewReaderForm() {
         //отрисовка формы
         final AddNewReaderForm form = new AddNewReaderForm();
         frame.setContentPane(form.getAddNewReaderPanel());
@@ -137,6 +145,14 @@ public class Controller {
             }
         });
 
+        //нажатие на "Действия с книгами"
+        form.buttonBookAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookActionForm();
+            }
+        });
+
         //нажатие на "добавить"
         form.addButton.addActionListener(new ActionListener() {
             @Override
@@ -145,34 +161,33 @@ public class Controller {
                 String surname = form.surnameTextField.getText();
                 String name = form.nameTextField.getText();
                 String fathername = form.fathernameTextField.getText();
-                String position = (String)form.positionComboBox.getSelectedItem();
-                if(position.equals("Выберите должность")){
+                String position = (String) form.positionComboBox.getSelectedItem();
+                if (position.equals("Выберите должность")) {
                     position = "";
                 }
                 String seasonTicket = "";
-                if(position.equals("Слушатель ФПК") || position.equals("Стажёр") || position.equals("Абитуриент")){
+                if (position.equals("Слушатель ФПК") || position.equals("Стажёр") || position.equals("Абитуриент")) {
                     seasonTicket = "0";
                 }
-                String department = (String)form.departmentComboBox.getSelectedItem();
-                if(department.equals("Выберите факультет")||position.equals("Слушатель ПО")||position.equals("Слушатель ФПК")){
+                String department = (String) form.departmentComboBox.getSelectedItem();
+                if (department.equals("Выберите факультет") || position.equals("Слушатель ПО") || position.equals("Слушатель ФПК")) {
                     department = "";
                 }
                 String chair = form.chairTextField.getText();
-                if (position.equals("Слушатель ПО")||position.equals("Слушатель ФПК")){
+                if (position.equals("Слушатель ПО") || position.equals("Слушатель ФПК")) {
                     chair = "";
                 }
                 String group = form.groupTextField.getText();
-                if(!position.equals("Студент")){
+                if (!position.equals("Студент")) {
                     group = "";
                 }
                 //передаём управление в Model
                 String result = model.addNewReader(surname, name, fathername, seasonTicket, position, department, chair, group);
                 //сообщение об успехе или неудаче добавления
-                if (!result.equals("0")){
+                if (!result.equals("0")) {
                     JOptionPane.showMessageDialog(form.getAddNewReaderPanel(), "Новый читатель добавлен\nНомер читательского билета: " + result,
                             "Успех!", JOptionPane.INFORMATION_MESSAGE);
-                }
-                else{
+                } else {
                     JOptionPane.showMessageDialog(form.getAddNewReaderPanel(), "Проверьте корректность введённых данных",
                             "Ошибка!", JOptionPane.ERROR_MESSAGE);
                 }
@@ -183,7 +198,7 @@ public class Controller {
     }
 
     //форма добавления новой книги
-    public void showAddNewBookForm(){
+    public void showAddNewBookForm() {
         //отрисовка формы
         final AddNewBookForm form = new AddNewBookForm();
         frame.setContentPane(form.getAddNewBookPanel());
@@ -221,6 +236,14 @@ public class Controller {
             }
         });
 
+        //нажатие на "Действия с книгами"
+        form.buttonBookAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookActionForm();
+            }
+        });
+
         //вызов "добавить"
         form.addButton.addActionListener(new ActionListener() {
             @Override
@@ -234,12 +257,11 @@ public class Controller {
                 String cost = form.bookCostTextField.getText();
                 //передаём управление в Model
                 boolean result = model.addNewBook(bookName, author, publishingYear, arrivalDate, allowPeriod, cost);
-                if(result) {
+                if (result) {
                     //сообщение об успехе или неудаче добавления
                     JOptionPane.showMessageDialog(form.getAddNewBookPanel(), "Новая книга добавлена",
                             "Успех!", JOptionPane.INFORMATION_MESSAGE);
-                }
-                else{
+                } else {
                     JOptionPane.showMessageDialog(form.getAddNewBookPanel(), "Проверьте корректность введённых данных.\nДата получения книги должна быть указана в формате yyyy.MM.dd",
                             "Ошибка!", JOptionPane.ERROR_MESSAGE);
                 }
@@ -249,7 +271,7 @@ public class Controller {
     }
 
     //форма выдачи книги читателю
-    public void showGiveBookToReaderForm(){
+    public void showGiveBookToReaderForm() {
         //отрисовка формы
         final GiveBookToReaderForm form = new GiveBookToReaderForm();
         frame.setContentPane(form.getGiveBookToReaderPanel());
@@ -286,10 +308,18 @@ public class Controller {
                 showReaderActionForm();
             }
         });
+
+        //нажатие на "Действия с книгами"
+        form.buttonBookAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookActionForm();
+            }
+        });
     }
 
     //форма действий с читателями
-    public void showReaderActionForm(){
+    public void showReaderActionForm() {
         //отрисовка формы
         final ReaderActionForm form = new ReaderActionForm();
         frame.setContentPane(form.getReaderActionPanel());
@@ -324,6 +354,62 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showReaderActionForm();
+            }
+        });
+
+        //нажатие на "Действия с книгами"
+        form.buttonBookAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookActionForm();
+            }
+        });
+    }
+
+    //форма действий с книгами
+    public void showBookActionForm() {
+        //отрисовка формы
+        final BookActionForm form = new BookActionForm();
+        frame.setContentPane(form.getBookActionPanel());
+        frame.revalidate();
+
+        //нажатие на "Добавить нового читателя"
+        form.buttonAddNewReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewReaderForm();
+            }
+        });
+
+        //нажатие на "Добавить новую книгу"
+        form.buttonAddNewBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewBookForm();
+            }
+        });
+
+        //нажатие на "Выдать книгу читателю"
+        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveBookToReaderForm();
+            }
+        });
+
+        //нажатие на "Действия с читателями"
+        form.buttonReaderAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderActionForm();
+            }
+        });
+
+        //нажатие на "Действия с книгами"- форма обновится
+        form.buttonBookAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookActionForm();
             }
         });
     }

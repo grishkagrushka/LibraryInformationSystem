@@ -11,7 +11,7 @@ public class MainForm {
     public JButton buttonAddNewReader;
     public JButton buttonAddNewBook;
     public JButton buttonReaderAction;
-    private JButton buttonBookAction;
+    public JButton buttonBookAction;
     public JButton buttonGiveBookToReader;
     private JPanel northPanel;
     private JPanel smallRootPanel;
