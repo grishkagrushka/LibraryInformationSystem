@@ -1,10 +1,7 @@
 package Controller;
 
 import Model.Model;
-import View.AddNewBookForm;
-import View.AddNewReaderForm;
-import View.GiveBookToReaderForm;
-import View.MainForm;
+import View.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -62,6 +59,14 @@ public class Controller {
                 showGiveBookToReaderForm();
             }
         });
+
+        //нажатие на "Действия с читателями"
+        form.buttonReaderAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderActionForm();
+            }
+        });
     }
 
     //форма добавления нового читателя
@@ -92,6 +97,14 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showGiveBookToReaderForm();
+            }
+        });
+
+        //нажатие на "Действия с читателями"
+        form.buttonReaderAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderActionForm();
             }
         });
 
@@ -171,6 +184,14 @@ public class Controller {
             }
         });
 
+        //нажатие на "Действия с читателями"
+        form.buttonReaderAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderActionForm();
+            }
+        });
+
         //вызов "добавить"
         form.addButton.addActionListener(new ActionListener() {
             @Override
@@ -190,7 +211,7 @@ public class Controller {
                             "Успех!", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else{
-                    JOptionPane.showMessageDialog(form.getAddNewBookPanel(), "Проверьте корректность введённых данных. Дата получения книги должна быть указана в формате yyyy.MM.dd",
+                    JOptionPane.showMessageDialog(form.getAddNewBookPanel(), "Проверьте корректность введённых данных.\nДата получения книги должна быть указана в формате yyyy.MM.dd",
                             "Ошибка!", JOptionPane.ERROR_MESSAGE);
                 }
                 showAddNewBookForm();
@@ -200,6 +221,7 @@ public class Controller {
 
     //форма выдачи книги читателю
     public void showGiveBookToReaderForm(){
+        //отрисовка формы
         final GiveBookToReaderForm form = new GiveBookToReaderForm();
         frame.setContentPane(form.getGiveBookToReaderPanel());
         frame.revalidate();
@@ -225,6 +247,54 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showGiveBookToReaderForm();
+            }
+        });
+
+        //нажатие на "Действия с читателями"
+        form.buttonReaderAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderActionForm();
+            }
+        });
+    }
+
+    //форма действий с читателями
+    public void showReaderActionForm(){
+        //отрисовка формы
+        final ReaderActionForm form = new ReaderActionForm();
+        frame.setContentPane(form.getReaderActionPanel());
+        frame.revalidate();
+
+        //нажатие на "Добавить нового читателя"
+        form.buttonAddNewReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewReaderForm();
+            }
+        });
+
+        //нажатие на "Добавить новую книгу"
+        form.buttonAddNewBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewBookForm();
+            }
+        });
+
+        //нажатие на "Выдать книгу читателю"
+        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveBookToReaderForm();
+            }
+        });
+
+        //нажатие на "Действия с читателями"- форма обновится
+        form.buttonReaderAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderActionForm();
             }
         });
     }

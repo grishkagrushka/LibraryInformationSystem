@@ -10,7 +10,7 @@ public class MainForm {
     private JPanel centerPanel;
     public JButton buttonAddNewReader;
     public JButton buttonAddNewBook;
-    private JButton buttonReaderAction;
+    public JButton buttonReaderAction;
     private JButton buttonBookAction;
     public JButton buttonGiveBookToReader;
     private JPanel northPanel;
