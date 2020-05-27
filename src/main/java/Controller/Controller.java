@@ -86,27 +86,24 @@ public class Controller {
                 String surname = form.surnameTextField.getText();
                 String name = form.nameTextField.getText();
                 String fathername = form.fathernameTextField.getText();
-                String seasonTicket = (String)form.seasonTicketComboBox.getSelectedItem();
-                if(seasonTicket.equals("Выберите использование") || seasonTicket.equals("Абонент")){
-                    seasonTicket = "";
-                }
-                if(seasonTicket.equals("Читальный зал")){
-                    seasonTicket = "0";
-                }
                 String position = (String)form.positionComboBox.getSelectedItem();
                 if(position.equals("Выберите должность")){
                     position = "";
                 }
+                String seasonTicket = "";
+                if(position.equals("Слушатель ФПК") || position.equals("Стажёр") || position.equals("Абитуриент")){
+                    seasonTicket = "0";
+                }
                 String department = (String)form.departmentComboBox.getSelectedItem();
-                if(department.equals("Выберите факультет")){
+                if(department.equals("Выберите факультет")||position.equals("Слушатель ПО")||position.equals("Слушатель ФПК")){
                     department = "";
                 }
-                String chair = (String)form.chairComboBox.getSelectedItem();
-                if(chair.equals("Выберите кафедру")){
+                String chair = form.chairTextField.getText();
+                if (position.equals("Слушатель ПО")||position.equals("Слушатель ФПК")){
                     chair = "";
                 }
-                String group = (String)form.groupComboBox.getSelectedItem();
-                if(group.equals("Выберите группу")){
+                String group = form.groupTextField.getText();
+                if(!position.equals("Студент")){
                     group = "";
                 }
                 //передаём управление в Model

@@ -189,32 +189,6 @@
                   <preferredSize width="300" height="30"/>
                 </properties>
               </component>
-              <component id="50810" class="javax.swing.JLabel" binding="seasonTicketLabel">
-                <constraints/>
-                <properties>
-                  <alignmentX value="0.5"/>
-                  <alignmentY value="0.5"/>
-                  <font name="Consolas" size="26" style="0"/>
-                  <labelFor value="482f6"/>
-                  <text value="Абонемент"/>
-                </properties>
-              </component>
-              <component id="482f6" class="javax.swing.JComboBox" binding="seasonTicketComboBox">
-                <constraints/>
-                <properties>
-                  <font name="Consolas" size="22" style="0"/>
-                  <maximumSize width="300" height="30"/>
-                  <minimumSize width="300" height="30"/>
-                  <model>
-                    <item value="Выберите использование"/>
-                    <item value="Абонент"/>
-                    <item value="Читальный зал"/>
-                  </model>
-                  <name value=""/>
-                  <popupVisible value="false"/>
-                  <preferredSize width="300" height="30"/>
-                </properties>
-              </component>
               <component id="c00e7" class="javax.swing.JLabel" binding="positionLabel">
                 <constraints/>
                 <properties>
@@ -285,21 +259,15 @@
                   <alignmentX value="0.5"/>
                   <alignmentY value="0.5"/>
                   <font name="Consolas" size="26" style="0"/>
-                  <labelFor value="9031f"/>
                   <text value="Кафедра  "/>
                 </properties>
               </component>
-              <component id="9031f" class="javax.swing.JComboBox" binding="chairComboBox">
+              <component id="3e9ac" class="javax.swing.JTextField" binding="chairTextField">
                 <constraints/>
                 <properties>
                   <font name="Consolas" size="22" style="0"/>
                   <maximumSize width="300" height="30"/>
                   <minimumSize width="300" height="30"/>
-                  <model>
-                    <item value="Выберите кафедру"/>
-                  </model>
-                  <name value=""/>
-                  <popupVisible value="false"/>
                   <preferredSize width="300" height="30"/>
                 </properties>
               </component>
@@ -309,21 +277,15 @@
                   <alignmentX value="0.5"/>
                   <alignmentY value="0.5"/>
                   <font name="Consolas" size="26" style="0"/>
-                  <labelFor value="413e8"/>
                   <text value="Группа   "/>
                 </properties>
               </component>
-              <component id="413e8" class="javax.swing.JComboBox" binding="groupComboBox">
+              <component id="bf173" class="javax.swing.JTextField" binding="groupTextField">
                 <constraints/>
                 <properties>
                   <font name="Consolas" size="22" style="0"/>
                   <maximumSize width="300" height="30"/>
                   <minimumSize width="300" height="30"/>
-                  <model>
-                    <item value="Выберите группу"/>
-                  </model>
-                  <name value=""/>
-                  <popupVisible value="false"/>
                   <preferredSize width="300" height="30"/>
                 </properties>
               </component>
@@ -333,7 +295,6 @@
                   <alignmentX value="0.5"/>
                   <alignmentY value="0.5"/>
                   <font name="Consolas" size="32" style="0"/>
-                  <labelFor value="413e8"/>
                   <text value="*- обязательные поля"/>
                 </properties>
               </component>

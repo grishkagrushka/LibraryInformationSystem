@@ -21,19 +21,20 @@ public class AddNewReaderForm {
     private JLabel fathernameLabel;
     public JTextField fathernameTextField;
     public JButton addButton;
-    private JLabel seasonTicketLabel;
-    public JComboBox seasonTicketComboBox;
+    private JComboBox seasonTicketComboBox;
     private JLabel positionLabel;
     public JComboBox positionComboBox;
     private JLabel departmentLabel;
     public JComboBox departmentComboBox;
     private JLabel chairLabel;
-    public JComboBox chairComboBox;
+    private JComboBox chairComboBox;
     private JLabel groupLabel;
-    public JComboBox groupComboBox;
+    private JComboBox groupComboBox;
     private JLabel warningLabel;
     private JButton buttonGiveBookToReader;
     private JPanel northPanel;
+    public JTextField chairTextField;
+    public JTextField groupTextField;
 
     public AddNewReaderForm(){
         //устанавливаем границу для левой панели
