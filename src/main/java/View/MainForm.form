@@ -132,6 +132,26 @@
             <border type="none"/>
             <children/>
           </grid>
+          <grid id="5f4e8" binding="smallRootPanel" layout-manager="FlowLayout" hgap="200" vgap="15" flow-align="1">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <background color="-12828863"/>
+              <maximumSize width="900" height="700"/>
+              <minimumSize width="900" height="700"/>
+              <preferredSize width="900" height="700"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="19bed" class="javax.swing.JLabel" binding="welcomeLabel">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <font name="Consolas" size="48" style="0"/>
+                  <text value="АИС библиотеки приветствует вас!"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
         </children>
       </grid>
     </children>

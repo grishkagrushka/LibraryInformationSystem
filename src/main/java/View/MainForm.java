@@ -14,6 +14,8 @@ public class MainForm {
     private JButton buttonBookAction;
     public JButton buttonGiveBookToReader;
     private JPanel northPanel;
+    private JPanel smallRootPanel;
+    private JLabel welcomeLabel;
 
     public MainForm(){
         //устанавливаем границу для левой панели
