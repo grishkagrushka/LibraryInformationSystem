@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="View.AuthorizationForm">
+  <grid id="27dc6" binding="authorizationPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="1200" height="800"/>
+    </constraints>
+    <properties>
+      <maximumSize width="1200" height="800"/>
+      <minimumSize width="1200" height="800"/>
+      <preferredSize width="1200" height="800"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="5abbc" binding="leftPanel" layout-manager="FlowLayout" hgap="5" vgap="25" flow-align="1">
+        <constraints border-constraint="West"/>
+        <properties>
+          <background color="-5277933"/>
+          <maximumSize width="300" height="800"/>
+          <minimumSize width="300" height="800"/>
+          <preferredSize width="300" height="800"/>
+        </properties>
+        <border type="none"/>
+        <children/>
+      </grid>
+      <grid id="3119f" binding="centerPanel" layout-manager="BorderLayout" hgap="100" vgap="0">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <maximumSize width="900" height="800"/>
+          <minimumSize width="900" height="800"/>
+          <preferredSize width="900" height="800"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="26380" binding="northPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints border-constraint="North"/>
+            <properties>
+              <background color="-5277933"/>
+              <maximumSize width="900" height="100"/>
+              <minimumSize width="900" height="100"/>
+              <preferredSize width="900" height="100"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="dd420" binding="authorizationSmallPanel" layout-manager="FlowLayout" hgap="200" vgap="15" flow-align="1">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <background color="-12828863"/>
+              <maximumSize width="900" height="700"/>
+              <minimumSize width="900" height="700"/>
+              <preferredSize width="900" height="700"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="d185c" class="javax.swing.JLabel" binding="authorizationLabel">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <font name="Consolas" size="48" style="0"/>
+                  <text value="Авторизация  "/>
+                </properties>
+              </component>
+              <component id="e1f85" class="javax.swing.JLabel" binding="loginLabel">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <alignmentY value="0.5"/>
+                  <font name="Consolas" size="26" style="0"/>
+                  <labelFor value="7e1f4"/>
+                  <text value="Логин      "/>
+                </properties>
+              </component>
+              <component id="7e1f4" class="javax.swing.JTextField" binding="loginTextField">
+                <constraints/>
+                <properties>
+                  <font name="Consolas" size="22" style="0"/>
+                  <maximumSize width="300" height="30"/>
+                  <minimumSize width="300" height="30"/>
+                  <preferredSize width="300" height="30"/>
+                </properties>
+              </component>
+              <component id="47311" class="javax.swing.JLabel" binding="passwordLabel">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <alignmentY value="0.5"/>
+                  <font name="Consolas" size="26" style="0"/>
+                  <labelFor value=""/>
+                  <text value="Пароль     "/>
+                </properties>
+              </component>
+              <component id="9497e" class="javax.swing.JTextField" binding="passwordTextField">
+                <constraints/>
+                <properties>
+                  <font name="Consolas" size="22" style="0"/>
+                  <maximumSize width="300" height="30"/>
+                  <minimumSize width="300" height="30"/>
+                  <preferredSize width="300" height="30"/>
+                </properties>
+              </component>
+              <component id="40a7d" class="javax.swing.JButton" binding="entryButton">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <font name="Consolas" size="26" style="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <text value="Войти"/>
+                  <verticalAlignment value="3"/>
+                  <verticalTextPosition value="3"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

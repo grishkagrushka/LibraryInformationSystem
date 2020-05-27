@@ -34,6 +34,39 @@ public class Model {
         }
     }
 
+    //авторизация
+    public int authorization(String login, String password){
+        //получаем правильный пароль из таблицы
+        String query = "SELECT `Пароль`, `Администратор` FROM `library`.`читатель` WHERE (`Логин` = '" +
+                        login + "')";
+        String truePass = "";
+        String isAdmin = "";
+        ResultSet resultSet = null;
+        try{
+            resultSet = connector.statement.executeQuery(query);
+            if(resultSet.next()) {
+                truePass = resultSet.getString(1);
+                isAdmin = resultSet.getString(2);
+            }
+        }
+        catch (SQLException throwable) {
+            throwable.printStackTrace();
+        }
+        if (resultSet == null){//не обнаружен такой логин
+            return 0;
+        }
+        //сравниваем введённый пароль с тем, что в таблице
+        if (!truePass.equals(password)){
+            return 0;
+        }
+        else{
+            if (isAdmin.equals("1")){
+                return 1;
+            }
+            else return 2;
+        }
+    }
+
     //проверка корректности введёных данных при добавлении нового читателя
     private boolean validatorToAddNewReader(String surname, String name, String fathername) {
         //проверка фамилии: строка должна начинаться на большую букву и состоять только из кириллицы
@@ -122,6 +155,7 @@ public class Model {
             if (!(group.equals(""))) {
                 query += ", `Группа`";
             }
+            query += ", `Логин`";
 
             //часть запроса с переменными значениями
             query += ") VALUES (";
@@ -162,6 +196,7 @@ public class Model {
             if (!(group.equals(""))) {
                 query += ", '" + group + "'";
             }
+            query += ", '" + surname + " " + name + "'";
 
             query += ")";
 

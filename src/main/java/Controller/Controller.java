@@ -19,7 +19,7 @@ public class Controller {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         frame = new JFrame();
 
-        showMainForm();
+        showAuthorizationForm();
 
         frame.setResizable(false);
 
@@ -30,11 +30,40 @@ public class Controller {
         frame.setVisible(true);
     }
 
+    //форма авторизации
+    public void showAuthorizationForm(){
+        //отрисовка формы
+        final AuthorizationForm form = new AuthorizationForm();
+        frame.setContentPane(form.getAuthorizationPanel());
+
+        form.entryButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String login = form.loginTextField.getText();
+                String password = form.passwordTextField.getText();
+                int authResult = model.authorization(login, password);
+                if(authResult == 0){
+                    //не вошли
+                    JOptionPane.showMessageDialog(form.getAuthorizationPanel(), "Неверный логин или пароль",
+                            "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                }
+                if (authResult == 1){
+                    //вошли администратором
+                    showMainForm();
+                }
+                if (authResult == 2){
+                    //вошли читателем
+                }
+            }
+        });
+    }
+    
     //главная форма
     public void showMainForm(){
         //отрисовка формы
         MainForm form = new MainForm();
         frame.setContentPane(form.getRootPanel());
+        frame.revalidate();
 
         //вызов "Добавление новго читателя"
         form.buttonAddNewReader.addActionListener(new ActionListener() {
