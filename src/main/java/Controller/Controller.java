@@ -316,6 +316,45 @@ public class Controller {
                 showBookActionForm();
             }
         });
+
+        //нажатие на "Выдать"
+        form.giveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String pointID = form.pointIDTextField.getText();
+                String readerCardNumber = form.cardNumberTextField.getText();
+                String bookName = form.bookNameTextField.getText();
+                String bookAuthor = form.bookAuthorTextField.getText();
+                //проверка на пустоту хотя бы одного поля
+                if (pointID.equals("") || readerCardNumber.equals("") || bookName.equals("") || bookAuthor.equals("")) {
+                    JOptionPane.showMessageDialog(form.getGiveBookToReaderPanel(), "Введите корректные данные",
+                            "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    int resultCode = model.giveBookToReader(pointID, readerCardNumber, bookName, bookAuthor);
+                    //не существует такого пункта выдачи
+                    if (resultCode == 0) {
+                        JOptionPane.showMessageDialog(form.getGiveBookToReaderPanel(), "Такого пункта выдачи не существует",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //книга не выдана на руки по какой-то причине, связанной с читателем
+                    if (resultCode == 1) {
+                        JOptionPane.showMessageDialog(form.getGiveBookToReaderPanel(), "Книга не может быть выдана этому читателю",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //книга не выдана по какой-то причине, связанной с книой
+                    if (resultCode == 2) {
+                        JOptionPane.showMessageDialog(form.getGiveBookToReaderPanel(), "Эта книга не может быть выдана",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //TODO:заглушка
+                    if (resultCode == 3) {
+                        JOptionPane.showMessageDialog(form.getGiveBookToReaderPanel(), "Все проверки прошли",
+                                "Успех!", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+                showGiveBookToReaderForm();
+            }
+        });
     }
 
     //форма действий с читателями

@@ -141,6 +141,25 @@
                   <text value="Выдать книгу читателю"/>
                 </properties>
               </component>
+              <component id="87386" class="javax.swing.JLabel" binding="pointIDLabel">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <alignmentY value="0.5"/>
+                  <font name="Consolas" size="26" style="0"/>
+                  <labelFor value="f42c7"/>
+                  <text value="№ п.выдачи  "/>
+                </properties>
+              </component>
+              <component id="4194" class="javax.swing.JTextField" binding="pointIDTextField">
+                <constraints/>
+                <properties>
+                  <font name="Consolas" size="22" style="0"/>
+                  <maximumSize width="300" height="30"/>
+                  <minimumSize width="300" height="30"/>
+                  <preferredSize width="300" height="30"/>
+                </properties>
+              </component>
               <component id="ff8c5" class="javax.swing.JLabel" binding="cardNumberLabel">
                 <constraints/>
                 <properties>
