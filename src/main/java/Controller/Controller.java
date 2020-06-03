@@ -4,6 +4,7 @@ import Model.Model;
 import View.*;
 
 import javax.swing.*;
+import javax.swing.table.TableColumn;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -403,6 +404,14 @@ public class Controller {
                 showBookActionForm();
             }
         });
+
+        //нажатие на "Информация"
+        form.readerInformationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderInformationForm();
+            }
+        });
     }
 
     //форма действий с книгами
@@ -445,6 +454,166 @@ public class Controller {
         });
 
         //нажатие на "Действия с книгами"- форма обновится
+        form.buttonBookAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookActionForm();
+            }
+        });
+    }
+
+    //форма Информации по читателям
+    public void showReaderInformationForm(){
+        final ReaderInformationForm form = new ReaderInformationForm();
+        frame.setContentPane(form.getReaderInformationPanel());
+        frame.revalidate();
+
+        //нажатие на "Добавить нового читателя"
+        form.buttonAddNewReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewReaderForm();
+            }
+        });
+
+        //нажатие на "Добавить новую книгу"
+        form.buttonAddNewBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewBookForm();
+            }
+        });
+
+        //нажатие на "Выдать книгу читателю"
+        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveBookToReaderForm();
+            }
+        });
+
+        //нажатие на "Действия с читателями"
+        form.buttonReaderAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderActionForm();
+            }
+        });
+
+        //нажатие на "Действия с книгами"
+        form.buttonBookAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookActionForm();
+            }
+        });
+
+        //Нажатие на "Общий перечень читателей"
+        //направит на форму фильтра перед показом перечня
+        form.readersList.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showFilterForReadersList();
+            }
+        });
+    }
+
+    //форма фильтра для общего перечня читателей
+    public void showFilterForReadersList(){
+        //отрисовка формы
+        final FilterForReadersList form = new FilterForReadersList();
+        frame.setContentPane(form.getFilterForReadersListPanel());
+        frame.revalidate();
+
+        //нажатие на "Добавить нового читателя"
+        form.buttonAddNewReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewReaderForm();
+            }
+        });
+
+        //нажатие на "Добавить новую книгу"
+        form.buttonAddNewBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewBookForm();
+            }
+        });
+
+        //нажатие на "Выдать книгу читателю"
+        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveBookToReaderForm();
+            }
+        });
+
+        //нажатие на "Действия с читателями"
+        form.buttonReaderAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderActionForm();
+            }
+        });
+
+        //нажатие на "Действия с книгами"
+        form.buttonBookAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookActionForm();
+            }
+        });
+
+        //нажатие на "Показать"
+        form.showButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[][] data = model.generalReadersListWithFilters();
+                showListOfReadersForm(data);
+            }
+        });
+    }
+
+    //форма вывода общего перечня читателей
+    public void showListOfReadersForm(String[][] data){
+        final ListOfReadersForm form = new ListOfReadersForm(data);
+        frame.setContentPane(form.getListOfReadersPanel());
+        frame.revalidate();
+
+        //нажатие на "Добавить нового читателя"
+        form.buttonAddNewReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewReaderForm();
+            }
+        });
+
+        //нажатие на "Добавить новую книгу"
+        form.buttonAddNewBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewBookForm();
+            }
+        });
+
+        //нажатие на "Выдать книгу читателю"
+        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveBookToReaderForm();
+            }
+        });
+
+        //нажатие на "Действия с читателями"
+        form.buttonReaderAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderActionForm();
+            }
+        });
+
+        //нажатие на "Действия с книгами"
         form.buttonBookAction.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

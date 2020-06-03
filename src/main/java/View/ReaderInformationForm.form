@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="View.ReaderActionForm">
-  <grid id="27dc6" binding="readerActionPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="View.ReaderInformationForm">
+  <grid id="27dc6" binding="readerInformationPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
       <xy x="20" y="20" width="1200" height="800"/>
     </constraints>
@@ -11,7 +11,7 @@
     </properties>
     <border type="none"/>
     <children>
-      <grid id="a980b" binding="leftPanel" layout-manager="FlowLayout" hgap="5" vgap="25" flow-align="1">
+      <grid id="a4a3f" binding="leftPanel" layout-manager="FlowLayout" hgap="5" vgap="25" flow-align="1">
         <constraints border-constraint="West"/>
         <properties>
           <background color="-5277933"/>
@@ -21,7 +21,7 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="81a91" class="javax.swing.JButton" binding="buttonAddNewReader">
+          <component id="624bb" class="javax.swing.JButton" binding="buttonAddNewReader">
             <constraints/>
             <properties>
               <borderPainted value="true"/>
@@ -37,7 +37,7 @@
               <verticalTextPosition value="0"/>
             </properties>
           </component>
-          <component id="c7266" class="javax.swing.JButton" binding="buttonAddNewBook">
+          <component id="56dde" class="javax.swing.JButton" binding="buttonAddNewBook">
             <constraints/>
             <properties>
               <borderPainted value="true"/>
@@ -53,7 +53,7 @@
               <verticalTextPosition value="0"/>
             </properties>
           </component>
-          <component id="ff3a" class="javax.swing.JButton" binding="buttonGiveBookToReader">
+          <component id="1b8e9" class="javax.swing.JButton" binding="buttonGiveBookToReader">
             <constraints/>
             <properties>
               <borderPainted value="true"/>
@@ -69,7 +69,7 @@
               <verticalTextPosition value="0"/>
             </properties>
           </component>
-          <component id="65ce6" class="javax.swing.JButton" binding="buttonReaderAction">
+          <component id="a4a71" class="javax.swing.JButton" binding="buttonReaderAction">
             <constraints/>
             <properties>
               <borderPainted value="true"/>
@@ -85,7 +85,7 @@
               <verticalTextPosition value="0"/>
             </properties>
           </component>
-          <component id="e87f2" class="javax.swing.JButton" binding="buttonBookAction">
+          <component id="5f74a" class="javax.swing.JButton" binding="buttonBookAction">
             <constraints/>
             <properties>
               <borderPainted value="true"/>
@@ -103,7 +103,7 @@
           </component>
         </children>
       </grid>
-      <grid id="bf404" binding="centerPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+      <grid id="c2c3c" binding="centerPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints border-constraint="Center"/>
         <properties>
           <maximumSize width="900" height="800"/>
@@ -112,7 +112,7 @@
         </properties>
         <border type="none"/>
         <children>
-          <grid id="47265" binding="northPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+          <grid id="218ab" binding="northPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
             <constraints border-constraint="North"/>
             <properties>
               <background color="-5277933"/>
@@ -123,7 +123,7 @@
             <border type="none"/>
             <children/>
           </grid>
-          <grid id="32d56" binding="readerActionSmallPanel" layout-manager="FlowLayout" hgap="30" vgap="30" flow-align="1">
+          <grid id="90dcf" binding="readerInformationSmallPanel" layout-manager="FlowLayout" hgap="30" vgap="30" flow-align="1">
             <constraints border-constraint="Center"/>
             <properties>
               <background color="-12828863"/>
@@ -133,15 +133,15 @@
             </properties>
             <border type="none"/>
             <children>
-              <component id="fd799" class="javax.swing.JLabel" binding="readerActionLabel">
+              <component id="664ef" class="javax.swing.JLabel" binding="readerInformationLabel">
                 <constraints/>
                 <properties>
                   <alignmentX value="0.5"/>
                   <font name="Consolas" size="48" style="0"/>
-                  <text value="Действия с читателями  "/>
+                  <text value="Информация по читателям"/>
                 </properties>
               </component>
-              <component id="32947" class="javax.swing.JButton" binding="signReaderAtPointButton">
+              <component id="2aa58" class="javax.swing.JButton" binding="readersList">
                 <constraints/>
                 <properties>
                   <borderPainted value="true"/>
@@ -149,16 +149,16 @@
                   <font name="Consolas" size="14" style="0"/>
                   <foreground color="-12828863"/>
                   <horizontalTextPosition value="0"/>
-                  <label value="Поставить отметку"/>
+                  <label value="Общий перечень читателей"/>
                   <maximumSize width="250" height="100"/>
                   <minimumSize width="250" height="100"/>
                   <preferredSize width="250" height="100"/>
-                  <text value="Поставить отметку"/>
+                  <text value="Общий перечень читателей"/>
                   <verticalAlignment value="0"/>
                   <verticalTextPosition value="0"/>
                 </properties>
               </component>
-              <component id="6b75d" class="javax.swing.JButton" binding="giveOrderButton">
+              <component id="6a339" class="javax.swing.JButton" binding="giveOrderButton">
                 <constraints/>
                 <properties>
                   <borderPainted value="true"/>
@@ -166,16 +166,16 @@
                   <font name="Consolas" size="14" style="0"/>
                   <foreground color="-12828863"/>
                   <horizontalTextPosition value="0"/>
-                  <label value="Выдать заказ"/>
+                  <label value=""/>
                   <maximumSize width="250" height="100"/>
                   <minimumSize width="250" height="100"/>
                   <preferredSize width="250" height="100"/>
-                  <text value="Выдать заказ"/>
+                  <text value=""/>
                   <verticalAlignment value="0"/>
                   <verticalTextPosition value="0"/>
                 </properties>
               </component>
-              <component id="5a292" class="javax.swing.JButton" binding="editProfileButton">
+              <component id="ac6bd" class="javax.swing.JButton" binding="editProfileButton">
                 <constraints/>
                 <properties>
                   <borderPainted value="true"/>
@@ -183,16 +183,16 @@
                   <font name="Consolas" size="14" style="0"/>
                   <foreground color="-12828863"/>
                   <horizontalTextPosition value="0"/>
-                  <label value="Редактировать профиль"/>
+                  <label value=""/>
                   <maximumSize width="250" height="100"/>
                   <minimumSize width="250" height="100"/>
                   <preferredSize width="250" height="100"/>
-                  <text value="Редактировать профиль"/>
+                  <text value=""/>
                   <verticalAlignment value="0"/>
                   <verticalTextPosition value="0"/>
                 </properties>
               </component>
-              <component id="75feb" class="javax.swing.JButton" binding="applySanctionsButton">
+              <component id="78a3b" class="javax.swing.JButton" binding="applySanctionsButton">
                 <constraints/>
                 <properties>
                   <borderPainted value="true"/>
@@ -200,16 +200,16 @@
                   <font name="Consolas" size="14" style="0"/>
                   <foreground color="-12828863"/>
                   <horizontalTextPosition value="0"/>
-                  <label value="Применить санкции"/>
+                  <label value=""/>
                   <maximumSize width="250" height="100"/>
                   <minimumSize width="250" height="100"/>
                   <preferredSize width="250" height="100"/>
-                  <text value="Применить санкции"/>
+                  <text value=""/>
                   <verticalAlignment value="0"/>
                   <verticalTextPosition value="0"/>
                 </properties>
               </component>
-              <component id="5436d" class="javax.swing.JButton" binding="removeReaderButton">
+              <component id="5867b" class="javax.swing.JButton" binding="removeReaderButton">
                 <constraints/>
                 <properties>
                   <borderPainted value="true"/>
@@ -217,16 +217,16 @@
                   <font name="Consolas" size="14" style="0"/>
                   <foreground color="-12828863"/>
                   <horizontalTextPosition value="0"/>
-                  <label value="Выписать из библиотеки"/>
+                  <label value=""/>
                   <maximumSize width="250" height="100"/>
                   <minimumSize width="250" height="100"/>
                   <preferredSize width="250" height="100"/>
-                  <text value="Выписать из библиотеки"/>
+                  <text value=""/>
                   <verticalAlignment value="0"/>
                   <verticalTextPosition value="0"/>
                 </properties>
               </component>
-              <component id="e9374" class="javax.swing.JButton" binding="getBookButton">
+              <component id="9fe8e" class="javax.swing.JButton" binding="getBookButton">
                 <constraints/>
                 <properties>
                   <borderPainted value="true"/>
@@ -234,16 +234,16 @@
                   <font name="Consolas" size="14" style="0"/>
                   <foreground color="-12828863"/>
                   <horizontalTextPosition value="0"/>
-                  <label value="Получить книгу обратно"/>
+                  <label value=""/>
                   <maximumSize width="250" height="100"/>
                   <minimumSize width="250" height="100"/>
                   <preferredSize width="250" height="100"/>
-                  <text value="Получить книгу обратно"/>
+                  <text value=""/>
                   <verticalAlignment value="0"/>
                   <verticalTextPosition value="0"/>
                 </properties>
               </component>
-              <component id="1b7ac" class="javax.swing.JButton" binding="readerInformationButton">
+              <component id="ad616" class="javax.swing.JButton" binding="readerInformationButtom">
                 <constraints/>
                 <properties>
                   <borderPainted value="true"/>
@@ -251,11 +251,11 @@
                   <font name="Consolas" size="14" style="0"/>
                   <foreground color="-12828863"/>
                   <horizontalTextPosition value="0"/>
-                  <label value="Информация"/>
+                  <label value=""/>
                   <maximumSize width="250" height="100"/>
                   <minimumSize width="250" height="100"/>
                   <preferredSize width="250" height="100"/>
-                  <text value="Информация"/>
+                  <text value=""/>
                   <verticalAlignment value="0"/>
                   <verticalTextPosition value="0"/>
                 </properties>

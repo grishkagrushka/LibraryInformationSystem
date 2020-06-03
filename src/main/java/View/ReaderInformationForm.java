@@ -4,8 +4,8 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
-public class ReaderActionForm {
-    private JPanel readerActionPanel;
+public class ReaderInformationForm {
+    private JPanel readerInformationPanel;
     private JPanel leftPanel;
     public JButton buttonAddNewReader;
     public JButton buttonAddNewBook;
@@ -14,23 +14,23 @@ public class ReaderActionForm {
     public JButton buttonBookAction;
     private JPanel centerPanel;
     private JPanel northPanel;
-    private JPanel readerActionSmallPanel;
-    private JLabel readerActionLabel;
-    private JButton signReaderAtPointButton;
+    private JPanel readerInformationSmallPanel;
+    private JLabel readerInformationLabel;
+    public JButton readersList;
     private JButton giveOrderButton;
     private JButton editProfileButton;
     private JButton applySanctionsButton;
     private JButton removeReaderButton;
-    public JButton readerInformationButton;
     private JButton getBookButton;
+    private JButton readerInformationButtom;
 
-    public ReaderActionForm(){
+    public ReaderInformationForm(){
         //устанавливаем границу для левой панели
         Border border = BorderFactory.createLineBorder(Color.BLACK, 1, true);
         leftPanel.setBorder(border);
     }
 
-    public JPanel getReaderActionPanel() {
-        return readerActionPanel;
+    public JPanel getReaderInformationPanel() {
+        return readerInformationPanel;
     }
 }

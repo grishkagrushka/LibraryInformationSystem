@@ -733,4 +733,44 @@ public class Model {
         return bookIdNotOrderedList;
     }
 
+    //вывод общего перечня читателей с применением выбранных фильтров
+    //return String[][], который передаётся в JTable
+    public String[][] generalReadersListWithFilters(){
+        String query = "SELECT `Фамилия`, `Имя`, `Отчество`, `id_пункта_выдачи`, `Кафедра`, `Факультет`, `Группа`" +
+                " FROM `library`.`читатель` JOIN `library`.`читатели_пункта_выдачи`" +
+                " ON `читатель`.`id` = `читатели_пункта_выдачи`.`id_читателя`";
+        ResultSet resultSet;
+        String [][] data = new String[30][7];
+        //задаём первую строку в таблице, которая будет являться шапкой
+        data[0][0] = "Фамилия";
+        data[0][1] = "Имя";
+        data[0][2] = "Отчество";
+        data[0][3] = "Пункт выдачи";
+        data[0][4] = "Кафедра";
+        data[0][5] = "Факультет";
+        data[0][6] = "Группа";
+        int i = 1;
+        try {
+            resultSet = connector.statement.executeQuery(query);
+            while(resultSet.next()){
+                data[i][0] = resultSet.getString(1);
+                data[i][1] = resultSet.getString(2);
+                data[i][2] = resultSet.getString(3);
+                data[i][3] = resultSet.getString(4);
+                data[i][4] = resultSet.getString(5);
+                data[i][5] = resultSet.getString(6);
+                data[i][6] = resultSet.getString(7);
+                i++;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        //TODO: убрать вывод в консоль
+        for(int x = 0; x <= i; x++){
+            for(int y = 0; y < 7; y++){
+                System.out.println(data[x][y]);
+            }
+        }
+        return data;
+    }
 }
