@@ -17,13 +17,13 @@ public class FilterForReadersList {
     private JPanel filterForReadersListSmallPanel;
     private JLabel filterLabel;
     private JLabel pointIdLabel;
-    private JTextField pointIdTextField;
+    public JTextField pointIdTextField;
     private JLabel chairLabel;
-    private JTextField chairTextField;
+    public JTextField chairTextField;
     private JLabel departmentLabel;
-    private JComboBox departmentComboBox;
+    public JComboBox departmentComboBox;
     private JLabel groupLabel;
-    private JTextField groupTextField;
+    public JTextField groupTextField;
     public JButton showButton;
 
     public FilterForReadersList(){

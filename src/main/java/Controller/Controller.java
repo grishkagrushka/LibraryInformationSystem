@@ -569,7 +569,14 @@ public class Controller {
         form.showButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String[][] data = model.generalReadersListWithFilters();
+                String pointId = form.pointIdTextField.getText();
+                String chair = form.chairTextField.getText();
+                String department = (String) form.departmentComboBox.getSelectedItem();
+                if (department.equals("Выберите факультет")) {
+                    department = "";
+                }
+                String group = form.groupTextField.getText();
+                String[][] data = model.generalReadersListWithFilters(pointId, chair, department, group);
                 showListOfReadersForm(data);
             }
         });

@@ -735,10 +735,87 @@ public class Model {
 
     //вывод общего перечня читателей с применением выбранных фильтров
     //return String[][], который передаётся в JTable
-    public String[][] generalReadersListWithFilters(){
+    public String[][] generalReadersListWithFilters(String pointId, String chair, String department, String group){
         String query = "SELECT `Фамилия`, `Имя`, `Отчество`, `id_пункта_выдачи`, `Кафедра`, `Факультет`, `Группа`" +
                 " FROM `library`.`читатель` JOIN `library`.`читатели_пункта_выдачи`" +
                 " ON `читатель`.`id` = `читатели_пункта_выдачи`.`id_читателя`";
+        //когда заполнено только поле пункта выдачи
+        if (!pointId.equals("") && chair.equals("") && department.equals("") && group.equals("")){
+            query += " WHERE (`читатели_пункта_выдачи`.`id_пункта_выдачи` = '" + pointId + "')";
+        }
+        //когда заполнено только поле кафедры
+        if (pointId.equals("") && !chair.equals("") && department.equals("") && group.equals("")){
+            query += " WHERE (`читатель`.`Кафедра` = '" + chair + "')";
+        }
+        //когда заполнены поля пункта выдачи и кафедры
+        if (!pointId.equals("") && !chair.equals("") && department.equals("") && group.equals("")){
+            query += " WHERE (`читатели_пункта_выдачи`.`id_пункта_выдачи` = '" + pointId + "'" +
+                    " AND `читатель`.`Кафедра` = '" + chair + "')";
+        }
+        //когда заполнено только поле факультета
+        if (pointId.equals("") && chair.equals("") && !department.equals("") && group.equals("")){
+            query += " WHERE (`читатель`.`Факультет` = '" + department + "')";
+        }
+        //когда заполнены поля пункта выдачи и факультета
+        if(!pointId.equals("") && chair.equals("") && !department.equals("") && group.equals("")){
+            query += " WHERE (`читатели_пункта_выдачи`.`id_пункта_выдачи` = '" + pointId + "'" +
+                    " AND `читатель`.`Факультет` = '" + department + "')";
+        }
+        //когда заполнены поля кафедры и факультета
+        if(pointId.equals("") && !chair.equals("") && !department.equals("") && group.equals("")){
+            query += " WHERE (`читатель`.`Кафедра` = '" + chair + "'" +
+                    " AND `читатель`.`Факультет` = '" + department + "')";
+        }
+        //когда заполнены поля пункта выдачи, кафедры и факультета
+        if(!pointId.equals("") && !chair.equals("") && !department.equals("") && group.equals("")){
+            query += " WHERE (`читатели_пункта_выдачи`.`id_пункта_выдачи` = '" + pointId + "'" +
+                    " AND `читатель`.`Кафедра` = '" + chair + "'" +
+                    " AND `читатель`.`Факультет` = '" + department + "')";
+        }
+        //когда заполнено только поле группы
+        if(pointId.equals("") && chair.equals("") && department.equals("") && !group.equals("")){
+            query += " WHERE (`читатель`.`Группа` = '" + group + "')";
+        }
+        //когда заполнены поля пункта выдачи и группы
+        if(!pointId.equals("") && chair.equals("") && department.equals("") && !group.equals("")){
+            query += " WHERE (`читатели_пункта_выдачи`.`id_пункта_выдачи` = '" + pointId + "'" +
+                    " AND `читатель`.`Группа` = '" + group + "')";
+        }
+        //когда заполнены поля кафедры и группы
+        if(pointId.equals("") && !chair.equals("") && department.equals("") && !group.equals("")){
+            query += " WHERE (`читатель`.`Кафедра` = '" + chair + "'" +
+                    " AND `читатель`.`Группа` = '" + group + "')";
+        }
+        //когда заполнены поля пункта выдачи, кафедры и группы
+        if(!pointId.equals("") && !chair.equals("") && department.equals("") && !group.equals("")){
+            query += " WHERE (`читатели_пункта_выдачи`.`id_пункта_выдачи` = '" + pointId + "'" +
+                    " AND `читатель`.`Кафедра` = '" + chair + "'" +
+                    " AND `читатель`.`Группа` = '" + group + "')";
+        }
+        //когда заполнены поля факультета и группы
+        if(pointId.equals("") && chair.equals("") && !department.equals("") && !group.equals("")){
+            query += " WHERE (`читатель`.`Факультет` = '" + department + "'" +
+                    " AND `читатель`.`Группа` = '" + group + "')";
+        }
+        //когда заполнены поля пункта выдачи, факультета и группы
+        if(!pointId.equals("") && chair.equals("") && !department.equals("") && !group.equals("")){
+            query += " WHERE (`читатели_пункта_выдачи`.`id_пункта_выдачи` = '" + pointId + "'" +
+                    " AND `читатель`.`Факультет` = '" + department + "'" +
+                    " AND `читатель`.`Группа` = '" + group + "')";
+        }
+        //когда заполнены поля кафедры, фаультета и группы
+        if(pointId.equals("") && !chair.equals("") && !department.equals("") && !group.equals("")){
+            query += " WHERE (`читатель`.`Кафедра` = '" + chair + "'" +
+                    "AND `читатель`.`Факультет` = '" + department + "'" +
+                    " AND `читатель`.`Группа` = '" + group + "')";
+        }
+        //когда заполнены поля пункта выдачи, кафедры, факультета и группы
+        if(!pointId.equals("") && !chair.equals("") && !department.equals("") && !group.equals("")){
+            query += " WHERE (`читатели_пункта_выдачи`.`id_пункта_выдачи` = '" + pointId + "'" +
+                    " AND `читатель`.`Кафедра` = '" + chair + "'" +
+                    " AND `читатель`.`Факультет` = '" + department + "'" +
+                    " AND `читатель`.`Группа` = '" + group + "')";
+        }
         ResultSet resultSet;
         String [][] data = new String[30][7];
         //задаём первую строку в таблице, которая будет являться шапкой
