@@ -331,25 +331,31 @@ public class Controller {
                     JOptionPane.showMessageDialog(form.getGiveBookToReaderPanel(), "Введите корректные данные",
                             "Ошибка!", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    int resultCode = model.giveBookToReader(pointID, readerCardNumber, bookName, bookAuthor);
+                    String resultCode = model.giveBookToReader(pointID, readerCardNumber, bookName, bookAuthor);
                     //не существует такого пункта выдачи
-                    if (resultCode == 0) {
+                    if (resultCode.equals("0")) {
                         JOptionPane.showMessageDialog(form.getGiveBookToReaderPanel(), "Такого пункта выдачи не существует",
                                 "Ошибка!", JOptionPane.ERROR_MESSAGE);
                     }
                     //книга не выдана на руки по какой-то причине, связанной с читателем
-                    if (resultCode == 1) {
+                    if (resultCode.equals("1")) {
                         JOptionPane.showMessageDialog(form.getGiveBookToReaderPanel(), "Книга не может быть выдана этому читателю",
                                 "Ошибка!", JOptionPane.ERROR_MESSAGE);
                     }
-                    //книга не выдана по какой-то причине, связанной с книой
-                    if (resultCode == 2) {
+                    //книга не выдана по какой-то причине, связанной с книгой
+                    if (resultCode.equals("2")) {
                         JOptionPane.showMessageDialog(form.getGiveBookToReaderPanel(), "Эта книга не может быть выдана",
                                 "Ошибка!", JOptionPane.ERROR_MESSAGE);
                     }
+                    //если прошли все проверки, возвращается номер книги, которую можно выдать
+                    if (Integer.parseInt(resultCode) > 2){
+                        JOptionPane.showMessageDialog(form.getGiveBookToReaderPanel(), "Можете передать читателю книгу с номером: "
+                                        + resultCode,
+                                "Успех!", JOptionPane.INFORMATION_MESSAGE);
+                    }
                     //TODO:заглушка
-                    if (resultCode == 3) {
-                        JOptionPane.showMessageDialog(form.getGiveBookToReaderPanel(), "Все проверки прошли",
+                    if (resultCode.equals("3")) {
+                        JOptionPane.showMessageDialog(form.getGiveBookToReaderPanel(), "Необработанная часть",
                                 "Успех!", JOptionPane.INFORMATION_MESSAGE);
                     }
                 }

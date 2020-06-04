@@ -180,7 +180,6 @@ public class Model {
             //определение сегодняшней даты, когда читетель вводится в библиотеку
             Calendar date = new GregorianCalendar();
             DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
-            //int numLibraryCard =
             String beginningOfValidity = dateFormat.format(date.getTime());
             query += ", '" + "0" + "'";
             query += ", '" + beginningOfValidity + "'";
@@ -309,33 +308,51 @@ public class Model {
     //return 0- не существует такого пункта выдачи
     //return 1- книга не выдана по какой-то причине, связанной с читателем
     //return 2- книга не выдана по какой-то причине, связанной с книгой
-    public int giveBookToReader(String pointID, String readerCardNumber,
+    //return n > 2- id книги, которую можно выдать читателю
+    public String giveBookToReader(String pointID, String readerCardNumber,
                                 String bookName, String author){
-        int resultCode;
+        String resultCode;
         //проверка существования пункта выдачи с таким ID
         if(!isValidPoint(pointID)){
-            return 0;
+            return "0";
         }
         //узнаём, является ли пункт выдачи абонементом
         if(isSubscription(pointID)){
             //если является, от отдаём книгу на руки
             resultCode = giveBookHome(pointID, readerCardNumber, bookName, author);
             //какая-то причина, связанная с читателем, которая не позволяет выдать ему книгу
-            if(resultCode == 0){
-                return 1;
+            if(resultCode.equals("0")){
+                return "1";
             }
             //какая-то причина, связанная с книгой, которая не позволяет её выдать
-            if (resultCode == 1){
-                return 2;
+            if (resultCode.equals("1")){
+                return "2";
             }
+            //если все проверки прошли успешно, то возвращаем id книги, которую можно выдать
+            //для этого узнаём сегодняшнюю дату
+            Calendar todayCal = new GregorianCalendar();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
+            String today = dateFormat.format(todayCal.getTime());
+
+            String query = "INSERT INTO `library`.`книги_читателя`" +
+                    " (`id_читателя`, `id_книги`, `дата_получения_книги`)" +
+                    "VALUES ('" + readerCardNumber + "', '" + resultCode + "' ,'" + today + "')";
+            //количество изменённых строк
+            int num;
+            try {
+                num = connector.statement.executeUpdate(query);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            return resultCode;
         }
         else {
             //если это читальный зал, то выдаём на день
-            //resultCode = giveBookInPlace(pointID, readerCardNumber, bookName, author);
+            resultCode = giveBookInPlace(pointID, readerCardNumber, bookName, author);
 
         }
         //TODO:заглушка
-        return 3;
+        return "3";
     }
 
 
@@ -381,17 +398,21 @@ public class Model {
     //проверка читателя и книги
     //return 0- какая-то причина, связанная с читателем, не позволяющая выдать книгу
     //return 1- какая-то причина, связанная с книгой, не позволяющая выдать книгу
-    //return 2- TODO
-    private int giveBookHome(String pointID, String readerCardNumber,
+    //return n > 2- id книги, которую можно выдать
+    private String giveBookHome(String pointID, String readerCardNumber,
                              String bookName, String author){
+        //проверка всего, связанного с читателем
         if(!canReaderGiveBookHome(pointID, readerCardNumber)){
-            return 0;
+            return "0";
         }
-        //TODO: сюда добавляем проверку книги
-        if(!canBookGiveAtHome(pointID, bookName, author)){
-            return 1;
+        //проверка всего, связанного с книгой
+        String bookId = whichBookGiveAtHome(pointID, bookName, author);
+        if(bookId.equals("0")){
+            return "1";
         }
-        return 2;//TODO:заглушка
+        else{
+            return bookId;
+        }
     }
 
     //можно ли получать читателю книги на руки
@@ -565,34 +586,35 @@ public class Model {
     //книга не утеряна,
     //книга не находится на руках в данный момент,
     //книга не заказана
-    //return true- книга может быть выдана
-    //return false- книга не может быть выдана по какой-то из причин
-    private boolean canBookGiveAtHome(String pointID, String bookName, String bookAuthor){
+    //return 0- нет книги, которую можно было бы выдать
+    //return (String) n > 2- id книги, которую можно выдать
+    private String whichBookGiveAtHome(String pointID, String bookName, String bookAuthor){
         //проверка существования книги с указанными названием и автором
         if(!isExistingBook(bookName, bookAuthor)){
-            return false;
+            return "0";
         }
         //проверка, прикреплены ли книги с введёнными параметрами к нужному пункту выдачи
         ArrayList<String> bookIdOnPoint = isBookBelongThisPoint(pointID, bookName, bookAuthor);
         if(bookIdOnPoint.isEmpty()){
-            return false;
+            return "0";
         }
         //проверка не утеряны ли книги, прошедшие предыдущие проверки
         ArrayList<String> bookIdNotLost = bookIdNotLost(bookIdOnPoint);
         if(bookIdNotLost.isEmpty()){
-            return false;
+            return "0";
         }
         //проверка, не находятся ли на руках книги, которые прошли предыдущие проверки
         ArrayList<String> bookIdNotOnHand = bookIdNotOnHand(bookIdNotLost);
         if(bookIdNotOnHand.isEmpty()){
-            return false;
+            return "0";
         }
         //проверка, не заказаны ли книги, которые прошли предыдущие проверки
         ArrayList<String> bookIdNotOrdered = bookIdNotOrdered(bookIdNotOnHand);
         if(bookIdNotOrdered.isEmpty()){
-            return false;
+            return "0";
         }
-        return true;//TODO:заглушка
+        //выбираем первую книгу из списка подходящих книг
+        return bookIdNotOrdered.get(0);
     }
 
     //проверка существования книги с указанными названием и автором
@@ -731,6 +753,15 @@ public class Model {
             System.out.println("Заказ" + item);
         }
         return bookIdNotOrderedList;
+    }
+
+    //выдача книги в читальном зале
+    //проверяются читатель и книга
+    //return 0- какая-то причина, связанная с читателем, не позволяющая выдать книгу
+    //return 1- какая-то причина, связанная с книгой, не позволяющая выдать книгу
+    private String giveBookInPlace(String pointId, String readerCardNumber,
+                            String bookName, String bookAuthor){
+        return "";
     }
 
     //вывод общего перечня читателей с применением выбранных фильтров
