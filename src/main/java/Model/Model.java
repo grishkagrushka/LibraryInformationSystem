@@ -349,10 +349,32 @@ public class Model {
         else {
             //если это читальный зал, то выдаём на день
             resultCode = giveBookInPlace(pointID, readerCardNumber, bookName, author);
+            //какая-то причина, связанная с читателем, не позволяющая выдать ему книгу
+            if(resultCode.equals("0")){
+                return "1";
+            }
+            //какая-то причина, связанная с книгой, которая не позволяет её выдать
+            if (resultCode.equals("1")){
+                return "2";
+            }
+            //если все проверки прошли успешно, то возвращаем id книги, которую можно выдать
+            //для этого узнаём сегодняшнюю дату
+            Calendar todayCal = new GregorianCalendar();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
+            String today = dateFormat.format(todayCal.getTime());
 
+            String query = "INSERT INTO `library`.`книги_читателя`" +
+                    " (`id_читателя`, `id_книги`, `дата_получения_книги`)" +
+                    "VALUES ('" + readerCardNumber + "', '" + resultCode + "' ,'" + today + "')";
+            //количество изменённых строк
+            int num;
+            try {
+                num = connector.statement.executeUpdate(query);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            return resultCode;
         }
-        //TODO:заглушка
-        return "3";
     }
 
 
@@ -406,7 +428,7 @@ public class Model {
             return "0";
         }
         //проверка всего, связанного с книгой
-        String bookId = whichBookGiveAtHome(pointID, bookName, author);
+        String bookId = whichBookGiveOnPoint(pointID, bookName, author);
         if(bookId.equals("0")){
             return "1";
         }
@@ -580,7 +602,7 @@ public class Model {
         return true;
     }
 
-    //можно ли выдать книгу домой
+    //можно ли выдать книгу на этом пункте выдачи (неважно, на дом или нет)
     //т.е. книга существует,
     //книга привязана к этому пункту выдачи,
     //книга не утеряна,
@@ -588,7 +610,7 @@ public class Model {
     //книга не заказана
     //return 0- нет книги, которую можно было бы выдать
     //return (String) n > 2- id книги, которую можно выдать
-    private String whichBookGiveAtHome(String pointID, String bookName, String bookAuthor){
+    private String whichBookGiveOnPoint(String pointID, String bookName, String bookAuthor){
         //проверка существования книги с указанными названием и автором
         if(!isExistingBook(bookName, bookAuthor)){
             return "0";
@@ -759,10 +781,46 @@ public class Model {
     //проверяются читатель и книга
     //return 0- какая-то причина, связанная с читателем, не позволяющая выдать книгу
     //return 1- какая-то причина, связанная с книгой, не позволяющая выдать книгу
+    //return n > 2- id книги, которую можно выдать
     private String giveBookInPlace(String pointId, String readerCardNumber,
                             String bookName, String bookAuthor){
-        return "";
+        //проверка всего, связанного с читаталем
+        if(!canReaderGiveBookInPlace(pointId, readerCardNumber)){
+            return "0";
+        }
+        //проверка всего, связанного с книгой
+        String bookId = whichBookGiveOnPoint(pointId, bookName, bookAuthor);
+        if(bookId.equals("0")){
+            return "1";
+        }
+        else{
+            return bookId;
+        }
     }
+
+    //можно ли получать читателю книги в читальном зале
+    //т.е. существует ли читатель,
+    //нет ли действующей дисквалификации,
+    //имеется ли отметка на пункте выдачи и
+    //не просрочена ли она
+    //return true- на читателе нет ограничений, которые запретят ему получение книги
+    //return false- читатель по какой-то из причин не может получить книгу в читальном зале
+    private boolean canReaderGiveBookInPlace(String pointId, String readerCardNumber){
+        //проверка существования читателя с введёным id
+        if (!isExistingReader(readerCardNumber)){
+            return false;
+        }
+        //проверка не имеется ли у читателя действующей дисквалификации
+        if (!haveNotActiveDisq(readerCardNumber)){
+            return false;
+        }
+        //имеется ли отметка на пункте выдачи, и не просрочена ли она
+        if(!isActiveSubsription(pointId, readerCardNumber)){
+            return false;
+        }
+        return true;
+    }
+
 
     //вывод общего перечня читателей с применением выбранных фильтров
     //return String[][], который передаётся в JTable
