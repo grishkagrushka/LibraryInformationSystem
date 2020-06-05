@@ -637,6 +637,7 @@ public class Controller {
         });
     }
 
+    //форма добавления отметки на пункте выдачи для читателя
     public void showSignReaderAtPointForm(){
         final SignReaderAtPoint form = new SignReaderAtPoint();
         frame.setContentPane((form.getMarkingReaderPanel()));
@@ -728,5 +729,55 @@ public class Controller {
                 showSignReaderAtPointForm();
             }
         });
+    }
+
+    //форма выдачи заказанных книг читателю
+    public void showGiveOrderedBooksToReaderForm(){
+        final GiveOrderedBooksToReaderForm form = new GiveOrderedBooksToReaderForm();
+        frame.setContentPane(form.getGiveOrderedBooksToReaderPanel());
+        frame.revalidate();
+
+        //нажатие на "Добавить нового читателя"
+        form.buttonAddNewReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewReaderForm();
+            }
+        });
+
+        //нажатие на "Добавить новую книгу"
+        form.buttonAddNewBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewBookForm();
+            }
+        });
+
+        //нажатие на "Выдать книгу читателю"
+        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveBookToReaderForm();
+            }
+        });
+
+        //нажатие на "Действия с читателями"
+        form.buttonReaderAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderActionForm();
+            }
+        });
+
+        //нажатие на "Действия с книгами"
+        form.buttonBookAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookActionForm();
+            }
+        });
+
+        //нажатие на "Выдать"
+
     }
 }
