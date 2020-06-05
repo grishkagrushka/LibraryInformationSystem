@@ -345,7 +345,7 @@ public class Model {
 
             String query = "INSERT INTO `library`.`книги_читателя`" +
                     " (`id_читателя`, `id_книги`, `дата_получения_книги`)" +
-                    "VALUES ('" + readerCardNumber + "', '" + resultCode + "' ,'" + today + "')";
+                    " VALUES ('" + readerCardNumber + "', '" + resultCode + "' ,'" + today + "')";
             //количество изменённых строк
             int num;
             try {
@@ -1177,6 +1177,75 @@ public class Model {
             }
         }
         return 3;
+    }
+
+    //проверка существования книги по id
+    private boolean isExistingBook(String bookId){
+        String query = "SELECT `Название` FROM `library`.`книга`" +
+                " WHERE (`id` = '" + bookId + "')";
+        ResultSet resultSet;
+        boolean flag = false;//проверка, не окажется ли возвращённый ответ от БД пустым
+        try {
+            resultSet = connector.statement.executeQuery(query);
+            if(resultSet.next()){
+                flag = true;
+                System.out.println("Такая книга существует");//TODO: убрать вывод в консоль
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        if (!flag){
+            System.out.println("Такой книги не существует");//TODO: убрать вывод в консоль
+        }
+        return flag;
+    }
+
+    //валидатор для числовых значений
+    private boolean validatorToNumericValues(String values){
+        return values.matches("[0-9]*");
+    }
+
+    //применить санкции к читателю
+    //return 0 - не существует такого читателя
+    //return 1 - не существует такой книги
+    //return 2 - введены не корректные числовые значения
+    //return 3 - что-то пошло не так
+    //return 4 - всё прошло успешно
+    public int applySuctions(String readerCardNumber, String bookId,
+                             String periodOfDisq, String penalty){
+        //проверка существования читателя
+        if(!isExistingReader(readerCardNumber)){
+            return 0;
+        }
+        //проверка существования книги
+        if (!isExistingBook(bookId)){
+            return 1;
+        }
+        //проверка числовых значений
+        if(!validatorToNumericValues(periodOfDisq) || !validatorToNumericValues(penalty)){
+            return 2;
+        }
+        //если все проверки прошли успешно, добавляем данные в таблицу Правонарушения
+        //узнаём текущую дату
+        Calendar todayCal = new GregorianCalendar();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
+        String today = dateFormat.format(todayCal.getTime());
+
+        String query = "INSERT INTO `library`.`правонарушения`" +
+                " (`id_читателя`, `id_книги`, `Срок_дисквалификации`, `Дата_совершения`, `Наложенный_штраф`)" +
+                "VALUES ('" + readerCardNumber + "', '" + bookId + "', '" + periodOfDisq + "', '" + today + "', '" + penalty + "')";
+        int num = 0;
+        try {
+            num = connector.statement.executeUpdate(query);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        //если не добавилась строка
+        if(num == 0){
+            return 3;
+        }
+        //если всё прошло успешно
+        return 4;
     }
 
     //вывод общего перечня читателей с применением выбранных фильтров

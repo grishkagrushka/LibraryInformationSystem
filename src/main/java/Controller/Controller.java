@@ -429,6 +429,14 @@ public class Controller {
             }
         });
 
+        //нажатие на "Применить санкции"
+        form.applySanctionsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showApplySunctionsForm();
+            }
+        });
+
         //нажатие на "Информация"
         form.readerInformationButton.addActionListener(new ActionListener() {
             @Override
@@ -947,6 +955,100 @@ public class Controller {
                     }
                 }
                 showEditReadersProfileForm();
+            }
+        });
+    }
+
+    //форма применения санкций
+    public void showApplySunctionsForm(){
+        //отрисовка формы
+        final ApplySanctionsForm form = new ApplySanctionsForm();
+        frame.setContentPane(form.getApplySanctionsPanel());
+        frame.revalidate();
+
+        //нажатие на "Добавить нового читателя"
+        form.buttonAddNewReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewReaderForm();
+            }
+        });
+
+        //нажатие на "Добавить новую книгу"
+        form.buttonAddNewBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewBookForm();
+            }
+        });
+
+        //нажатие на "Выдать книгу читателю"
+        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveBookToReaderForm();
+            }
+        });
+
+        //нажатие на "Действия с читателями"
+        form.buttonReaderAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderActionForm();
+            }
+        });
+
+        //нажатие на "Действия с книгами"
+        form.buttonBookAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookActionForm();
+            }
+        });
+
+        //нажатие на "Применить"
+        form.applyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //собираем данные с полей ввода
+                String readerCardNumber = form.readerCardNumberTextField.getText();
+                String bookId = form.bookIdTextField.getText();
+                String periodOfDisq = form.periodOfDisqTextField.getText();
+                String penalty = form.penaltyTextField.getText();
+
+                //если заполнены не все поля
+                if(readerCardNumber.equals("")||bookId.equals("")||periodOfDisq.equals("")||penalty.equals("")){
+                    JOptionPane.showMessageDialog(form.getApplySanctionsPanel(), "Пожалуйста, заполните все поля!",
+                            "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                }
+                else{
+                    int resultCode = model.applySuctions(readerCardNumber, bookId, periodOfDisq, penalty);
+                    //если вернулся 0, то не существует такого читателя
+                    if (resultCode == 0){
+                        JOptionPane.showMessageDialog(form.getApplySanctionsPanel(), "Читателя с таким номером читательского билета не существует!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 1, то не существует такой книги
+                    if(resultCode == 1){
+                        JOptionPane.showMessageDialog(form.getApplySanctionsPanel(), "Нет книги с таким id!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 2, то введены не корректные числовые значения
+                    if (resultCode == 2){
+                        JOptionPane.showMessageDialog(form.getApplySanctionsPanel(), "Введите корректные значения!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 3, то что-то пошло не так
+                    if(resultCode == 3){
+                        JOptionPane.showMessageDialog(form.getApplySanctionsPanel(), "Что-то пошло не так!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 4, всё прошло успешно
+                    if (resultCode == 4){
+                        JOptionPane.showMessageDialog(form.getApplySanctionsPanel(), "Санкции успешно применены!",
+                                "Успех!", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
             }
         });
     }

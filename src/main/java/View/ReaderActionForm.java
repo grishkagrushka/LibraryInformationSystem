@@ -19,7 +19,7 @@ public class ReaderActionForm {
     public JButton signReaderAtPointButton;
     public JButton giveOrderButton;
     public JButton editProfileButton;
-    private JButton applySanctionsButton;
+    public JButton applySanctionsButton;
     private JButton removeReaderButton;
     public JButton readerInformationButton;
     private JButton getBookButton;
