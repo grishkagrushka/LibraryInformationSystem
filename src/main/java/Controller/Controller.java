@@ -413,10 +413,19 @@ public class Controller {
             }
         });
 
+        //нажатие на "Выдать заказ"
         form.giveOrderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showGiveOrderedBooksToReaderForm();
+            }
+        });
+
+        //нажатие на "Редактировать профиль"
+        form.editProfileButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showEditReadersProfileForm();
             }
         });
 
@@ -749,6 +758,7 @@ public class Controller {
 
     //форма выдачи заказанных книг читателю
     public void showGiveOrderedBooksToReaderForm(){
+        //отрисовка формы
         final GiveOrderedBooksToReaderForm form = new GiveOrderedBooksToReaderForm();
         frame.setContentPane(form.getGiveOrderedBooksToReaderPanel());
         frame.revalidate();
@@ -836,6 +846,107 @@ public class Controller {
                     }
                 }
                 showGiveOrderedBooksToReaderForm();
+            }
+        });
+    }
+
+    public void showEditReadersProfileForm(){
+        //отрисовка формы
+        final EditReadersProfileForm form = new EditReadersProfileForm();
+        frame.setContentPane(form.getEditReadersProfilePanel());
+        frame.revalidate();
+
+        //нажатие на "Добавить нового читателя"
+        form.buttonAddNewReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewReaderForm();
+            }
+        });
+
+        //нажатие на "Добавить новую книгу"
+        form.buttonAddNewBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewBookForm();
+            }
+        });
+
+        //нажатие на "Выдать книгу читателю"
+        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveBookToReaderForm();
+            }
+        });
+
+        //нажатие на "Действия с читателями"
+        form.buttonReaderAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderActionForm();
+            }
+        });
+
+        //нажатие на "Действия с книгами"
+        form.buttonBookAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookActionForm();
+            }
+        });
+
+        //нажатие на "Обновить"
+        form.editButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //собираем данные с полей ввода
+                String readerCardNumber = form.readerCardNumberTextField.getText();
+                String surname = form.surnameTextField.getText();
+                String name = form.nameTextField.getText();
+                String fathername = form.fathernameTextField.getText();
+                String position = (String) form.positionComboBox.getSelectedItem();
+                String department = (String) form.departmentComboBox.getSelectedItem();
+                String chair = form.chairTextField.getText();
+                String group = form.groupTextField.getText();
+                //если не была выбрана должность
+                if(position.equals("Выберите должность")){
+                    position = "";
+                }
+                //если не был выбран факультет
+                if(department.equals("Выберите факультет")){
+                    department = "";
+                }
+
+                //если не был введён номер читательского билета
+                if (readerCardNumber.equals("")){
+                    JOptionPane.showMessageDialog(form.getEditReadersProfilePanel(), "Введите номер читательского билета!",
+                            "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    int resultCode = model.editReadersProfile(readerCardNumber, surname, name, fathername, position, department, chair, group);
+                    //если вернулся 0, то нет читателя с таким номером читательского билета
+                    if(resultCode == 0){
+                        JOptionPane.showMessageDialog(form.getEditReadersProfilePanel(), "Нет читателя с таким номером читательского билета!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулась 1, то введены не корректные данные
+                    if(resultCode == 1){
+                        JOptionPane.showMessageDialog(form.getEditReadersProfilePanel(), "Введите корректные данные!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 2, то что-то пошло не так
+                    if(resultCode == 2){
+                        JOptionPane.showMessageDialog(form.getEditReadersProfilePanel(), "Что-то пошло не так!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 3, то обновление прошло успешно
+                    if(resultCode == 3){
+                        JOptionPane.showMessageDialog(form.getEditReadersProfilePanel(), "Обновление прошло успешно!",
+                                "Успех!", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+                showEditReadersProfileForm();
             }
         });
     }

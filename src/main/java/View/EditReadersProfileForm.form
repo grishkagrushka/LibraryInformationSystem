@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="View.EditReadersProfileForm">
+  <grid id="27dc6" binding="editReadersProfilePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="1200" height="800"/>
+    </constraints>
+    <properties>
+      <maximumSize width="1200" height="800"/>
+      <minimumSize width="1200" height="800"/>
+      <preferredSize width="1200" height="800"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="6bb30" binding="leftPanel" layout-manager="FlowLayout" hgap="5" vgap="25" flow-align="1">
+        <constraints border-constraint="West"/>
+        <properties>
+          <background color="-5277933"/>
+          <maximumSize width="300" height="800"/>
+          <minimumSize width="300" height="800"/>
+          <preferredSize width="300" height="800"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="173d9" class="javax.swing.JButton" binding="buttonAddNewReader">
+            <constraints/>
+            <properties>
+              <borderPainted value="true"/>
+              <contentAreaFilled value="true"/>
+              <font name="Consolas" size="14" style="0"/>
+              <foreground color="-12828863"/>
+              <horizontalTextPosition value="0"/>
+              <maximumSize width="250" height="100"/>
+              <minimumSize width="250" height="100"/>
+              <preferredSize width="250" height="100"/>
+              <text value="Добавить нового читателя"/>
+              <verticalAlignment value="0"/>
+              <verticalTextPosition value="0"/>
+            </properties>
+          </component>
+          <component id="58776" class="javax.swing.JButton" binding="buttonAddNewBook">
+            <constraints/>
+            <properties>
+              <borderPainted value="true"/>
+              <contentAreaFilled value="true"/>
+              <font name="Consolas" size="14" style="0"/>
+              <foreground color="-12828863"/>
+              <horizontalTextPosition value="0"/>
+              <maximumSize width="250" height="100"/>
+              <minimumSize width="250" height="100"/>
+              <preferredSize width="250" height="100"/>
+              <text value="Добавить новую книгу"/>
+              <verticalAlignment value="0"/>
+              <verticalTextPosition value="0"/>
+            </properties>
+          </component>
+          <component id="951ea" class="javax.swing.JButton" binding="buttonGiveBookToReader">
+            <constraints/>
+            <properties>
+              <borderPainted value="true"/>
+              <contentAreaFilled value="true"/>
+              <font name="Consolas" size="14" style="0"/>
+              <foreground color="-12828863"/>
+              <horizontalTextPosition value="0"/>
+              <maximumSize width="250" height="100"/>
+              <minimumSize width="250" height="100"/>
+              <preferredSize width="250" height="100"/>
+              <text value="Выдать книгу читателю"/>
+              <verticalAlignment value="0"/>
+              <verticalTextPosition value="0"/>
+            </properties>
+          </component>
+          <component id="5ec18" class="javax.swing.JButton" binding="buttonReaderAction">
+            <constraints/>
+            <properties>
+              <borderPainted value="true"/>
+              <contentAreaFilled value="true"/>
+              <font name="Consolas" size="14" style="0"/>
+              <foreground color="-12828863"/>
+              <horizontalTextPosition value="0"/>
+              <maximumSize width="250" height="100"/>
+              <minimumSize width="250" height="100"/>
+              <preferredSize width="250" height="100"/>
+              <text value="Действия с читателями"/>
+              <verticalAlignment value="0"/>
+              <verticalTextPosition value="0"/>
+            </properties>
+          </component>
+          <component id="936fd" class="javax.swing.JButton" binding="buttonBookAction">
+            <constraints/>
+            <properties>
+              <borderPainted value="true"/>
+              <contentAreaFilled value="true"/>
+              <font name="Consolas" size="14" style="0"/>
+              <foreground color="-12828863"/>
+              <horizontalTextPosition value="0"/>
+              <maximumSize width="250" height="100"/>
+              <minimumSize width="250" height="100"/>
+              <preferredSize width="250" height="100"/>
+              <text value="Действия с книгами"/>
+              <verticalAlignment value="0"/>
+              <verticalTextPosition value="0"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="90599" binding="centerPanel" layout-manager="BorderLayout" hgap="100" vgap="0">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <background color="-12828863"/>
+          <foreground color="-12828863"/>
+          <maximumSize width="900" height="800"/>
+          <minimumSize width="900" height="800"/>
+          <preferredSize width="900" height="800"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="c01a7" binding="addNewReaderSmallPanel" layout-manager="FlowLayout" hgap="200" vgap="15" flow-align="1">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <background color="-12828863"/>
+              <maximumSize width="900" height="700"/>
+              <minimumSize width="900" height="700"/>
+              <preferredSize width="900" height="700"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="a51f1" class="javax.swing.JLabel" binding="editLabel">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <font name="Consolas" size="48" style="0"/>
+                  <text value="Редактирование профиля читателя"/>
+                </properties>
+              </component>
+              <component id="4d4e9" class="javax.swing.JLabel" binding="readerCardNumberLabel">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <alignmentY value="0.5"/>
+                  <font name="Consolas" size="26" style="0"/>
+                  <labelFor value="79629"/>
+                  <text value="№ чит.билета"/>
+                </properties>
+              </component>
+              <component id="7d726" class="javax.swing.JTextField" binding="readerCardNumberTextField">
+                <constraints/>
+                <properties>
+                  <font name="Consolas" size="22" style="0"/>
+                  <maximumSize width="300" height="30"/>
+                  <minimumSize width="300" height="30"/>
+                  <preferredSize width="300" height="30"/>
+                </properties>
+              </component>
+              <component id="9a1db" class="javax.swing.JLabel" binding="surnameLabel">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <alignmentY value="0.5"/>
+                  <font name="Consolas" size="26" style="0"/>
+                  <labelFor value="79629"/>
+                  <text value="Фамилия     "/>
+                </properties>
+              </component>
+              <component id="8fa2c" class="javax.swing.JTextField" binding="surnameTextField">
+                <constraints/>
+                <properties>
+                  <font name="Consolas" size="22" style="0"/>
+                  <maximumSize width="300" height="30"/>
+                  <minimumSize width="300" height="30"/>
+                  <preferredSize width="300" height="30"/>
+                </properties>
+              </component>
+              <component id="96dbf" class="javax.swing.JLabel" binding="nameLabel">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <alignmentY value="0.5"/>
+                  <font name="Consolas" size="26" style="0"/>
+                  <labelFor value="79629"/>
+                  <text value="Имя         "/>
+                </properties>
+              </component>
+              <component id="735fd" class="javax.swing.JTextField" binding="nameTextField">
+                <constraints/>
+                <properties>
+                  <font name="Consolas" size="22" style="0"/>
+                  <maximumSize width="300" height="30"/>
+                  <minimumSize width="300" height="30"/>
+                  <preferredSize width="300" height="30"/>
+                </properties>
+              </component>
+              <component id="ddeb7" class="javax.swing.JLabel" binding="fathernameLabel">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <alignmentY value="0.5"/>
+                  <font name="Consolas" size="26" style="0"/>
+                  <labelFor value="79629"/>
+                  <text value="Отчество    "/>
+                </properties>
+              </component>
+              <component id="9b028" class="javax.swing.JTextField" binding="fathernameTextField">
+                <constraints/>
+                <properties>
+                  <font name="Consolas" size="22" style="0"/>
+                  <maximumSize width="300" height="30"/>
+                  <minimumSize width="300" height="30"/>
+                  <preferredSize width="300" height="30"/>
+                </properties>
+              </component>
+              <component id="6e69e" class="javax.swing.JLabel" binding="positionLabel">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <alignmentY value="0.5"/>
+                  <font name="Consolas" size="26" style="0"/>
+                  <labelFor value="af405"/>
+                  <text value="Должность   "/>
+                </properties>
+              </component>
+              <component id="627a8" class="javax.swing.JComboBox" binding="positionComboBox">
+                <constraints/>
+                <properties>
+                  <font name="Consolas" size="22" style="0"/>
+                  <maximumSize width="300" height="30"/>
+                  <minimumSize width="300" height="30"/>
+                  <model>
+                    <item value="Выберите должность"/>
+                    <item value="Студент"/>
+                    <item value="Преподаватель"/>
+                    <item value="Аспирант"/>
+                    <item value="Ассистент"/>
+                    <item value="Слушатель ПО"/>
+                    <item value="Слушатель ФПК"/>
+                    <item value="Стажёр"/>
+                    <item value="Абитуриент"/>
+                  </model>
+                  <name value=""/>
+                  <popupVisible value="false"/>
+                  <preferredSize width="300" height="30"/>
+                </properties>
+              </component>
+              <component id="8c67d" class="javax.swing.JLabel" binding="departmentLabel">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <alignmentY value="0.5"/>
+                  <font name="Consolas" size="26" style="0"/>
+                  <labelFor value="6a7eb"/>
+                  <text value="Факультет   "/>
+                </properties>
+              </component>
+              <component id="bc881" class="javax.swing.JComboBox" binding="departmentComboBox">
+                <constraints/>
+                <properties>
+                  <font name="Consolas" size="22" style="0"/>
+                  <maximumSize width="300" height="30"/>
+                  <minimumSize width="300" height="30"/>
+                  <model>
+                    <item value="Выберите факультет"/>
+                    <item value="ГИ"/>
+                    <item value="ИФП"/>
+                    <item value="ГГФ"/>
+                    <item value="ММФ"/>
+                    <item value="ФЕН"/>
+                    <item value="ФИТ"/>
+                    <item value="ФФ"/>
+                    <item value="ЭФ"/>
+                  </model>
+                  <name value=""/>
+                  <popupVisible value="false"/>
+                  <preferredSize width="300" height="30"/>
+                </properties>
+              </component>
+              <component id="99dec" class="javax.swing.JLabel" binding="chairLabel">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <alignmentY value="0.5"/>
+                  <font name="Consolas" size="26" style="0"/>
+                  <text value="Кафедра     "/>
+                </properties>
+              </component>
+              <component id="d44a6" class="javax.swing.JTextField" binding="chairTextField">
+                <constraints/>
+                <properties>
+                  <font name="Consolas" size="22" style="0"/>
+                  <maximumSize width="300" height="30"/>
+                  <minimumSize width="300" height="30"/>
+                  <preferredSize width="300" height="30"/>
+                </properties>
+              </component>
+              <component id="cd03d" class="javax.swing.JLabel" binding="groupLabel">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <alignmentY value="0.5"/>
+                  <font name="Consolas" size="26" style="0"/>
+                  <text value="Группа      "/>
+                </properties>
+              </component>
+              <component id="334e8" class="javax.swing.JTextField" binding="groupTextField">
+                <constraints/>
+                <properties>
+                  <font name="Consolas" size="22" style="0"/>
+                  <maximumSize width="300" height="30"/>
+                  <minimumSize width="300" height="30"/>
+                  <preferredSize width="300" height="30"/>
+                </properties>
+              </component>
+              <component id="21ee6" class="javax.swing.JLabel" binding="warningLabel">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <alignmentY value="0.5"/>
+                  <font name="Consolas" size="32" style="0"/>
+                  <text value="Обновлены будут только введённые поля"/>
+                </properties>
+              </component>
+              <component id="19fe4" class="javax.swing.JButton" binding="editButton">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <font name="Consolas" size="26" style="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <text value="Обновить"/>
+                  <verticalAlignment value="3"/>
+                  <verticalTextPosition value="3"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="7b15" binding="northPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints border-constraint="North"/>
+            <properties>
+              <background color="-5277933"/>
+              <maximumSize width="900" height="100"/>
+              <minimumSize width="900" height="100"/>
+              <preferredSize width="900" height="100"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

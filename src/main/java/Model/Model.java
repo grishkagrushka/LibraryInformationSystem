@@ -87,6 +87,15 @@ public class Model {
         return true;
     }
 
+    //проверка фамилии при её редактировании
+    //return true - фамилия прошла проверку
+    //return false - фамилия не прошла проверку
+    private boolean nameValidator(String name){
+        //проверка имени, фамилии или отчества: строка должна начинаться на большую букву и состоять только из кириллицы
+        boolean isValidName = name.matches("[А-Я][а-я]*");
+        return isValidName;
+    }
+
     //проверка корректности введённых данных при добавлении новой книги
     private boolean validatorToAddNewBook(String bookName, String author, String publishingYear,
                                           String arrivalDate, String allowPeriod, String cost) {
@@ -1014,6 +1023,159 @@ public class Model {
             return 2;
         }
         //если всё прошло успешно, то заказ выдан
+        return 3;
+    }
+
+    //редактирование профиля читателя
+    //return 0 - нет читателя с таким номером читательского билета
+    //return 1 - введены не соответствующие данные
+    //return 2 - что-то пошло не так
+    //return 3 - обновление прошло успешно
+    public int editReadersProfile(String readerCardNumber, String surname, String name,
+                                      String fathername, String position, String department,
+                                      String chair, String group){
+        //проверка существования читателя с введённым номером читательского билета
+        if(!isExistingReader(readerCardNumber)){
+            return 0;
+        }
+        //если была введена фамилия
+        if (!surname.equals("")){
+            //проверка фамилии на корректность
+            if (!nameValidator(surname)){
+                return 1;
+            }
+            String query = "UPDATE `library`.`читатель`" +
+                    " SET `Фамилия` = '" + surname + "'" +
+                    " WHERE (`Номер_читательского_билета` = '" + readerCardNumber +"')";
+            int num = 0;
+            try {
+                num = connector.statement.executeUpdate(query);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            //если строка не обновилась
+            if(num == 0){
+                return 2;
+            }
+        }
+        //если было введено имя
+        if (!name.equals("")) {
+            //проверка имени на корректность
+            if (!nameValidator(name)) {
+                return 1;
+            }
+            String query = "UPDATE `library`.`читатель`" +
+                    " SET `Имя` = '" + name + "'" +
+                    " WHERE (`Номер_читательского_билета` = '" + readerCardNumber + "')";
+            int num = 0;
+            try {
+                num = connector.statement.executeUpdate(query);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            //если строка не обновилась
+            if (num == 0) {
+                return 2;
+            }
+        }
+        //если было введено отчество
+        if (!fathername.equals("")) {
+            //проверка отчества на корректность
+            if (!nameValidator(fathername)) {
+                return 1;
+            }
+            String query = "UPDATE `library`.`читатель`" +
+                    " SET `Отчество` = '" + fathername + "'" +
+                    " WHERE (`Номер_читательского_билета` = '" + readerCardNumber + "')";
+            int num = 0;
+            try {
+                num = connector.statement.executeUpdate(query);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            //если строка не обновилась
+            if (num == 0) {
+                return 2;
+            }
+        }
+        //если была введена должность
+        if (!position.equals("")) {
+            //вместе с должностью должно обновляться поле Абонент
+            //если теперь читатель разовый
+            String query = "";
+            if(position.equals("Слушатель ФПК")||
+            position.equals("Стажёр") || position.equals("Абитуриент")) {
+                query = "UPDATE `library`.`читатель`" +
+                        " SET `Должность` = '" + position + "'," +
+                        " `Абонент` = '0'" +
+                        " WHERE (`Номер_читательского_билета` = '" + readerCardNumber + "')";
+            }
+            //если теперь читатель абонент
+            else {
+                query = "UPDATE `library`.`читатель`" +
+                        " SET `Должность` = '" + position + "'," +
+                        " `Абонент` = '1'" +
+                        " WHERE (`Номер_читательского_билета` = '" + readerCardNumber + "')";
+            }
+            int num = 0;
+            try {
+                num = connector.statement.executeUpdate(query);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            //если строка не обновилась
+            if (num == 0) {
+                return 2;
+            }
+        }
+        //если был введён факультет
+        if (!department.equals("")) {
+            String query = "UPDATE `library`.`читатель`" +
+                    " SET `Факультет` = '" + department + "'" +
+                    " WHERE (`Номер_читательского_билета` = '" + readerCardNumber + "')";
+            int num = 0;
+            try {
+                num = connector.statement.executeUpdate(query);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            //если строка не обновилась
+            if (num == 0) {
+                return 2;
+            }
+        }
+        //если была введена кафедра
+        if (!chair.equals("")) {
+            String query = "UPDATE `library`.`читатель`" +
+                    " SET `Кафедра` = '" + chair + "'" +
+                    " WHERE (`Номер_читательского_билета` = '" + readerCardNumber + "')";
+            int num = 0;
+            try {
+                num = connector.statement.executeUpdate(query);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            //если строка не обновилась
+            if (num == 0) {
+                return 2;
+            }
+        }
+        //если была введена группа
+        if (!group.equals("")) {
+            String query = "UPDATE `library`.`читатель`" +
+                    " SET `Группа` = '" + group + "'" +
+                    " WHERE (`Номер_читательского_билета` = '" + readerCardNumber + "')";
+            int num = 0;
+            try {
+                num = connector.statement.executeUpdate(query);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            //если строка не обновилась
+            if (num == 0) {
+                return 2;
+            }
+        }
         return 3;
     }
 
