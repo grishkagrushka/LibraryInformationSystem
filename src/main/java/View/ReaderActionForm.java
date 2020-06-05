@@ -17,7 +17,7 @@ public class ReaderActionForm {
     private JPanel readerActionSmallPanel;
     private JLabel readerActionLabel;
     public JButton signReaderAtPointButton;
-    private JButton giveOrderButton;
+    public JButton giveOrderButton;
     private JButton editProfileButton;
     private JButton applySanctionsButton;
     private JButton removeReaderButton;

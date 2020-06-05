@@ -158,7 +158,7 @@
                   <verticalTextPosition value="0"/>
                 </properties>
               </component>
-              <component id="6a339" class="javax.swing.JButton" binding="giveOrderButton">
+              <component id="6a339" class="javax.swing.JButton" binding="debtorList">
                 <constraints/>
                 <properties>
                   <borderPainted value="true"/>
@@ -166,11 +166,11 @@
                   <font name="Consolas" size="14" style="0"/>
                   <foreground color="-12828863"/>
                   <horizontalTextPosition value="0"/>
-                  <label value=""/>
+                  <label value="Список задолжников"/>
                   <maximumSize width="250" height="100"/>
                   <minimumSize width="250" height="100"/>
                   <preferredSize width="250" height="100"/>
-                  <text value=""/>
+                  <text value="Список задолжников"/>
                   <verticalAlignment value="0"/>
                   <verticalTextPosition value="0"/>
                 </properties>

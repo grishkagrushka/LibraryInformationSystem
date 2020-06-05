@@ -916,11 +916,111 @@ public class Model {
         }
     }
 
+    //выдача читателю заказа
+    //return 0 - нет такого активного заказа
+    //return 1 - заказ находится на другом пункте выдачи
+    //return 2 - что-то пошло не так
+    //return 4 - у читателя нет отметки на этом пункте выдачи
+    //return 3 - заказ успешно выдан
+    public int giveOrderedBookToReader(String pointId, String readerCardNumber, String bookId){
+        //узнаем существует ли данный заказ и активен ли он
+        String query = "SELECT `Статус_заказа` FROM `library`.`заказ_книг`" +
+                " WHERE (`id_читателя` = '" + readerCardNumber + "'" +
+                " AND `id_книги` = '" + bookId + "')";
+        //флаг для проверки, не является ли полученный ответ пустым
+        //false - ответ пустой
+        //true - в ответе есть хотя бы одна строка
+        boolean flag = false;
+
+        //статус заказа
+        //false - заказ действующий
+        //true - заказ не активен
+        boolean status = true;
+        ResultSet resultSet;
+        try {
+            resultSet = connector.statement.executeQuery(query);
+            while(resultSet.next()){
+                flag = true;
+                //расчёт на то, что если есть активный заказ, то он окажется последним
+                status = resultSet.getBoolean(1);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        //если не поступило ни одного ответа или если заказ уже не активен
+        if(!flag || status){
+            System.out.println("Нет ответа или нет активных заказов");
+            return 0;
+        }
+        //если есть активный заказ
+        //проверяем на правильном ли пункте выдачи производится выдача заказа
+        query = "SELECT `id_книги` FROM `library`.`книги_пункта_выдачи`" +
+                " WHERE (`id_пункта_выдачи` = '" + pointId + "'" +
+                " AND `id_книги` = '" + bookId + "')";
+        //проверяем не пустой ли будет ответ
+        flag = false;
+        try {
+            resultSet = connector.statement.executeQuery(query);
+            if(resultSet.next()){
+                flag = true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        //если заказ находится на другом пункте выдачи
+        if(!flag){
+            return 1;
+        }
+        //проверяем, есть ли у читателя отметка на этом пункте выдачи
+        //если нет, то сообщаем об этом
+        if(!isActiveSubsription(pointId, readerCardNumber)){
+            return 4;
+        }
+
+        //так как все проверки прошли, выдаём книгу и меняем статус заказа
+        //выдаём книгу
+        //для этого узнаём текущую дату
+        Calendar todayCal = new GregorianCalendar();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
+        String today = dateFormat.format(todayCal.getTime());
+
+        query = "INSERT INTO `library`.`книги_читателя`" +
+                " (`id_читателя`, `id_книги`, `дата_получения_книги`)" +
+                "VALUES ('" + readerCardNumber + "', '" + bookId + "' ,'" + today + "')";
+        //количество изменённых строк
+        int num = 0;
+        try {
+            num = connector.statement.executeUpdate(query);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        //если строка не добавилась
+        if(num == 0){
+            return 2;
+        }
+        //обновляем статус заказа на неактивный
+        query = "UPDATE `library`.`заказ_книг` SET" +
+                " `Статус_заказа` = '1'" +
+                " WHERE (`id_читателя` = '" + readerCardNumber + "'" +
+                " AND `id_книги` = '" + bookId + "')";
+        num = 0;
+        try {
+            num = connector.statement.executeUpdate(query);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        //если строка не обновилась
+        if(num == 0){
+            return 2;
+        }
+        //если всё прошло успешно, то заказ выдан
+        return 3;
+    }
 
     //вывод общего перечня читателей с применением выбранных фильтров
     //return String[][], который передаётся в JTable
     public String[][] generalReadersListWithFilters(String pointId, String chair, String department, String group){
-        String query = "SELECT `Фамилия`, `Имя`, `Отчество`, `id_пункта_выдачи`, `Кафедра`, `Факультет`, `Группа`" +
+        String query = "SELECT `Фамилия`, `Имя`, `Отчество`, `Номер_читательского_билета`, `id_пункта_выдачи`, `Кафедра`, `Факультет`, `Группа`" +
                 " FROM `library`.`читатель` JOIN `library`.`читатели_пункта_выдачи`" +
                 " ON `читатель`.`id` = `читатели_пункта_выдачи`.`id_читателя`";
         //когда заполнено только поле пункта выдачи
@@ -1001,15 +1101,16 @@ public class Model {
                     " AND `читатель`.`Группа` = '" + group + "')";
         }
         ResultSet resultSet;
-        String [][] data = new String[30][7];
+        String [][] data = new String[30][8];
         //задаём первую строку в таблице, которая будет являться шапкой
         data[0][0] = "Фамилия";
         data[0][1] = "Имя";
         data[0][2] = "Отчество";
-        data[0][3] = "Пункт выдачи";
-        data[0][4] = "Кафедра";
-        data[0][5] = "Факультет";
-        data[0][6] = "Группа";
+        data[0][3] = "№ чит.билета";
+        data[0][4] = "Пункт выдачи";
+        data[0][5] = "Кафедра";
+        data[0][6] = "Факультет";
+        data[0][7] = "Группа";
         int i = 1;
         try {
             resultSet = connector.statement.executeQuery(query);
@@ -1021,6 +1122,7 @@ public class Model {
                 data[i][4] = resultSet.getString(5);
                 data[i][5] = resultSet.getString(6);
                 data[i][6] = resultSet.getString(7);
+                data[i][7] = resultSet.getString(8);
                 i++;
             }
         } catch (SQLException throwables) {
@@ -1028,10 +1130,13 @@ public class Model {
         }
         //TODO: убрать вывод в консоль
         for(int x = 0; x <= i; x++){
-            for(int y = 0; y < 7; y++){
+            for(int y = 0; y < 8; y++){
                 System.out.println(data[x][y]);
             }
         }
         return data;
     }
+
+    //вывод общего списка задолжников с применением фильтров
+
 }

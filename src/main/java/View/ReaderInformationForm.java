@@ -17,7 +17,7 @@ public class ReaderInformationForm {
     private JPanel readerInformationSmallPanel;
     private JLabel readerInformationLabel;
     public JButton readersList;
-    private JButton giveOrderButton;
+    public JButton debtorList;
     private JButton editProfileButton;
     private JButton applySanctionsButton;
     private JButton removeReaderButton;

@@ -413,6 +413,13 @@ public class Controller {
             }
         });
 
+        form.giveOrderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveOrderedBooksToReaderForm();
+            }
+        });
+
         //нажатие на "Информация"
         form.readerInformationButton.addActionListener(new ActionListener() {
             @Override
@@ -522,6 +529,15 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showFilterForReadersList();
+            }
+        });
+
+        //Нажатие на "Список задолжников"
+        //направит на форму фильтра перед показом списка
+        form.debtorList.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showFilterForDebtorListForm();
             }
         });
     }
@@ -778,6 +794,100 @@ public class Controller {
         });
 
         //нажатие на "Выдать"
+        form.giveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String pointId = form.pointIdTextField.getText();
+                String readerCardNumber = form.cardNumberTextField.getText();
+                String bookId = form.bookIdTextField.getText();
+
+                //проверяем, нет ли пустых полей
+                if (pointId.equals("") || readerCardNumber.equals("") || bookId.equals("")){
+                    JOptionPane.showMessageDialog(form.getGiveOrderedBooksToReaderPanel(), "Введите корректные данные!",
+                            "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    int resultCode = model.giveOrderedBookToReader(pointId, readerCardNumber, bookId);
+
+                    //если вернулся 0, то нет такого активного заказа
+                    if (resultCode == 0){
+                        JOptionPane.showMessageDialog(form.getGiveOrderedBooksToReaderPanel(), "Нет такого активного заказа!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 1, то заказ находится на другом пункте выдачи
+                    if (resultCode == 1){
+                        JOptionPane.showMessageDialog(form.getGiveOrderedBooksToReaderPanel(), "Заказ находится на другом пункте выдачи!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 4, то у читателя нет отметки на этом пункте выдачи
+                    if (resultCode == 4){
+                        JOptionPane.showMessageDialog(form.getGiveOrderedBooksToReaderPanel(), "У читателя нет отметки на этом пункте выдачи!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 2, то что-то пошло не так
+                    if (resultCode == 2){
+                        JOptionPane.showMessageDialog(form.getGiveOrderedBooksToReaderPanel(), "Что-то пошло не так!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 3, то заказ может быть успешно выдан
+                    if (resultCode == 3){
+                        JOptionPane.showMessageDialog(form.getGiveOrderedBooksToReaderPanel(), "Передайте заказ читателю!",
+                                "Успех!", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+                showGiveOrderedBooksToReaderForm();
+            }
+        });
+    }
+
+    //форма фильтра для списка задолжников
+    public void showFilterForDebtorListForm(){
+        //отриосовка формы
+        final FilterForDebtorListForm form = new FilterForDebtorListForm();
+        frame.setContentPane(form.getFilterForDebtorListPanel());
+        frame.revalidate();
+
+        //нажатие на "Добавить нового читателя"
+        form.buttonAddNewReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewReaderForm();
+            }
+        });
+
+        //нажатие на "Добавить новую книгу"
+        form.buttonAddNewBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewBookForm();
+            }
+        });
+
+        //нажатие на "Выдать книгу читателю"
+        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveBookToReaderForm();
+            }
+        });
+
+        //нажатие на "Действия с читателями"
+        form.buttonReaderAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderActionForm();
+            }
+        });
+
+        //нажатие на "Действия с книгами"
+        form.buttonBookAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookActionForm();
+            }
+        });
+
+        //нажатие на "Показать"
 
     }
 }

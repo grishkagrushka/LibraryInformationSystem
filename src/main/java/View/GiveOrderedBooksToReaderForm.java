@@ -17,12 +17,12 @@ public class GiveOrderedBooksToReaderForm {
     private JPanel giveOrderedBookToReaderSmallPanel;
     private JLabel giveOrderedBookLabel;
     private JLabel pointIdLabel;
-    private JTextField pointIdTextField;
+    public JTextField pointIdTextField;
     private JLabel cardNumberLabel;
-    private JTextField cardNumberTextField;
-    private JButton giveButton;
+    public JTextField cardNumberTextField;
+    public JButton giveButton;
     private JLabel bookIdLabel;
-    private JTextField bookIdTextField;
+    public JTextField bookIdTextField;
 
     public GiveOrderedBooksToReaderForm(){
         //устанавливаем границу для левой панели
