@@ -4,8 +4,8 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
-public class FilterForReadersList {
-    private JPanel filterForReadersListPanel;
+public class SignReaderAtPoint {
+    private JPanel markingReaderPanel;
     private JPanel leftPanel;
     public JButton buttonAddNewReader;
     public JButton buttonAddNewBook;
@@ -14,26 +14,22 @@ public class FilterForReadersList {
     public JButton buttonBookAction;
     private JPanel centerPanel;
     private JPanel northPanel;
-    private JPanel filterForReadersListSmallPanel;
-    private JLabel filterLabel;
+    private JPanel markingReaderSmallPanel;
+    private JLabel markingLabel;
     private JLabel pointIdLabel;
     public JTextField pointIdTextField;
-    private JLabel chairLabel;
-    public JTextField chairTextField;
-    private JLabel departmentLabel;
-    public JComboBox departmentComboBox;
-    private JLabel groupLabel;
-    public JTextField groupTextField;
-    public JButton showButton;
+    private JLabel cardNumberLabel;
+    public JTextField cardNumberTextField;
+    public JButton markButton;
 
-    public FilterForReadersList(){
+    public SignReaderAtPoint(){
         //устанавливаем границу для левой панели
         Border border = BorderFactory.createLineBorder(Color.BLACK, 1, true);
         leftPanel.setBorder(border);
     }
 
 
-    public JPanel getFilterForReadersListPanel() {
-        return filterForReadersListPanel;
+    public JPanel getMarkingReaderPanel() {
+        return markingReaderPanel;
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="View.FilterForReadersList">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="View.FilterForGeneralReadersListForm">
   <grid id="27dc6" binding="filterForReadersListPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
       <xy x="20" y="20" width="1200" height="800"/>
@@ -148,7 +148,7 @@
                   <alignmentY value="0.5"/>
                   <font name="Consolas" size="26" style="0"/>
                   <labelFor value="4be8"/>
-                  <text value="id точки "/>
+                  <text value="№ п.выдачи  "/>
                 </properties>
               </component>
               <component id="4be8" class="javax.swing.JTextField" binding="pointIdTextField">
@@ -167,7 +167,7 @@
                   <alignmentY value="0.5"/>
                   <font name="Consolas" size="26" style="0"/>
                   <labelFor value="520a8"/>
-                  <text value="Кафедра  "/>
+                  <text value="Кафедра     "/>
                 </properties>
               </component>
               <component id="520a8" class="javax.swing.JTextField" binding="chairTextField">
@@ -185,7 +185,7 @@
                   <alignmentX value="0.5"/>
                   <alignmentY value="0.5"/>
                   <font name="Consolas" size="26" style="0"/>
-                  <text value="Факультет"/>
+                  <text value="Факультет   "/>
                 </properties>
               </component>
               <component id="4d010" class="javax.swing.JComboBox" binding="departmentComboBox">
@@ -217,7 +217,7 @@
                   <alignmentY value="0.5"/>
                   <font name="Consolas" size="26" style="0"/>
                   <labelFor value="7ffd0"/>
-                  <text value="Группа   "/>
+                  <text value="Группа      "/>
                 </properties>
               </component>
               <component id="7ffd0" class="javax.swing.JTextField" binding="groupTextField">

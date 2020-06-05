@@ -365,7 +365,7 @@ public class Model {
 
             String query = "INSERT INTO `library`.`книги_читателя`" +
                     " (`id_читателя`, `id_книги`, `дата_получения_книги`)" +
-                    "VALUES ('" + readerCardNumber + "', '" + resultCode + "' ,'" + today + "')";
+                    " VALUES ('" + readerCardNumber + "', '" + resultCode + "' ,'" + today + "')";
             //количество изменённых строк
             int num;
             try {
@@ -756,7 +756,10 @@ public class Model {
             ResultSet resultSet;
             try {
                 resultSet = connector.statement.executeQuery(query);
-                boolean flag = true;//флаг, который прверяет, нет ли действующего заказа
+                //флаг, который проверяет, нет ли действующего заказа
+                //true - заказа нет, либо он не активен
+                //false - существует действующий заказ
+                boolean flag = true;
                 while (resultSet.next()){
                     boolean notActiveOrder = resultSet.getBoolean(1);
                     if(!notActiveOrder){
@@ -821,6 +824,98 @@ public class Model {
         return true;
     }
 
+    //отметить читателя на пункте выдачи
+    //return 0- такого пункта выдачи не существует
+    //return 1- такого читателя не существует
+    //return 2- попытка разового читателя отметиться на абонементе
+    //return 3- что-то пошло не так
+    //return 4- отметка успешно обновлена
+    //return 5- отметка успешно добавлена
+    public int signReaderAtPoint(String pointId, String readerCardNumber){
+        //проверка существования пункта выдачи
+        if(!isValidPoint(pointId)){
+            return 0;
+        }
+        //проверка существования читателя
+        if (!isExistingReader(readerCardNumber)){
+            return 1;
+        }
+        //узнаём статус пункта выдачи
+        //true - абонемент
+        //false - читальный зал
+        boolean subscription = isSubscription(pointId);
+
+        //узнаём статус читателя
+        //true - можно отмечаться на всех пунктах выдачи
+        //false - можно отмечаться только в читальный залах
+        boolean subscriber = isSubscriber(readerCardNumber);
+        //одноразовым читателям нельзя отмечаться на абонементах
+        if(subscription && !subscriber){
+            return 2;
+        }
+
+        //проверяем, была ли отметка у этого читателя на этом пункте выдачи раньше
+        String query = "SELECT `Дата_отметки` FROM `читатели_пункта_выдачи`" +
+                " WHERE (`id_пункта_выдачи` = '" + pointId + "'" +
+                " AND `id_читателя` = '" + readerCardNumber + "')";
+        //узнаём текущую дату
+        Calendar todayCal = new GregorianCalendar();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
+        String today = dateFormat.format(todayCal.getTime());
+
+        ResultSet resultSet;
+        boolean flag = false; //проверка, будет ли пустым полученный ответ
+        try {
+            resultSet = connector.statement.executeQuery(query);
+            if(resultSet.next()){
+                flag = true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        //если отметка была, то обновляем её на текущую дату
+        if(flag){
+            //запрос на обновление
+            query = "UPDATE `library`.`читатели_пункта_выдачи` SET `Дата_отметки` = '" + today + "'" +
+                    " WHERE (`id_пункта_выдачи` = '" + pointId + "'" +
+                    " AND `id_читателя` = '" + readerCardNumber + "')";
+            int result = 0;//проверяем сколько строк было обновлено
+            try {
+                result = connector.statement.executeUpdate(query);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            //если что-то пошло не так, и не обновилась ни одна строка
+            if (result == 0){
+                return 3;
+            }
+            //если отметка была обновлена
+            else{
+                return 4;
+            }
+        }
+        else {
+            //если отметки не было
+            query = "INSERT INTO `library`.`читатели_пункта_выдачи`" +
+                    " (`id_пункта_выдачи`, `id_читателя`, `Дата_отметки`)" +
+                    " VALUES ('" + pointId + "', '" + readerCardNumber + "', '" + today + "')";
+            int result = 0;//проверяем сколько строк было обновлено
+            try {
+                result = connector.statement.executeUpdate(query);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            //если что-то пошло не так, и не обновилась ни одна строка
+            if (result == 0){
+                return 3;
+            }
+            //если отметка была обновлена
+            else{
+                return 5;
+            }
+        }
+    }
+    //UPDATE `library`.`читатели_пункта_выдачи` SET `Дата_отметки` = '2020.06.05' WHERE (`id_пункта_выдачи` = '1') and (`id_читателя` = '1');
 
     //вывод общего перечня читателей с применением выбранных фильтров
     //return String[][], который передаётся в JTable

@@ -4,7 +4,6 @@ import Model.Model;
 import View.*;
 
 import javax.swing.*;
-import javax.swing.table.TableColumn;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -353,11 +352,6 @@ public class Controller {
                                         + resultCode,
                                 "Успех!", JOptionPane.INFORMATION_MESSAGE);
                     }
-                    //TODO:заглушка
-                    if (resultCode.equals("3")) {
-                        JOptionPane.showMessageDialog(form.getGiveBookToReaderPanel(), "Необработанная часть",
-                                "Успех!", JOptionPane.INFORMATION_MESSAGE);
-                    }
                 }
                 showGiveBookToReaderForm();
             }
@@ -408,6 +402,14 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showBookActionForm();
+            }
+        });
+
+        //нажатие на "Поставить отметку"
+        form.signReaderAtPointButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showSignReaderAtPointForm();
             }
         });
 
@@ -527,7 +529,7 @@ public class Controller {
     //форма фильтра для общего перечня читателей
     public void showFilterForReadersList(){
         //отрисовка формы
-        final FilterForReadersList form = new FilterForReadersList();
+        final FilterForGeneralReadersListForm form = new FilterForGeneralReadersListForm();
         frame.setContentPane(form.getFilterForReadersListPanel());
         frame.revalidate();
 
@@ -631,6 +633,99 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showBookActionForm();
+            }
+        });
+    }
+
+    public void showSignReaderAtPointForm(){
+        final SignReaderAtPoint form = new SignReaderAtPoint();
+        frame.setContentPane((form.getMarkingReaderPanel()));
+        frame.revalidate();
+
+        //нажатие на "Добавить нового читателя"
+        form.buttonAddNewReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewReaderForm();
+            }
+        });
+
+        //нажатие на "Добавить новую книгу"
+        form.buttonAddNewBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewBookForm();
+            }
+        });
+
+        //нажатие на "Выдать книгу читателю"
+        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveBookToReaderForm();
+            }
+        });
+
+        //нажатие на "Действия с читателями"
+        form.buttonReaderAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderActionForm();
+            }
+        });
+
+        //нажатие на "Действия с книгами"
+        form.buttonBookAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookActionForm();
+            }
+        });
+
+        //нажатие на "Отметить"
+        form.markButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String pointId = form.pointIdTextField.getText();
+                String readerCardNumber = form.cardNumberTextField.getText();
+                //проверяем, что оба поля заполнены
+                if (pointId.equals("") || readerCardNumber.equals("")){
+                    JOptionPane.showMessageDialog(form.getMarkingReaderPanel(), "Введите корректные данные!",
+                            "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    int resultCode = model.signReaderAtPoint(pointId, readerCardNumber);
+                    //если вернулся 0, то такого пункта выдачи не существует
+                    if (resultCode == 0){
+                        JOptionPane.showMessageDialog(form.getMarkingReaderPanel(), "Такого пункта выдачи не существует!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 1, то такого читателя не существует
+                    if (resultCode == 1){
+                        JOptionPane.showMessageDialog(form.getMarkingReaderPanel(), "Такого читателя не существует!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 2, разовый читатель попытался отметиться на абонементе
+                    if (resultCode == 2){
+                        JOptionPane.showMessageDialog(form.getMarkingReaderPanel(), "Разовый читатель не может отметиться на абонементе!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 3, что-то пошло не так во время обновления БД
+                    if (resultCode == 3){
+                        JOptionPane.showMessageDialog(form.getMarkingReaderPanel(), "Что-то пошло не так!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 4, то отметка была успешно обновлена
+                    if(resultCode == 4){
+                        JOptionPane.showMessageDialog(form.getMarkingReaderPanel(), "Отметка успешно обновлена!",
+                                "Успех!", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    if (resultCode == 5){
+                        JOptionPane.showMessageDialog(form.getMarkingReaderPanel(), "Отметка была создана!",
+                                "Успех!", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+                showSignReaderAtPointForm();
             }
         });
     }
