@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
-public class SignReaderAtPoint {
+public class SignReaderAtPointForm {
     private JPanel markingReaderPanel;
     private JPanel leftPanel;
     public JButton buttonAddNewReader;
@@ -22,7 +22,7 @@ public class SignReaderAtPoint {
     public JTextField cardNumberTextField;
     public JButton markButton;
 
-    public SignReaderAtPoint(){
+    public SignReaderAtPointForm(){
         //устанавливаем границу для левой панели
         Border border = BorderFactory.createLineBorder(Color.BLACK, 1, true);
         leftPanel.setBorder(border);

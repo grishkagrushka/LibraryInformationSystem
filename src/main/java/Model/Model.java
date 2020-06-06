@@ -136,6 +136,39 @@ public class Model {
         return true;
     }
 
+    //проверка корректности введённых данных при редактировании
+    private boolean validatorToEditBookProfile(String bookName, String author, String publishingYear,
+                                               String arrivalDate, String allowPeriod, String cost){
+        //проверка, что в имени автора нет ничего, кроме кириллицы, тире и пробела, и оно начинается с большой буквы
+        boolean isValidAuthor = author.matches("[А-Я][А-Я,а-я, ,-]*");
+        if (!isValidAuthor && !author.equals("")) {
+            return false;
+        }
+        //проверка, что год издания книги находится в промежутке между 1990 и 2020, включая концы, и вообще является цифрами
+        boolean isValidPublishingYear = publishingYear.matches("[0-9][0-9][0-9][0-9]");
+        if (!isValidPublishingYear && !publishingYear.equals("")) {
+            return false;
+        }
+
+        //проверка, что дата введена в формате yyyy.MM.dd
+        boolean isValidArrivalDate = arrivalDate.matches("[1,2][0,1,9][0-9][0-9]\\.[0,1][0-9]\\.[0-3][0-9]");
+        if (!isValidArrivalDate && !arrivalDate.equals("")) {
+            return false;
+        }
+        //проверка, что в поле "Допустимый срок хранения" введено число, или оно пустое
+        boolean isValidAllowPeriod = allowPeriod.matches("[0-9]*");
+        if (!isValidAllowPeriod && !allowPeriod.equals("")) {
+            return false;
+        }
+        //проверка, что цена книги является целым или нецелым числом
+        boolean isValidCost = cost.matches("[0-9]*\\.?[0-9]*");
+        if (!isValidCost && !cost.equals("")) {
+            return false;
+        }
+
+        return true;
+    }
+
     //добавление нового читателя
     //return 0- что-то сломалось
     //return номер читательского билета- если всё успешно
@@ -1394,6 +1427,178 @@ public class Model {
         else{
             return 4;
         }
+    }
+
+    //присоединить книгу к пункту выдачи
+    //return 0 - не существует такого пункта выдачи
+    //return 1 - не существует книги с таким id
+    //return 2 - книга уже прикреплена к какому-то пункту выдачи
+    //return 3 - что-то пошло не так
+    //return 4 - отметка успешно создана
+    public int signBookAtPoint(String pointId, String bookId){
+        //проверка существования пункта выдачи
+        if(!isValidPoint(pointId)){
+            return 0;
+        }
+        //проверка существования книги
+        if(!isExistingBook(bookId)){
+            return 1;
+        }
+        //проверка того, что книга ещё не отмечена на каком-либо пункте выдачи
+        String query = "SELECT * FROM `library`.`книги_пункта_выдачи`" +
+                " WHERE (`id_книги` = '" + bookId + "')";
+        ResultSet resultSet;
+        boolean flag = false;
+        try {
+            resultSet = connector.statement.executeQuery(query);
+            if(resultSet.next()){
+                flag = true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        if (flag){
+            return 2;
+        }
+        //книга прошла все проверки, можно её присоединять
+        query = "INSERT INTO `library`.`книги_пункта_выдачи`" +
+                " (`id_пункта_выдачи`, `id_книги`)" +
+                " VALUES ('" + pointId + "', '" + bookId + "')";
+        int num = 0;
+        try {
+            num = connector.statement.executeUpdate(query);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        //что-то пошло не так
+        if (num == 0){
+            return 3;
+        }
+        else{
+            return 4;
+        }
+    }
+
+    //редактирование профиля книги
+    //return 0 - не существует такой книги
+    //return 1 - введены некорректные данные
+    //return 2 - что-то пошло не так
+    //return 3 - данные успешно обновлены
+    public int editBookProfile(String bookId, String bookName,
+                               String bookAuthor, String pubYear,
+                               String arrivalDate, String allowPeriod,
+                               String bookCost){
+        //проверка существования книги
+        if(!isExistingBook(bookId)){
+            return 0;
+        }
+        //проверка корректности данных
+        if (!validatorToEditBookProfile(bookName, bookAuthor, pubYear,
+                arrivalDate, allowPeriod, bookCost)){
+            return 1;
+        }
+        //если было введено название
+        if (!bookName.equals("")){
+            String query = "UPDATE `library`.`книга`" +
+                    " SET `Название` = '" + bookName + "'" +
+                    " WHERE (`id` = '" + bookId +"')";
+            int num = 0;
+            try {
+                num = connector.statement.executeUpdate(query);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            //если строка не обновилась
+            if(num == 0){
+                return 2;
+            }
+        }
+        //если было введено имя автора
+        if (!bookAuthor.equals("")){
+            String query = "UPDATE `library`.`книга`" +
+                    " SET `Автор` = '" + bookAuthor + "'" +
+                    " WHERE (`id` = '" + bookId +"')";
+            int num = 0;
+            try {
+                num = connector.statement.executeUpdate(query);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            //если строка не обновилась
+            if(num == 0){
+                return 2;
+            }
+        }
+        //если был введён год публикации
+        if (!pubYear.equals("")){
+            String query = "UPDATE `library`.`книга`" +
+                    " SET `Год_издания` = '" + pubYear + "'" +
+                    " WHERE (`id` = '" + bookId +"')";
+            int num = 0;
+            try {
+                num = connector.statement.executeUpdate(query);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            //если строка не обновилась
+            if(num == 0){
+                return 2;
+            }
+        }
+        //если была введена дата прихода
+        if (!arrivalDate.equals("")){
+            String query = "UPDATE `library`.`книга`" +
+                    " SET `Дата_поступления` = '" + arrivalDate + "'" +
+                    " WHERE (`id` = '" + bookId +"')";
+            int num = 0;
+            try {
+                num = connector.statement.executeUpdate(query);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            //если строка не обновилась
+            if(num == 0){
+                return 2;
+            }
+        }
+        //если был введён срок хранения
+        if (!allowPeriod.equals("")){
+            String query = "UPDATE `library`.`книга`" +
+                    " SET `Допустимый_срок_хранения` = '" + allowPeriod + "'" +
+                    " WHERE (`id` = '" + bookId +"')";
+            int num = 0;
+            try {
+                num = connector.statement.executeUpdate(query);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            //если строка не обновилась
+            if(num == 0){
+                return 2;
+            }
+        }
+        //если была введена стоимость
+        if (!bookCost.equals("")){
+            String query = "UPDATE `library`.`книга`" +
+                    " SET `Стоимость` = '" + bookCost + "'" +
+                    " WHERE (`id` = '" + bookId +"')";
+            int num = 0;
+            try {
+                num = connector.statement.executeUpdate(query);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            //если строка не обновилась
+            if(num == 0){
+                return 2;
+            }
+        }
+        return 3;
+    }
+
+    //удаление книги из библиотеки
+    public int removeBooks(String bookId){
+        return 0;
     }
 
 

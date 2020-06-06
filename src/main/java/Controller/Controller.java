@@ -509,6 +509,38 @@ public class Controller {
             }
         });
 
+        //нажатие на "Присвоить пункту выдачи"
+        form.signBookAtPoint.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showSignBookAtPointForm();
+            }
+        });
+
+        //нажатие на "Выдать заказ"
+        form.giveOrderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveOrderedBooksToReaderForm();
+            }
+        });
+
+        //нажатие на "Редактировать книгу"
+        form.editProfileButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showEditBookProfileForm();
+            }
+        });
+
+        //нажатие на "Получить книгу обратно"
+        form.getBookButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGetBookBackForm();
+            }
+        });
+
         //нажатие на "Информация"
         form.buttonInformationButtom.addActionListener(new ActionListener() {
             @Override
@@ -727,7 +759,7 @@ public class Controller {
 
     //форма добавления отметки на пункте выдачи для читателя
     public void showSignReaderAtPointForm(){
-        final SignReaderAtPoint form = new SignReaderAtPoint();
+        final SignReaderAtPointForm form = new SignReaderAtPointForm();
         frame.setContentPane((form.getMarkingReaderPanel()));
         frame.revalidate();
 
@@ -1284,6 +1316,189 @@ public class Controller {
                     }
                 }
                 showGetBookBackForm();
+            }
+        });
+    }
+
+    //форма отметки книги на пункте выдачи
+    public void showSignBookAtPointForm(){
+        //отрисовка формы
+        final SignBookAtPointForm form = new SignBookAtPointForm();
+        frame.setContentPane(form.getSignBookAtPointPanel());
+        frame.revalidate();
+
+        //нажатие на "Добавить нового читателя"
+        form.buttonAddNewReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewReaderForm();
+            }
+        });
+
+        //нажатие на "Добавить новую книгу"
+        form.buttonAddNewBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewBookForm();
+            }
+        });
+
+        //нажатие на "Выдать книгу читателю"
+        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveBookToReaderForm();
+            }
+        });
+
+        //нажатие на "Действия с читателями"
+        form.buttonReaderAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderActionForm();
+            }
+        });
+
+        //нажатие на "Действия с книгами"
+        form.buttonBookAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookActionForm();
+            }
+        });
+
+        form.signButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String pointId = form.pointIdTextField.getText();
+                String bookId = form.bookIdTextField.getText();
+                //если одно из полей пустое
+                if(pointId.equals("") || bookId.equals("")){
+                    JOptionPane.showMessageDialog(form.getSignBookAtPointPanel(), "Заполните все поля!",
+                            "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                }
+                else{
+                    int resultCode = model.signBookAtPoint(pointId, bookId);
+                    //если вернулся 0, не существует такого пункта выдачи
+                    if(resultCode == 0){
+                        JOptionPane.showMessageDialog(form.getSignBookAtPointPanel(), "Такого пункта выдачи не существует!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 1, не существует такой книги
+                    if(resultCode == 1){
+                        JOptionPane.showMessageDialog(form.getSignBookAtPointPanel(), "Такой книги не существует!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 2, книга уже прикреплена к какому-то пункту выдачи
+                    if(resultCode == 2){
+                        JOptionPane.showMessageDialog(form.getSignBookAtPointPanel(), "Книга уже имеет отметку на пункте выдачи!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 3, что-то пошло не так
+                    if(resultCode == 3){
+                        JOptionPane.showMessageDialog(form.getSignBookAtPointPanel(), "Что-то пошло не так!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 4, книга успешно прикреплена
+                    if(resultCode == 4){
+                        JOptionPane.showMessageDialog(form.getSignBookAtPointPanel(), "Книга успешно прикреплена!",
+                                "Успех!", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+                showSignBookAtPointForm();
+            }
+        });
+    }
+
+    //форма редактирования профиля книги
+    public void showEditBookProfileForm(){
+        //отрисовка формы
+        final EditBookProfileForm form = new EditBookProfileForm();
+        frame.setContentPane(form.getEditBookProfilePanel());
+        frame.revalidate();
+
+        //нажатие на "Добавить нового читателя"
+        form.buttonAddNewReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewReaderForm();
+            }
+        });
+
+        //нажатие на "Добавить новую книгу"
+        form.buttonAddNewBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewBookForm();
+            }
+        });
+
+        //нажатие на "Выдать книгу читателю"
+        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveBookToReaderForm();
+            }
+        });
+
+        //нажатие на "Действия с читателями"
+        form.buttonReaderAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderActionForm();
+            }
+        });
+
+        //нажатие на "Действия с книгами"
+        form.buttonBookAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookActionForm();
+            }
+        });
+
+        //нажатие на "Обновить"
+        form.editButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String bookId = form.bookIdTextField.getText();
+                String bookName = form.bookNameTextField.getText();
+                String bookAuthor = form.authorNameTextField.getText();
+                String pubYear = form.yearOfPublishingTextField.getText();
+                String arrivalDate = form.bookArrivalDateTextField.getText();
+                String allowPeriod = form.bookAllowPeriodTextField.getText();
+                String bookCost = form.bookCostTextField.getText();
+
+                //проверка, что id книги не пустое поле
+                if(bookId.equals("")){
+                    JOptionPane.showMessageDialog(form.getEditBookProfilePanel(), "Введите id книги!",
+                            "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                }
+                else{
+                    int resultCode = model.editBookProfile(bookId, bookName, bookAuthor, pubYear,
+                            arrivalDate, allowPeriod, bookCost);
+                    //если вернулось 0, то не существует такой книги
+                    if(resultCode == 0) {
+                        JOptionPane.showMessageDialog(form.getEditBookProfilePanel(), "Такой книги не существует!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 1, то введены некорректные данные
+                    if(resultCode == 1) {
+                        JOptionPane.showMessageDialog(form.getEditBookProfilePanel(), "Введите корректые данные!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 2, то что-то пошло не так
+                    if(resultCode == 2) {
+                        JOptionPane.showMessageDialog(form.getEditBookProfilePanel(), "Что-то пошло не так!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 3, то данные успешно обновлены
+                    if(resultCode == 3) {
+                        JOptionPane.showMessageDialog(form.getEditBookProfilePanel(), "Данные успешно обновлены!",
+                                "Успех!", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+                showEditBookProfileForm();
             }
         });
     }
