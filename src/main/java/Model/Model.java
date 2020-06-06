@@ -1517,6 +1517,41 @@ public class Model {
         return data;
     }
 
-    //вывод общего списка задолжников с применением фильтров
+    //вывод таблицы "Книги читателей"
+    //return String[][], который передаётся в JTable
+    public String[][] listOfReadersBooks(){
+        String query = "SELECT `id`, `Фамилия`, `Имя`, `Отчество`," +
+                " `id_книги`, `дата_получения_книги`, `дата_реального_возвращения_книги`" +
+                " FROM `library`.`книги_читателя`" +
+                " JOIN `library`.`читатель`" +
+                " ON `книги_читателя`.`id_читателя` = `читатель`.`id`";
+        ResultSet resultSet;
+        String[][] data = new String[30][7];
+        //задаём первую строку в таблице, которая будет являться шапкой
+        data[0][0] = "Номер чит.билета";
+        data[0][1] = "Фамилия";
+        data[0][2] = "Имя";
+        data[0][3] = "Отчество";
+        data[0][4] = "id книги";
+        data[0][5] = "Получение";
+        data[0][6] = "Возврат";
+        int i = 1;
+        try {
+            resultSet = connector.statement.executeQuery(query);
+            while(resultSet.next()){
+                data[i][0] = resultSet.getString(1);
+                data[i][1] = resultSet.getString(2);
+                data[i][2] = resultSet.getString(3);
+                data[i][3] = resultSet.getString(4);
+                data[i][4] = resultSet.getString(5);
+                data[i][5] = resultSet.getString(6);
+                data[i][6] = resultSet.getString(7);
+                i++;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return data;
+    }
 
 }

@@ -581,6 +581,15 @@ public class Controller {
                 showFilterForDebtorListForm();
             }
         });
+
+        //нажатие на "Информация о книгах читателей"
+        form.readersBooksButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[][] data = model.listOfReadersBooks();
+                showListOfReadersBooksForm(data);
+            }
+        });
     }
 
     //форма фильтра для общего перечня читателей
@@ -1313,6 +1322,52 @@ public class Controller {
         //отрисовка формы
         final BookInformationForm form = new BookInformationForm();
         frame.setContentPane(form.getBookInformationPanel());
+        frame.revalidate();
+
+        //нажатие на "Добавить нового читателя"
+        form.buttonAddNewReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewReaderForm();
+            }
+        });
+
+        //нажатие на "Добавить новую книгу"
+        form.buttonAddNewBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewBookForm();
+            }
+        });
+
+        //нажатие на "Выдать книгу читателю"
+        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveBookToReaderForm();
+            }
+        });
+
+        //нажатие на "Действия с читателями"
+        form.buttonReaderAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderActionForm();
+            }
+        });
+
+        //нажатие на "Действия с книгами"
+        form.buttonBookAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookActionForm();
+            }
+        });
+    }
+
+    public void showListOfReadersBooksForm(String[][] data){
+        final ListOfReadersBooksForm form = new ListOfReadersBooksForm(data);
+        frame.setContentPane(form.getListOfReadersBooksPanel());
         frame.revalidate();
 
         //нажатие на "Добавить нового читателя"

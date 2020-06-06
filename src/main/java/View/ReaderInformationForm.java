@@ -18,7 +18,7 @@ public class ReaderInformationForm {
     private JLabel readerInformationLabel;
     public JButton readersList;
     public JButton debtorList;
-    private JButton readersBooksButton;
+    public JButton readersBooksButton;
     private JButton offensesButton;
     private JButton readersAtPointButton;
     private JButton getBookButton;
