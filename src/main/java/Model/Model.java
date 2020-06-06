@@ -1211,8 +1211,8 @@ public class Model {
     //return 2 - введены не корректные числовые значения
     //return 3 - что-то пошло не так
     //return 4 - всё прошло успешно
-    public int applySuctions(String readerCardNumber, String bookId,
-                             String periodOfDisq, String penalty){
+    public int applySunctions(String readerCardNumber, String bookId,
+                              String periodOfDisq, String penalty){
         //проверка существования читателя
         if(!isExistingReader(readerCardNumber)){
             return 0;
@@ -1294,6 +1294,108 @@ public class Model {
         }
         return 2;
     }
+
+    //проверка принадлежности книги к пункту выдачи по id
+    private boolean isBookBelongThisPoint(String pointId, String bookId){
+        String query = "SELECT * FROM `library`.`книги_пункта_выдачи`" +
+                " WHERE (`id_пункта_выдачи` = '" + pointId + "'" +
+                " AND `id_книги` = '" + bookId + "')";
+        boolean flag = false;
+        ResultSet resultSet;
+        try {
+            resultSet = connector.statement.executeQuery(query);
+            if(resultSet.next()){
+                flag = true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return flag;
+    }
+
+    //получить от читателя книгу обратно
+    //return 0 - книга не принадлежит к этому пункту выдачи
+    //return 1 - у читателя не должно быть книги на руках
+    //return 2 - что-то пошло не так
+    //return 3 - книга возвращена с опозданием
+    //retutn 4 - книга возвращена вовремя
+    public int getBookBack(String pointId, String readerCardNumber, String bookId){
+        //проверка, на тот ли пункт выдачи возвращается книга
+        if(!isBookBelongThisPoint(pointId, bookId)){
+            return 0;
+        }
+        //узнаем, когда читатель брал книгу
+        String query = "SELECT `дата_получения_книги` FROM `library`.`книги_читателя`" +
+                " WHERE (`id_читателя` = '" + readerCardNumber + "'" +
+                " AND `id_книги` = '" + bookId + "'" +
+                " AND `дата_реального_возвращения_книги` IS NULL)";
+        ResultSet resultSet;
+        boolean flag = false;
+        Date giveDate = null;
+        try {
+            resultSet = connector.statement.executeQuery(query);
+            if(resultSet.next()){
+                giveDate = resultSet.getDate(1);
+                flag = true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        //если читатель не брал книгу или уже возвращал её
+        if(!flag){
+            return 1;
+        }
+        //узнаем срок хранения для этой книги
+        query = "SELECT `Допустимый_срок_хранения` FROM `library`.`книга`" +
+                " WHERE (`id` = '" + bookId + "')";
+        int allowPeriod = 0;
+        flag = false;
+        try {
+            resultSet = connector.statement.executeQuery(query);
+            if(resultSet.next()){
+                allowPeriod = resultSet.getInt(1);
+                flag = true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        //если что-то пошло не так
+        if(!flag){
+            return 2;
+        }
+        //сегодняшняя дата
+        Calendar todayCal = new GregorianCalendar();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
+        String today = dateFormat.format(todayCal.getTime());
+        //вносим информацию о дате возвращения книги
+        query = "UPDATE `library`.`книги_читателя`" +
+                " SET `дата_реального_возвращения_книги` = '" + today + "'" +
+                " WHERE (`id_читателя` = '" + readerCardNumber + "'" +
+                " AND `id_книги` = '" + bookId + "'" +
+                " AND `дата_реального_возвращения_книги` IS NULL)";
+        int num = 0;
+        try {
+            num = connector.statement.executeUpdate(query);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        //если строка не обновилась
+        if(num == 0){
+            return 2;
+        }
+        //сравним дату необходимого возвращения и сегодняшнюю дату
+        long todayLong = todayCal.getTimeInMillis();
+        long giveDateLong = giveDate.getTime();
+        long allowDateLong = giveDateLong + (long) allowPeriod * 86400000;
+        //если просрочка
+        if(todayLong > allowDateLong){
+            return 3;
+        }
+        else{
+            return 4;
+        }
+    }
+
 
     //вывод общего перечня читателей с применением выбранных фильтров
     //return String[][], который передаётся в JTable

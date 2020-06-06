@@ -445,6 +445,14 @@ public class Controller {
             }
         });
 
+        //нажатие на "Получить книгу обратно"
+        form.getBookButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGetBookBackForm();
+            }
+        });
+
         //нажатие на "Информация"
         form.readerInformationButton.addActionListener(new ActionListener() {
             @Override
@@ -1030,7 +1038,7 @@ public class Controller {
                             "Ошибка!", JOptionPane.ERROR_MESSAGE);
                 }
                 else{
-                    int resultCode = model.applySuctions(readerCardNumber, bookId, periodOfDisq, penalty);
+                    int resultCode = model.applySunctions(readerCardNumber, bookId, periodOfDisq, penalty);
                     //если вернулся 0, то не существует такого читателя
                     if (resultCode == 0){
                         JOptionPane.showMessageDialog(form.getApplySanctionsPanel(), "Читателя с таким номером читательского билета не существует!",
@@ -1142,6 +1150,101 @@ public class Controller {
                                 "Успех!", JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
+                showRemoveReadersForm();
+            }
+        });
+    }
+
+    //форма возврата книги
+    public void showGetBookBackForm(){
+        //отрисовка формы
+        final GetBookBackForm form = new GetBookBackForm();
+        frame.setContentPane(form.getGetBookBackPanel());
+        frame.revalidate();
+
+        //нажатие на "Добавить нового читателя"
+        form.buttonAddNewReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewReaderForm();
+            }
+        });
+
+        //нажатие на "Добавить новую книгу"
+        form.buttonAddNewBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewBookForm();
+            }
+        });
+
+        //нажатие на "Выдать книгу читателю"
+        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveBookToReaderForm();
+            }
+        });
+
+        //нажатие на "Действия с читателями"
+        form.buttonReaderAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderActionForm();
+            }
+        });
+
+        //нажатие на "Действия с книгами"
+        form.buttonBookAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookActionForm();
+            }
+        });
+
+        //нажатие на "Получить"
+        form.getBookButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //собираем данные с полей ввода
+                String pointId = form.pointIdTextField.getText();
+                String readerCardNumber = form.cardNumberTextField.getText();
+                String bookId = form.bookIdTextField.getText();
+
+                //если какое-то поле пустое
+                if (pointId.equals("") || readerCardNumber.equals("") || bookId.equals("")){
+                    JOptionPane.showMessageDialog(form.getGetBookBackPanel(), "Заполните все поля!",
+                            "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                }
+                else{
+                    int resultCode = model.getBookBack(pointId, readerCardNumber, bookId);
+                    //если вернулся 0, то книга не принадлежит к этому пункту выдачи
+                    if (resultCode == 0){
+                        JOptionPane.showMessageDialog(form.getGetBookBackPanel(), "Книга привязана не к этому пунткту выдачи!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 1, то у читателя не должно быть книги на руках
+                    if (resultCode == 1){
+                        JOptionPane.showMessageDialog(form.getGetBookBackPanel(), "У читателя не должно быть книги на руках!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 2, то что-то пошло не так
+                    if (resultCode == 2){
+                        JOptionPane.showMessageDialog(form.getGetBookBackPanel(), "Что-то пошло не так!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 3, то книга возвращена с опозданием
+                    if (resultCode == 3){
+                        JOptionPane.showMessageDialog(form.getGetBookBackPanel(), "Книга возвращена с опозданием, выпишите штраф!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 4, то книга возвращена вовремя
+                    if (resultCode == 4){
+                        JOptionPane.showMessageDialog(form.getGetBookBackPanel(), "Книга возвращена вовремя!",
+                                "Успех!", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+                showGetBookBackForm();
             }
         });
     }
