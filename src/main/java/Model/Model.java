@@ -1604,4 +1604,69 @@ public class Model {
         return data;
     }
 
+    //вывод таблицы "Читатели пункта выдачи"
+    //return String[][], который передаётся в JTable
+    public String[][] listOfReadersAtPoint(){
+        String query = "SELECT `id_пункта_выдачи`, `id`," +
+                " `Фамилия`, `Имя`, `Отчество`," +
+                " `Дата_отметки`" +
+                " FROM `library`.`читатели_пункта_выдачи`" +
+                " JOIN `library`.`читатель`" +
+                " ON `читатели_пункта_выдачи`.`id_читателя` = `читатель`.`id`";
+        ResultSet resultSet;
+        String[][] data = new String[30][6];
+        //задаём первую строку в таблице, которая будет являться шапкой
+        data[0][0] = "Номер п.выдачи";
+        data[0][1] = "Номер чит.билета";
+        data[0][2] = "Фамилия";
+        data[0][3] = "Имя";
+        data[0][4] = "Отчество";
+        data[0][5] = "Дата отметки";
+        int i = 1;
+        try {
+            resultSet = connector.statement.executeQuery(query);
+            while(resultSet.next()){
+                data[i][0] = resultSet.getString(1);
+                data[i][1] = resultSet.getString(2);
+                data[i][2] = resultSet.getString(3);
+                data[i][3] = resultSet.getString(4);
+                data[i][4] = resultSet.getString(5);
+                data[i][5] = resultSet.getString(6);
+                i++;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return data;
+    }
+
+    //вывод таблицы "Пункты выдачи"
+    //return String[][], который передаётся в JTable
+    public String[][] listOfPoints(){
+        String query = "SELECT `id`, `Статус`" +
+                " FROM `library`.`пункт_выдачи`";
+        ResultSet resultSet;
+        String[][] data = new String[30][2];
+        //задаём первую строку в таблице, которая будет являться шапкой
+        data[0][0] = "Номер п.выдачи";
+        data[0][1] = "Статус";
+        int i = 1;
+        try {
+            resultSet = connector.statement.executeQuery(query);
+            while(resultSet.next()){
+                data[i][0] = resultSet.getString(1);
+                String status = resultSet.getString(2);
+                if(status.equals("1")){
+                    data[i][1] = "Абонемент";
+                }
+                else {
+                    data[i][1] = "Читальный зал";
+                }
+                i++;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return data;
+    }
 }

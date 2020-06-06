@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="View.ListOfReadersBooksForm">
-  <grid id="27dc6" binding="listOfReadersBooksPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="View.ListOfPointsForm">
+  <grid id="27dc6" binding="listPointsPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
       <xy x="20" y="20" width="1200" height="800"/>
     </constraints>
@@ -11,7 +11,7 @@
     </properties>
     <border type="none"/>
     <children>
-      <grid id="171a" binding="leftPanel" layout-manager="FlowLayout" hgap="5" vgap="25" flow-align="1">
+      <grid id="fbe06" binding="leftPanel" layout-manager="FlowLayout" hgap="5" vgap="25" flow-align="1">
         <constraints border-constraint="West"/>
         <properties>
           <background color="-5277933"/>
@@ -21,7 +21,7 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="d5422" class="javax.swing.JButton" binding="buttonAddNewReader">
+          <component id="63e9" class="javax.swing.JButton" binding="buttonAddNewReader">
             <constraints/>
             <properties>
               <borderPainted value="true"/>
@@ -37,7 +37,7 @@
               <verticalTextPosition value="0"/>
             </properties>
           </component>
-          <component id="74eb7" class="javax.swing.JButton" binding="buttonAddNewBook">
+          <component id="acf7b" class="javax.swing.JButton" binding="buttonAddNewBook">
             <constraints/>
             <properties>
               <borderPainted value="true"/>
@@ -53,7 +53,7 @@
               <verticalTextPosition value="0"/>
             </properties>
           </component>
-          <component id="fc797" class="javax.swing.JButton" binding="buttonGiveBookToReader">
+          <component id="d3fe4" class="javax.swing.JButton" binding="buttonGiveBookToReader">
             <constraints/>
             <properties>
               <borderPainted value="true"/>
@@ -69,7 +69,7 @@
               <verticalTextPosition value="0"/>
             </properties>
           </component>
-          <component id="bdd2f" class="javax.swing.JButton" binding="buttonReaderAction">
+          <component id="e14af" class="javax.swing.JButton" binding="buttonReaderAction">
             <constraints/>
             <properties>
               <borderPainted value="true"/>
@@ -85,7 +85,7 @@
               <verticalTextPosition value="0"/>
             </properties>
           </component>
-          <component id="68101" class="javax.swing.JButton" binding="buttonBookAction">
+          <component id="8b158" class="javax.swing.JButton" binding="buttonBookAction">
             <constraints/>
             <properties>
               <borderPainted value="true"/>
@@ -103,7 +103,7 @@
           </component>
         </children>
       </grid>
-      <grid id="8e418" binding="centerPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+      <grid id="5fac5" binding="centerPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints border-constraint="Center"/>
         <properties>
           <maximumSize width="900" height="800"/>
@@ -112,7 +112,7 @@
         </properties>
         <border type="none"/>
         <children>
-          <grid id="de572" binding="northPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+          <grid id="ae801" binding="northPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
             <constraints border-constraint="North"/>
             <properties>
               <background color="-5277933"/>
@@ -123,7 +123,7 @@
             <border type="none"/>
             <children/>
           </grid>
-          <grid id="dfcdf" binding="listOfReadersBooksSmallPanel" layout-manager="FlowLayout" hgap="0" vgap="30" flow-align="1">
+          <grid id="12f8f" binding="listOfPointsSmallPanel" layout-manager="FlowLayout" hgap="100" vgap="30" flow-align="1">
             <constraints border-constraint="Center"/>
             <properties>
               <background color="-12828863"/>
@@ -133,12 +133,12 @@
             </properties>
             <border type="none"/>
             <children>
-              <component id="fe144" class="javax.swing.JLabel" binding="readersBooksListLabel">
+              <component id="1b993" class="javax.swing.JLabel" binding="pointListLabel">
                 <constraints/>
                 <properties>
                   <alignmentX value="0.5"/>
                   <font name="Consolas" size="48" style="0"/>
-                  <text value="Книги читателей"/>
+                  <text value="Список пунктов выдачи"/>
                 </properties>
               </component>
             </children>

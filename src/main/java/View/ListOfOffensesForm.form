@@ -132,7 +132,16 @@
               <preferredSize width="900" height="700"/>
             </properties>
             <border type="none"/>
-            <children/>
+            <children>
+              <component id="ef676" class="javax.swing.JLabel" binding="offensesListLabel">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <font name="Consolas" size="48" style="0"/>
+                  <text value="Правонарушения"/>
+                </properties>
+              </component>
+            </children>
           </grid>
         </children>
       </grid>

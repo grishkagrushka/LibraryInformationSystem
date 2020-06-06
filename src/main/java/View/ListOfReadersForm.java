@@ -15,6 +15,7 @@ public class ListOfReadersForm {
     private JPanel centerPanel;
     private JPanel northPanel;
     private JPanel listOfReadersSmallPanel;
+    private JLabel readersListLabel;
 
     public ListOfReadersForm(String[][] data){
         //устанавливаем границу для левой панели

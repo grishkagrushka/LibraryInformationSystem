@@ -15,6 +15,7 @@ public class ListOfOffensesForm {
     private JPanel centerPanel;
     private JPanel northPanel;
     private JPanel listOfOffensesSmallPanel;
+    private JLabel offensesListLabel;
 
     public ListOfOffensesForm(String[][] data){
         //устанавливаем границу для левой панели
