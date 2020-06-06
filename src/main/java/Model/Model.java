@@ -1399,8 +1399,11 @@ public class Model {
 
     //вывод общего перечня читателей с применением выбранных фильтров
     //return String[][], который передаётся в JTable
-    public String[][] generalReadersListWithFilters(String pointId, String chair, String department, String group){
-        String query = "SELECT `Фамилия`, `Имя`, `Отчество`, `Номер_читательского_билета`, `id_пункта_выдачи`, `Кафедра`, `Факультет`, `Группа`" +
+    public String[][] generalReadersListWithFilters(String pointId, String chair,
+                                                    String department, String group, String groupBy){
+        String query = "SELECT `Фамилия`, `Имя`, `Отчество`," +
+                " `Номер_читательского_билета`, `Должность`," +
+                " `id_пункта_выдачи`, `Кафедра`, `Факультет`, `Группа`" +
                 " FROM `library`.`читатель` JOIN `library`.`читатели_пункта_выдачи`" +
                 " ON `читатель`.`id` = `читатели_пункта_выдачи`.`id_читателя`";
         //когда заполнено только поле пункта выдачи
@@ -1480,17 +1483,23 @@ public class Model {
                     " AND `читатель`.`Факультет` = '" + department + "'" +
                     " AND `читатель`.`Группа` = '" + group + "')";
         }
+        //группировка
+        if(!groupBy.equals("")) {
+            query += " GROUP BY `Номер_читательского_билета`";
+        }
+
         ResultSet resultSet;
-        String [][] data = new String[30][8];
+        String [][] data = new String[30][9];
         //задаём первую строку в таблице, которая будет являться шапкой
         data[0][0] = "Фамилия";
         data[0][1] = "Имя";
         data[0][2] = "Отчество";
         data[0][3] = "№ чит.билета";
-        data[0][4] = "Пункт выдачи";
-        data[0][5] = "Кафедра";
-        data[0][6] = "Факультет";
-        data[0][7] = "Группа";
+        data[0][4] = "Должность";
+        data[0][5] = "Пункт выдачи";
+        data[0][6] = "Кафедра";
+        data[0][7] = "Факультет";
+        data[0][8] = "Группа";
         int i = 1;
         try {
             resultSet = connector.statement.executeQuery(query);
@@ -1503,13 +1512,14 @@ public class Model {
                 data[i][5] = resultSet.getString(6);
                 data[i][6] = resultSet.getString(7);
                 data[i][7] = resultSet.getString(8);
+                data[i][8] = resultSet.getString(9);
                 i++;
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         //TODO: убрать вывод в консоль
-        for(int x = 0; x <= i; x++){
+        for(int x = 0; x < i; x++){
             for(int y = 0; y < 8; y++){
                 System.out.println(data[x][y]);
             }
@@ -1546,6 +1556,46 @@ public class Model {
                 data[i][4] = resultSet.getString(5);
                 data[i][5] = resultSet.getString(6);
                 data[i][6] = resultSet.getString(7);
+                i++;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return data;
+    }
+
+    //вывод таблицы "Правонарушения"
+    //return String[][], который передаётся в JTable
+    public String[][] listOfOffenses(){
+        String query = "SELECT `id`, `Фамилия`, `Имя`, `Отчество`," +
+                " `id_книги`, `Срок_дисквалификации`, `Дата_совершения`," +
+                " `Наложенный_штраф`" +
+                " FROM `library`.`правонарушения`" +
+                " JOIN `library`.`читатель`" +
+                " ON `правонарушения`.`id_читателя` = `читатель`.`id`";
+        ResultSet resultSet;
+        String[][] data = new String[30][8];
+        //задаём первую строку в таблице, которая будет являться шапкой
+        data[0][0] = "Номер чит.билета";
+        data[0][1] = "Фамилия";
+        data[0][2] = "Имя";
+        data[0][3] = "Отчество";
+        data[0][4] = "id книги";
+        data[0][5] = "Срок диск.";
+        data[0][6] = "Дата соверш.";
+        data[0][7] = "Штраф";
+        int i = 1;
+        try {
+            resultSet = connector.statement.executeQuery(query);
+            while(resultSet.next()){
+                data[i][0] = resultSet.getString(1);
+                data[i][1] = resultSet.getString(2);
+                data[i][2] = resultSet.getString(3);
+                data[i][3] = resultSet.getString(4);
+                data[i][4] = resultSet.getString(5);
+                data[i][5] = resultSet.getString(6);
+                data[i][6] = resultSet.getString(7);
+                data[i][7] = resultSet.getString(8);
                 i++;
             }
         } catch (SQLException throwables) {

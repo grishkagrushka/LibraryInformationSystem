@@ -518,7 +518,7 @@ public class Controller {
         });
     }
 
-    //форма Информации по читателям
+    //форма Информации о читателях
     public void showReaderInformationForm(){
         final ReaderInformationForm form = new ReaderInformationForm();
         frame.setContentPane(form.getReaderInformationPanel());
@@ -573,21 +573,21 @@ public class Controller {
             }
         });
 
-        //Нажатие на "Список задолжников"
-        //направит на форму фильтра перед показом списка
-        form.debtorList.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showFilterForDebtorListForm();
-            }
-        });
-
         //нажатие на "Информация о книгах читателей"
         form.readersBooksButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String[][] data = model.listOfReadersBooks();
                 showListOfReadersBooksForm(data);
+            }
+        });
+
+        //нажатие на "Правонарушения"
+        form.offensesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[][] data = model.listOfOffenses();
+                showListOfOffensesForm(data);
             }
         });
     }
@@ -650,7 +650,11 @@ public class Controller {
                     department = "";
                 }
                 String group = form.groupTextField.getText();
-                String[][] data = model.generalReadersListWithFilters(pointId, chair, department, group);
+                String groupBy = (String) form.groupByComboBox.getSelectedItem();
+                if (groupBy.equals("Выберите группировку")){
+                    groupBy = "";
+                }
+                String[][] data = model.generalReadersListWithFilters(pointId, chair, department, group, groupBy);
                 showListOfReadersForm(data);
             }
         });
@@ -1266,57 +1270,6 @@ public class Controller {
         });
     }
 
-    //форма фильтра для списка задолжников
-    public void showFilterForDebtorListForm(){
-        //отриосовка формы
-        final FilterForDebtorListForm form = new FilterForDebtorListForm();
-        frame.setContentPane(form.getFilterForDebtorListPanel());
-        frame.revalidate();
-
-        //нажатие на "Добавить нового читателя"
-        form.buttonAddNewReader.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showAddNewReaderForm();
-            }
-        });
-
-        //нажатие на "Добавить новую книгу"
-        form.buttonAddNewBook.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showAddNewBookForm();
-            }
-        });
-
-        //нажатие на "Выдать книгу читателю"
-        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showGiveBookToReaderForm();
-            }
-        });
-
-        //нажатие на "Действия с читателями"
-        form.buttonReaderAction.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showReaderActionForm();
-            }
-        });
-
-        //нажатие на "Действия с книгами"
-        form.buttonBookAction.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showBookActionForm();
-            }
-        });
-
-        //нажатие на "Показать"
-
-    }
-
     //форма информации о книгах
     public void showBookInformationForm(){
         //отрисовка формы
@@ -1365,9 +1318,57 @@ public class Controller {
         });
     }
 
+    //форма вывода таблицы "Книги читателей"
     public void showListOfReadersBooksForm(String[][] data){
         final ListOfReadersBooksForm form = new ListOfReadersBooksForm(data);
         frame.setContentPane(form.getListOfReadersBooksPanel());
+        frame.revalidate();
+
+        //нажатие на "Добавить нового читателя"
+        form.buttonAddNewReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewReaderForm();
+            }
+        });
+
+        //нажатие на "Добавить новую книгу"
+        form.buttonAddNewBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewBookForm();
+            }
+        });
+
+        //нажатие на "Выдать книгу читателю"
+        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveBookToReaderForm();
+            }
+        });
+
+        //нажатие на "Действия с читателями"
+        form.buttonReaderAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderActionForm();
+            }
+        });
+
+        //нажатие на "Действия с книгами"
+        form.buttonBookAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookActionForm();
+            }
+        });
+    }
+
+    //форма вывода таблицы "Правонарушения"
+    public void showListOfOffensesForm(String[][] data){
+        final ListOfOffensesForm form = new ListOfOffensesForm(data);
+        frame.setContentPane(form.getListOfOffensesPanel());
         frame.revalidate();
 
         //нажатие на "Добавить нового читателя"

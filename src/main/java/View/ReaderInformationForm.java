@@ -19,9 +19,8 @@ public class ReaderInformationForm {
     public JButton readersList;
     public JButton debtorList;
     public JButton readersBooksButton;
-    private JButton offensesButton;
+    public JButton offensesButton;
     private JButton readersAtPointButton;
-    private JButton getBookButton;
 
     public ReaderInformationForm(){
         //устанавливаем границу для левой панели

@@ -14,7 +14,7 @@ public class ListOfReadersBooksForm {
     public JButton buttonBookAction;
     private JPanel centerPanel;
     private JPanel northPanel;
-    private JPanel listOfReadersSmallPanel;
+    private JPanel listOfReadersBooksSmallPanel;
 
     public ListOfReadersBooksForm(String[][] data){
         //устанавливаем границу для левой панели
@@ -27,7 +27,7 @@ public class ListOfReadersBooksForm {
         readersBooksTable = new JTable(data, columns);
         readersBooksTable.setPreferredScrollableViewportSize(new Dimension(450,63));
         readersBooksTable.setFillsViewportHeight(true);
-        listOfReadersSmallPanel.add(readersBooksTable);
+        listOfReadersBooksSmallPanel.add(readersBooksTable);
     }
 
     public JPanel getListOfReadersBooksPanel() {

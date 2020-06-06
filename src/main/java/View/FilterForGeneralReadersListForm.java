@@ -25,6 +25,8 @@ public class FilterForGeneralReadersListForm {
     private JLabel groupLabel;
     public JTextField groupTextField;
     public JButton showButton;
+    private JLabel groupByLabel;
+    public JComboBox groupByComboBox;
 
     public FilterForGeneralReadersListForm(){
         //устанавливаем границу для левой панели

@@ -229,6 +229,31 @@
                   <preferredSize width="300" height="30"/>
                 </properties>
               </component>
+              <component id="a4fce" class="javax.swing.JLabel" binding="groupByLabel">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <alignmentY value="0.5"/>
+                  <font name="Consolas" size="26" style="0"/>
+                  <labelFor value="7ffd0"/>
+                  <text value="Группировка "/>
+                </properties>
+              </component>
+              <component id="73f8e" class="javax.swing.JComboBox" binding="groupByComboBox">
+                <constraints/>
+                <properties>
+                  <font name="Consolas" size="22" style="0"/>
+                  <maximumSize width="300" height="30"/>
+                  <minimumSize width="300" height="30"/>
+                  <model>
+                    <item value="Выберите группировку"/>
+                    <item value="По номеру чит.билета"/>
+                  </model>
+                  <name value=""/>
+                  <popupVisible value="false"/>
+                  <preferredSize width="300" height="30"/>
+                </properties>
+              </component>
               <component id="a9c6b" class="javax.swing.JButton" binding="showButton">
                 <constraints/>
                 <properties>

@@ -123,7 +123,7 @@
             <border type="none"/>
             <children/>
           </grid>
-          <grid id="dfcdf" binding="listOfReadersSmallPanel" layout-manager="FlowLayout" hgap="0" vgap="30" flow-align="1">
+          <grid id="dfcdf" binding="listOfReadersBooksSmallPanel" layout-manager="FlowLayout" hgap="0" vgap="30" flow-align="1">
             <constraints border-constraint="Center"/>
             <properties>
               <background color="-12828863"/>
