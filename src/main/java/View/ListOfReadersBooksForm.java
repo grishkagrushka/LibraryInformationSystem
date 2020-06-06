@@ -24,7 +24,7 @@ public class ListOfReadersBooksForm {
 
         //рисуем таблицу
         JTable readersBooksTable;
-        String[] columns = {"id читателя", "Фамилия", "Имя", "Отчество", "id книги", "Получение", "Возврат"};
+        String[] columns = {"id читателя", "Фамилия", "Имя", "Отчество", "id книги", "Название", "Получение", "Возврат"};
         readersBooksTable = new JTable(data, columns);
         readersBooksTable.setPreferredScrollableViewportSize(new Dimension(450,63));
         readersBooksTable.setFillsViewportHeight(true);

@@ -596,7 +596,7 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String[][] data = model.listOfReadersAtPoint();
-                showListReadersAtPointForm(data);
+                showListOfReadersAtPointForm(data);
             }
         });
 
@@ -605,7 +605,7 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String data[][] = model.listOfPoints();
-                showListPointForm(data);
+                showListOfPointForm(data);
             }
         });
     }
@@ -1288,7 +1288,7 @@ public class Controller {
         });
     }
 
-    //форма информации о книгах
+    //форма Информации о книгах
     public void showBookInformationForm(){
         //отрисовка формы
         final BookInformationForm form = new BookInformationForm();
@@ -1332,6 +1332,33 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showBookActionForm();
+            }
+        });
+
+        //нажатие на "Общий перечень книг"
+        form.booksButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[][] data = model.listOfBooks();
+                showListOfBooks(data);
+            }
+        });
+
+        //нажатие на "Книги читателей"
+        form.readersBooksButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[][] data = model.listOfReadersBooks();
+                showListOfReadersBooksForm(data);
+            }
+        });
+
+        //нажатие на "Книги пунктов выдачи"
+        form.booksAtPointButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[][] data = model.listOfBooksAtPoint();
+                showListOfBooksAtPointForm(data);
             }
         });
     }
@@ -1431,7 +1458,7 @@ public class Controller {
     }
 
     //форма вывода таблицы "Читатели пункта выдачи"
-    public void showListReadersAtPointForm(String[][] data){
+    public void showListOfReadersAtPointForm(String[][] data){
         final ListOfReadersAtPointForm form = new ListOfReadersAtPointForm(data);
         frame.setContentPane(form.getReadersAtPointListPanel());
         frame.revalidate();
@@ -1478,9 +1505,103 @@ public class Controller {
     }
 
     //форма вывода таблицы "Пункты выдачи"
-    public void showListPointForm(String[][] data){
+    public void showListOfPointForm(String[][] data){
         final ListOfPointsForm form = new ListOfPointsForm(data);
         frame.setContentPane(form.getListPointsPanel());
+        frame.revalidate();
+
+        //нажатие на "Добавить нового читателя"
+        form.buttonAddNewReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewReaderForm();
+            }
+        });
+
+        //нажатие на "Добавить новую книгу"
+        form.buttonAddNewBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewBookForm();
+            }
+        });
+
+        //нажатие на "Выдать книгу читателю"
+        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveBookToReaderForm();
+            }
+        });
+
+        //нажатие на "Действия с читателями"
+        form.buttonReaderAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderActionForm();
+            }
+        });
+
+        //нажатие на "Действия с книгами"
+        form.buttonBookAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookActionForm();
+            }
+        });
+    }
+
+    //форма вывода таблицы "Книга"
+    public void showListOfBooks(String[][] data){
+        final ListOfBooksForm form = new ListOfBooksForm(data);
+        frame.setContentPane(form.getListOfBooksPanel());
+        frame.revalidate();
+
+        //нажатие на "Добавить нового читателя"
+        form.buttonAddNewReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewReaderForm();
+            }
+        });
+
+        //нажатие на "Добавить новую книгу"
+        form.buttonAddNewBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewBookForm();
+            }
+        });
+
+        //нажатие на "Выдать книгу читателю"
+        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveBookToReaderForm();
+            }
+        });
+
+        //нажатие на "Действия с читателями"
+        form.buttonReaderAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderActionForm();
+            }
+        });
+
+        //нажатие на "Действия с книгами"
+        form.buttonBookAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookActionForm();
+            }
+        });
+    }
+
+    //форма вывода таблицы "Книги пункта выдачи"
+    public void showListOfBooksAtPointForm(String[][] data){
+        final ListOfBooksAtPointForm form = new ListOfBooksAtPointForm(data);
+        frame.setContentPane(form.getListOfBooksAtPointPanel());
         frame.revalidate();
 
         //нажатие на "Добавить нового читателя"

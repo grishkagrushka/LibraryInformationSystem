@@ -1530,21 +1530,24 @@ public class Model {
     //вывод таблицы "Книги читателей"
     //return String[][], который передаётся в JTable
     public String[][] listOfReadersBooks(){
-        String query = "SELECT `id`, `Фамилия`, `Имя`, `Отчество`," +
-                " `id_книги`, `дата_получения_книги`, `дата_реального_возвращения_книги`" +
+        String query = "SELECT `читатель`.`id`, `Фамилия`, `Имя`, `Отчество`," +
+                " `id_книги`, `Название`, `дата_получения_книги`, `дата_реального_возвращения_книги`" +
                 " FROM `library`.`книги_читателя`" +
                 " JOIN `library`.`читатель`" +
-                " ON `книги_читателя`.`id_читателя` = `читатель`.`id`";
+                " ON `книги_читателя`.`id_читателя` = `читатель`.`id`" +
+                " JOIN `library`.`книга`" +
+                " ON `книги_читателя`.`id_книги` = `книга`.`id`";
         ResultSet resultSet;
-        String[][] data = new String[30][7];
+        String[][] data = new String[30][8];
         //задаём первую строку в таблице, которая будет являться шапкой
         data[0][0] = "Номер чит.билета";
         data[0][1] = "Фамилия";
         data[0][2] = "Имя";
         data[0][3] = "Отчество";
         data[0][4] = "id книги";
-        data[0][5] = "Получение";
-        data[0][6] = "Возврат";
+        data[0][5] = "Название";
+        data[0][6] = "Получение";
+        data[0][7] = "Возврат";
         int i = 1;
         try {
             resultSet = connector.statement.executeQuery(query);
@@ -1556,6 +1559,7 @@ public class Model {
                 data[i][4] = resultSet.getString(5);
                 data[i][5] = resultSet.getString(6);
                 data[i][6] = resultSet.getString(7);
+                data[i][7] = resultSet.getString(8);
                 i++;
             }
         } catch (SQLException throwables) {
@@ -1662,6 +1666,79 @@ public class Model {
                 else {
                     data[i][1] = "Читальный зал";
                 }
+                i++;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return data;
+    }
+
+    //вывод таблицы "Книга"
+    //return String[][], который передаётся в JTable
+    public String[][] listOfBooks(){
+        String query = "SELECT `id`, `Название`, `Автор`, `Год_издания`," +
+                " `Дата_поступления`, `Допустимый_срок_хранения`," +
+                " `Статус_утерянности`, `Дата_потери`, `Стоимость`" +
+                " FROM `library`.`книга`";
+        ResultSet resultSet;
+        String[][] data = new String[30][9];
+        //задаём первую строку в таблице, которая будет являться шапкой
+        data[0][0] = "id";
+        data[0][1] = "Название";
+        data[0][2] = "Автор";
+        data[0][3] = "Год издания";
+        data[0][4] = "Поступление";
+        data[0][5] = "Срок хранения";
+        data[0][6] = "Утерянность";
+        data[0][7] = "Дата потери";
+        data[0][8] = "Стоимость";
+        int i = 1;
+        try {
+            resultSet = connector.statement.executeQuery(query);
+            while(resultSet.next()) {
+                data[i][0] = resultSet.getString(1);
+                data[i][1] = resultSet.getString(2);
+                data[i][2] = resultSet.getString(3);
+                data[i][3] = resultSet.getString(4);
+                data[i][4] = resultSet.getString(5);
+                data[i][5] = resultSet.getString(6);
+                String status = resultSet.getString(7);
+                if(status.equals("0")){
+                    data[i][6] = "Нет";
+                }
+                else {
+                    data[i][6] = "Да";
+                }
+                data[i][7] = resultSet.getString(8);
+                data[i][8] = resultSet.getString(9);
+                i++;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return data;
+    }
+
+    //вывод таблицы "Книги пунктов выдачи"
+    public String[][] listOfBooksAtPoint(){
+        String query = "SELECT `id_пункта_выдачи`, `id_книги`, `Название`" +
+                " FROM `library`.`книги_пункта_выдачи`" +
+                " JOIN `library`.`книга`" +
+                " ON `книги_пункта_выдачи`.`id_книги` = `книга`.`id`";
+        ResultSet resultSet;
+        String[][] data = new String[30][3];
+        //задаём первую строку в таблице, которая будет являться шапкой
+        data[0][0] = "Номер п.выдачи";
+        data[0][1] = "id книги";
+        data[0][2] = "Название";
+        int i = 1;
+        try {
+            resultSet = connector.statement.executeQuery(query);
+            while(resultSet.next()) {
+                data[i][0] = resultSet.getString(1);
+                data[i][1] = resultSet.getString(2);
+                data[i][2] = resultSet.getString(3);
                 i++;
             }
         } catch (SQLException throwables) {
