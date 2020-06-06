@@ -22,7 +22,7 @@ public class BookActionForm {
     private JButton markBookLostButton;
     private JButton removeBookButton;
     private JButton getBookButton;
-    private JButton buttonInformationButtom;
+    public JButton buttonInformationButtom;
 
     public BookActionForm(){
         //устанавливаем границу для левой панели
