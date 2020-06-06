@@ -209,23 +209,6 @@
                   <verticalTextPosition value="0"/>
                 </properties>
               </component>
-              <component id="350d9" class="javax.swing.JButton" binding="removeBookButton">
-                <constraints/>
-                <properties>
-                  <borderPainted value="true"/>
-                  <contentAreaFilled value="true"/>
-                  <font name="Consolas" size="14" style="0"/>
-                  <foreground color="-12828863"/>
-                  <horizontalTextPosition value="0"/>
-                  <label value="Списать с библиотеки"/>
-                  <maximumSize width="250" height="100"/>
-                  <minimumSize width="250" height="100"/>
-                  <preferredSize width="250" height="100"/>
-                  <text value="Списать с библиотеки"/>
-                  <verticalAlignment value="0"/>
-                  <verticalTextPosition value="0"/>
-                </properties>
-              </component>
               <component id="45421" class="javax.swing.JButton" binding="getBookButton">
                 <constraints/>
                 <properties>

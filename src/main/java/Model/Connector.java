@@ -13,7 +13,6 @@ public class Connector {
         try{
             this.connection = DriverManager.getConnection(url, user, pass);
             this.statement = connection.createStatement();
-            System.out.println("Connection done");
         }
         catch (SQLException throwable) {
         throwable.printStackTrace();

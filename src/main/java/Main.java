@@ -13,6 +13,5 @@ public class Main {
         Controller controller = new Controller(model);
         controller.start();
 
-        //connector.closeConnection(connector.connection, connector.statement);//TODO: спросить у Кирюхи, как нормально закрывать соединение
     }
 }

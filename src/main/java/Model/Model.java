@@ -242,14 +242,10 @@ public class Model {
 
             query += ")";
 
-            System.out.println(query);//TODO: не забыть убрать вывод в консоль
-            System.out.println("Запрос сгенерирован!");
             //отправка запроса на добавление в БД
             int num = 0;//количество добавленных строк. При успешном добавлении будет равен 1
             try {
                 num = connector.statement.executeUpdate(query);
-                System.out.println("Adding complete!");//TODO: не забыть убрать вывод в консоль
-                System.out.println(num);//TODO: не забыть убрать вывод в консоль
             } catch (SQLException throwable) {
                 throwable.printStackTrace();
             }
@@ -266,7 +262,6 @@ public class Model {
                         "' AND `Имя` = '" + name + "')");
                 resultSet.next();
                 int id = Integer.parseInt(resultSet.getString(1));
-                System.out.println(id);//TODO: не забыть убрать вывод в консоль
                 //меняем номер читательского билета
                 cardNumber = "" + id;
                 num = connector.statement.executeUpdate("UPDATE `library`.`читатель` SET `Номер_читательского_билета` = " +
@@ -279,7 +274,6 @@ public class Model {
             }
             return cardNumber;
         } else {
-            System.out.println("Некорректные данные");//TODO: не забыть убрать вывод в консоль
             return "0";
         }
     }
@@ -328,14 +322,9 @@ public class Model {
 
             query += ")";
 
-            System.out.println(query);//TODO: не забыть убрать вывод в консоль
-            System.out.println("Запрос сгенерирован!");//TODO: не забыть убрать вывод в консоль
-
             int num = 0;//количество внесённых строк в БД; если пройдёт удачно, то будет равно 1
             try {
                 num = connector.statement.executeUpdate(query);
-                System.out.println("Adding complete");//TODO: не забыть убрать вывод в консоль
-                System.out.println(num);//TODO: не забыть убрать вывод в консоль
             } catch (SQLException throwable) {
                 throwable.printStackTrace();
             }
@@ -560,8 +549,6 @@ public class Model {
             while (resultSet.next()) {
                 flag = true;
                 disqMap.put(resultSet.getDate(1), resultSet.getInt(2));
-                System.out.println(resultSet.getDate(1));//TODO: не забыть убрать вывод в консоль
-                System.out.println(resultSet.getInt(2));//TODO: не забыть убрать вывод в консоль
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -589,11 +576,9 @@ public class Model {
         Date today = new Date(todayLong);
         for (Date item: endingDisq){
             if (today.before(item)){
-                System.out.println("Есть дисквалификация");//TODO: не забыть убрать вывод в консоль
                 return false;
             }
         }
-        System.out.println("Нет дисквала");//TODO: не забыть убрать вывод в консоль
         return true;
     }
 
@@ -636,11 +621,9 @@ public class Model {
         Date today = new Date(todayLong);
         for (Date item: endingMarksDate){
             if(today.after(item)){
-                System.out.println("Нет отметки");//TODO: не забыть убрать вывод в консоль
                 return false;
             }
         }
-        System.out.println("Есть отметка");//TODO: не забыть убрать вывод в консоль
         return true;
     }
 
@@ -693,13 +676,9 @@ public class Model {
             resultSet = connector.statement.executeQuery(query);
             if(resultSet.next()){
                 flag = true;
-                System.out.println("Такая книга существует");//TODO: убрать вывод в консоль
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }
-        if (!flag){
-            System.out.println("Такой книги не существует");//TODO: убрать вывод в консоль
         }
         return flag;
     }
@@ -721,10 +700,6 @@ public class Model {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }
-        //TODO: убрать проверочный вывод
-        for(String item: bookIdOnPoint){
-            System.out.println(item);
         }
         return bookIdOnPoint;
     }
@@ -748,10 +723,6 @@ public class Model {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }
-        //TODO:убрать проверочную печать в консоль
-        for (String item: bookIdNotLost){
-            System.out.println(item);
         }
         return bookIdNotLost;
     }
@@ -781,10 +752,6 @@ public class Model {
             }
         }
         System.out.println("Here");
-        //TODO: убрать вывод в консоль
-        for(String item: bookIdNotOnHandList){
-            System.out.println("Книги" + item);
-        }
         return bookIdNotOnHandList;
     }
 
@@ -814,10 +781,6 @@ public class Model {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }
-        //TODO: убрать вывод в консоль
-        for(String item: bookIdNotOrderedList){
-            System.out.println("Заказ" + item);
         }
         return bookIdNotOrderedList;
     }
@@ -1222,13 +1185,9 @@ public class Model {
             resultSet = connector.statement.executeQuery(query);
             if(resultSet.next()){
                 flag = true;
-                System.out.println("Такая книга существует");//TODO: убрать вывод в консоль
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }
-        if (!flag){
-            System.out.println("Такой книги не существует");//TODO: убрать вывод в консоль
         }
         return flag;
     }
@@ -1596,9 +1555,36 @@ public class Model {
         return 3;
     }
 
-    //удаление книги из библиотеки
-    public int removeBooks(String bookId){
-        return 0;
+    //отметить книгу утерянной
+    //return 0 - такой книги не существует
+    //return 1 - что-то пошло не так
+    //return 2 - отметка об утерянности поставлена
+    public int markBookLost(String bookId){
+        //проверка существования книги
+        if(!isExistingBook(bookId)){
+            return 0;
+        }
+        //сегодняшняя дата
+        Calendar todayCal = new GregorianCalendar();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
+        String today = dateFormat.format(todayCal.getTime());
+        String query = "UPDATE `library`.`книга`" +
+                " SET `Статус_утерянности` = '1'," +
+                " `Дата_потери` = '" + today + "'" +
+                " WHERE (`id` = '" + bookId + "')";
+        int num = 0;
+        try {
+            num = connector.statement.executeUpdate(query);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        //если строка не обновилась
+        if (num == 0){
+            return 1;
+        }
+        else{
+            return 2;
+        }
     }
 
 
@@ -1722,12 +1708,6 @@ public class Model {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }
-        //TODO: убрать вывод в консоль
-        for(int x = 0; x < i; x++){
-            for(int y = 0; y < 8; y++){
-                System.out.println(data[x][y]);
-            }
         }
         return data;
     }

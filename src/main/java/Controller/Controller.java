@@ -541,6 +541,14 @@ public class Controller {
             }
         });
 
+        //нажатие на "Отметить книгу утерянной"
+        form.markBookLostButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showMarkBookLost();
+            }
+        });
+
         //нажатие на "Информация"
         form.buttonInformationButtom.addActionListener(new ActionListener() {
             @Override
@@ -1499,6 +1507,86 @@ public class Controller {
                     }
                 }
                 showEditBookProfileForm();
+            }
+        });
+    }
+
+    //форма отметки книги утерянной
+    public void showMarkBookLost(){
+        //отрисовка формы
+        final MarkBookLostForm form = new MarkBookLostForm();
+        frame.setContentPane(form.getMarkBookLostPanel());
+        frame.revalidate();
+
+        //нажатие на "Добавить нового читателя"
+        form.buttonAddNewReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewReaderForm();
+            }
+        });
+
+        //нажатие на "Добавить новую книгу"
+        form.buttonAddNewBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewBookForm();
+            }
+        });
+
+        //нажатие на "Выдать книгу читателю"
+        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveBookToReaderForm();
+            }
+        });
+
+        //нажатие на "Действия с читателями"
+        form.buttonReaderAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderActionForm();
+            }
+        });
+
+        //нажатие на "Действия с книгами"
+        form.buttonBookAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookActionForm();
+            }
+        });
+
+        //нажатие на "Отметить"
+        form.markButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String bookId = form.bookIdTextField.getText();
+                //если поле пустое
+                if(bookId.equals("")){
+                    JOptionPane.showMessageDialog(form.getMarkBookLostPanel(), "Введите id книги!",
+                            "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    int resultCode = model.markBookLost(bookId);
+                    //если вернулось 0, то такой книги не сузествует
+                    if (resultCode == 0){
+                        JOptionPane.showMessageDialog(form.getMarkBookLostPanel(), "Такой книги не существует!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 1, то что-то пошло не так
+                    if (resultCode == 1){
+                        JOptionPane.showMessageDialog(form.getMarkBookLostPanel(), "Что-то пошло не так!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 2, то книга успешно отмечена утерянной
+                    if (resultCode == 2){
+                        JOptionPane.showMessageDialog(form.getMarkBookLostPanel(), "Книга отмечена утерянной!",
+                                "Успех!", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+                showMarkBookLost();
             }
         });
     }
