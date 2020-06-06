@@ -437,6 +437,14 @@ public class Controller {
             }
         });
 
+        //нажатие на "Выписать из библиотеки"
+        form.removeReaderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showRemoveReadersForm();
+            }
+        });
+
         //нажатие на "Информация"
         form.readerInformationButton.addActionListener(new ActionListener() {
             @Override
@@ -1046,6 +1054,91 @@ public class Controller {
                     //если вернулось 4, всё прошло успешно
                     if (resultCode == 4){
                         JOptionPane.showMessageDialog(form.getApplySanctionsPanel(), "Санкции успешно применены!",
+                                "Успех!", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+                showApplySunctionsForm();
+            }
+        });
+    }
+
+    //форма удаления читателя из библиотеки
+    public void showRemoveReadersForm(){
+        //отрисовка формы
+        final RemoveReadersForm form = new RemoveReadersForm();
+        frame.setContentPane(form.getRemoveReadersPanel());
+        frame.revalidate();
+
+        //нажатие на "Добавить нового читателя"
+        form.buttonAddNewReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewReaderForm();
+            }
+        });
+
+        //нажатие на "Добавить новую книгу"
+        form.buttonAddNewBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddNewBookForm();
+            }
+        });
+
+        //нажатие на "Выдать книгу читателю"
+        form.buttonGiveBookToReader.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showGiveBookToReaderForm();
+            }
+        });
+
+        //нажатие на "Действия с читателями"
+        form.buttonReaderAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showReaderActionForm();
+            }
+        });
+
+        //нажатие на "Действия с книгами"
+        form.buttonBookAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBookActionForm();
+            }
+        });
+
+        //нажатие на "Выписать"
+        form.removeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String readerCardNumber = form.cardNumberTextField.getText();
+
+                if(readerCardNumber.equals("")){
+                    JOptionPane.showMessageDialog(form.getRemoveReadersPanel(), "Введите номер читательского билета!",
+                            "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    int resultCode = model.removeReader(readerCardNumber);
+                    //если вернулся 0, то есть несданные книги
+                    if(resultCode == 0){
+                        JOptionPane.showMessageDialog(form.getRemoveReadersPanel(), "Читатель сдал не все книги!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 1, что-то пошло не так
+                    if(resultCode == 1){
+                        JOptionPane.showMessageDialog(form.getRemoveReadersPanel(), "Что-то пошло не так!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 3, не существует такого читателя
+                    if (resultCode == 3){
+                        JOptionPane.showMessageDialog(form.getRemoveReadersPanel(), "Не существует читателя с таким номером читательского билета!",
+                                "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //если вернулось 2, то удаление успешно произведено
+                    if(resultCode == 2){
+                        JOptionPane.showMessageDialog(form.getRemoveReadersPanel(), "Читатель выписан из библиотеки!",
                                 "Успех!", JOptionPane.INFORMATION_MESSAGE);
                     }
                 }

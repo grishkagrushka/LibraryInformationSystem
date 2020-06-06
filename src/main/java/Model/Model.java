@@ -1248,6 +1248,53 @@ public class Model {
         return 4;
     }
 
+    //выписать читателя из библиотеки
+    //return 0 - есть несданные книги, нельзя выписывать
+    //return 1 - что-то пошло не так
+    //return 2 - удаление произведено
+    //return 3 - не существует такого читателя
+    public int removeReader(String readerCardNumber){
+        //проверка существования читателя
+        if(!isExistingReader(readerCardNumber)){
+            return 3;
+        }
+        //проверка, все ли книги возвращены им в библиотеку
+        String query = "SELECT `дата_реального_возвращения_книги`" +
+                " FROM `library`.`книги_читателя`" +
+                " WHERE (`id_читателя` = '" + readerCardNumber + "')";
+        //флаг того, что есть невозвращенные книги
+        boolean flag = false;
+        ResultSet resultSet;
+        try {
+            resultSet = connector.statement.executeQuery(query);
+            while(resultSet.next()){
+                String dateReturn = resultSet.getString(1);
+                if(dateReturn == null){
+                    flag = true;
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        //если есть несданные книги
+        if (flag){
+            return 0;
+        }
+        //если нет несданных книг, то можно выписывать
+        query = "DELETE FROM `library`.`читатель`" +
+                " WHERE (`id` = '" + readerCardNumber + "')";
+        int num = 0;
+        try {
+            num = connector.statement.executeUpdate(query);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        if (num == 0){
+            return 1;
+        }
+        return 2;
+    }
+
     //вывод общего перечня читателей с применением выбранных фильтров
     //return String[][], который передаётся в JTable
     public String[][] generalReadersListWithFilters(String pointId, String chair, String department, String group){
