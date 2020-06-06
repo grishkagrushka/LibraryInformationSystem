@@ -1721,6 +1721,7 @@ public class Model {
     }
 
     //вывод таблицы "Книги пунктов выдачи"
+    //return String[][], который передаётся в JTable
     public String[][] listOfBooksAtPoint(){
         String query = "SELECT `id_пункта_выдачи`, `id_книги`, `Название`" +
                 " FROM `library`.`книги_пункта_выдачи`" +
@@ -1739,6 +1740,53 @@ public class Model {
                 data[i][0] = resultSet.getString(1);
                 data[i][1] = resultSet.getString(2);
                 data[i][2] = resultSet.getString(3);
+                i++;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return data;
+    }
+
+    //вывод таблицы "Заказ книг"
+    //return String[][], который передаётся в JTable
+    public String[][] listOfOrederedBooks(){
+        String query = "SELECT `читатель`.`id`, `Фамилия`, `Имя`, `Отчество`," +
+                " `id_книги`, `Название`, `Дата_заказа`, `Статус_заказа`" +
+                " FROM `library`.`заказ_книг`" +
+                " JOIN `library`.`читатель`" +
+                " ON `заказ_книг`.`id_читателя` = `читатель`.`id`" +
+                " JOIN `library`.`книга`" +
+                " ON `заказ_книг`.`id_книги` = `книга`.`id`";
+        ResultSet resultSet;
+        String[][] data = new String[30][8];
+        //задаём первую строку в таблице, которая будет являться шапкой
+        data[0][0] = "Номер чит.билета";
+        data[0][1] = "Фамилия";
+        data[0][2] = "Имя";
+        data[0][3] = "Отчество";
+        data[0][4] = "id книги";
+        data[0][5] = "Название";
+        data[0][6] = "Дата";
+        data[0][7] = "Статус";
+        int i = 1;
+        try {
+            resultSet = connector.statement.executeQuery(query);
+            while(resultSet.next()) {
+                data[i][0] = resultSet.getString(1);
+                data[i][1] = resultSet.getString(2);
+                data[i][2] = resultSet.getString(3);
+                data[i][3] = resultSet.getString(4);
+                data[i][4] = resultSet.getString(5);
+                data[i][5] = resultSet.getString(6);
+                data[i][6] = resultSet.getString(7);
+                String status = resultSet.getString(8);
+                if(status.equals("0")){
+                    data[i][7] = "Активен";
+                }
+                else{
+                    data[i][7] = "Не активен";
+                }
                 i++;
             }
         } catch (SQLException throwables) {

@@ -20,6 +20,7 @@ public class BookInformationForm {
     public JButton readersBooksButton;
     public JButton booksAtPointButton;
     public JButton booksOrderedButton;
+    public JButton pointButton;
 
     public BookInformationForm(){
         //устанавливаем границу для левой панели
