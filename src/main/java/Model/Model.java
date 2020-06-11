@@ -2019,4 +2019,55 @@ public class Model {
         return data;
     }
 
+    //заказать книги в личном кабинете
+    //return (String) n - id книги, на которую оформлен заказ
+    public String orderBooks(String login, String pointId,
+                          String bookName, String bookAuthor){
+        String query = "SELECT `книги_пункта_выдачи`.`id_книги`" +
+                " FROM `library`.`книги_пункта_выдачи`" +
+                " JOIN `library`.`книга`" +
+                " ON `книги_пункта_выдачи`.`id_книги` = `книга`.`id`" +
+                " WHERE (`id_пункта_выдачи` = '" + pointId + "'" +
+                " AND `Название` = '" + bookName + "'" +
+                " AND `Автор` = '" + bookAuthor + "')";
+        String bookId = "";
+        ResultSet resultSet;
+        try {
+            resultSet = connector.statement.executeQuery(query);
+            if(resultSet.next()){
+                bookId = resultSet.getString(1);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        query = "SELECT `id` FROM `library`.`читатель`" +
+                " WHERE (`Логин` = '" + login + "')";
+        String readerId = "";
+        try {
+            resultSet = connector.statement.executeQuery(query);
+            if (resultSet.next()){
+                readerId = resultSet.getString(1);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        //узнаём текущую дату
+        Calendar todayCal = new GregorianCalendar();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
+        String today = dateFormat.format(todayCal.getTime());
+
+        query = "INSERT INTO `library`.`заказ_книг`" +
+                " (`id_читателя`, `id_книги`, `Дата_заказа`, `Статус_заказа`)" +
+                " VALUES ('" + readerId + "', '" + bookId + "', '" + today + "', '0')";
+        int num = 0;
+        try {
+            num = connector.statement.executeUpdate(query);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return bookId;
+    }
+
 }

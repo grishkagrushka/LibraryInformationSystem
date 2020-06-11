@@ -2017,7 +2017,7 @@ public class Controller {
     //главная форма читателя
     public void showMainFormForReaders(final String login){
         //отрисовка формы
-        MainFormForReaders form = new MainFormForReaders();
+        final MainFormForReaders form = new MainFormForReaders();
         frame.setContentPane(form.getMainFormForReadersPanel());
         frame.revalidate();
 
@@ -2026,11 +2026,17 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String[][] data = model.listOfMyBook(login);
-                showMyBookFormForReaders(data);
+                showMyBookFormForReaders(data, login);
             }
         });
 
         //нажатие на "Заказать книги"
+        form.orderBookButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showOrderBookFormForReaders(login);
+            }
+        });
 
         //нажатие на "Выход"
         form.exitButton.addActionListener(new ActionListener() {
@@ -2042,18 +2048,77 @@ public class Controller {
     }
 
     //форма вывода книг читатателя в личном кабинете
-    public void showMyBookFormForReaders(String[][] data){
+    public void showMyBookFormForReaders(String[][] data, final String login){
         final MyBookFormForReaders form = new MyBookFormForReaders(data);
         frame.setContentPane(form.getMyBookPanel());
         frame.revalidate();
 
         //нажатие на "Заказать книги"
+        form.orderBookButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showOrderBookFormForReaders(login);
+            }
+        });
 
         //нажатие на "Выход"
         form.exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showAuthorizationForm();
+            }
+        });
+    }
+
+    //форма заказа книги в личном кабинете
+    public void showOrderBookFormForReaders(final String login){
+        final OrderBooksFormForReaders form = new OrderBooksFormForReaders();
+        frame.setContentPane(form.getOrderBooksForReadersPanel());
+        frame.revalidate();
+
+        //нажатие на "Мои книги"
+        form.myBookButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[][] data = model.listOfMyBook(login);
+                showMyBookFormForReaders(data, login);
+            }
+        });
+
+        //нажатие на "Заказать книги"
+        form.orderBookButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showOrderBookFormForReaders(login);
+            }
+        });
+
+        //нажатие на "Выход"
+        form.exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAuthorizationForm();
+            }
+        });
+
+        //нажатие на "Заказать"
+        form.orderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String pointID = form.pointIdTextField.getText();
+                String bookName = form.bookNameTextField.getText();
+                String bookAuthor = form.bookAuthorTextField.getText();
+
+                if (pointID.equals("") || bookName.equals("") || bookAuthor.equals("")){
+                    JOptionPane.showMessageDialog(form.getOrderBooksForReadersPanel(), "Заполните все поля!",
+                            "Ошибка!", JOptionPane.ERROR_MESSAGE);
+                }
+                else{
+                    String bookId = model.orderBooks(login, pointID, bookName, bookAuthor);
+
+                    JOptionPane.showMessageDialog(form.getOrderBooksForReadersPanel(), "Вы оформили заказ на книгу № " + bookId,
+                            "Успех!", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         });
     }
