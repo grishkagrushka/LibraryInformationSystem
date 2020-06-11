@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="View.MyBookFormForReaders">
+  <grid id="27dc6" binding="myBookPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="1200" height="800"/>
+    </constraints>
+    <properties>
+      <maximumSize width="1200" height="800"/>
+      <minimumSize width="1200" height="800"/>
+      <preferredSize width="1200" height="800"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="ff682" binding="leftPanel" layout-manager="FlowLayout" hgap="5" vgap="25" flow-align="1">
+        <constraints border-constraint="West"/>
+        <properties>
+          <background color="-5277933"/>
+          <maximumSize width="300" height="800"/>
+          <minimumSize width="300" height="800"/>
+          <preferredSize width="300" height="800"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="f4d63" class="javax.swing.JButton" binding="myBookButton">
+            <constraints/>
+            <properties>
+              <actionCommand value=""/>
+              <borderPainted value="true"/>
+              <contentAreaFilled value="true"/>
+              <font name="Consolas" size="14" style="0"/>
+              <foreground color="-12828863"/>
+              <horizontalTextPosition value="0"/>
+              <maximumSize width="250" height="100"/>
+              <minimumSize width="250" height="100"/>
+              <preferredSize width="250" height="100"/>
+              <text value="Мои книги"/>
+              <verticalAlignment value="0"/>
+              <verticalTextPosition value="0"/>
+            </properties>
+          </component>
+          <component id="f6e96" class="javax.swing.JButton" binding="orderBookButton">
+            <constraints/>
+            <properties>
+              <actionCommand value=""/>
+              <borderPainted value="true"/>
+              <contentAreaFilled value="true"/>
+              <font name="Consolas" size="14" style="0"/>
+              <foreground color="-12828863"/>
+              <horizontalTextPosition value="0"/>
+              <maximumSize width="250" height="100"/>
+              <minimumSize width="250" height="100"/>
+              <preferredSize width="250" height="100"/>
+              <text value="Заказать книги"/>
+              <verticalAlignment value="0"/>
+              <verticalTextPosition value="0"/>
+            </properties>
+          </component>
+          <component id="c29d4" class="javax.swing.JButton" binding="exitButton">
+            <constraints/>
+            <properties>
+              <actionCommand value=""/>
+              <borderPainted value="true"/>
+              <contentAreaFilled value="true"/>
+              <font name="Consolas" size="14" style="0"/>
+              <foreground color="-12828863"/>
+              <horizontalTextPosition value="0"/>
+              <maximumSize width="250" height="100"/>
+              <minimumSize width="250" height="100"/>
+              <preferredSize width="250" height="100"/>
+              <text value="Выйти"/>
+              <verticalAlignment value="0"/>
+              <verticalTextPosition value="0"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="453d0" binding="centerPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <maximumSize width="900" height="800"/>
+          <minimumSize width="900" height="800"/>
+          <preferredSize width="900" height="800"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="b8798" binding="northPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints border-constraint="North"/>
+            <properties>
+              <background color="-5277933"/>
+              <maximumSize width="900" height="100"/>
+              <minimumSize width="900" height="100"/>
+              <preferredSize width="900" height="100"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="b1a85" binding="myBookSmallPanel" layout-manager="FlowLayout" hgap="200" vgap="30" flow-align="1">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <background color="-12828863"/>
+              <maximumSize width="900" height="700"/>
+              <minimumSize width="900" height="700"/>
+              <preferredSize width="900" height="700"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="4089" class="javax.swing.JLabel" binding="myBookLabel">
+                <constraints/>
+                <properties>
+                  <alignmentX value="0.5"/>
+                  <font name="Consolas" size="48" style="0"/>
+                  <text value="Мои книги"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

@@ -35,6 +35,7 @@ public class Controller {
         //отрисовка формы
         final AuthorizationForm form = new AuthorizationForm();
         frame.setContentPane(form.getAuthorizationPanel());
+        frame.revalidate();
 
         form.entryButton.addActionListener(new ActionListener() {
             @Override
@@ -53,6 +54,7 @@ public class Controller {
                 }
                 if (authResult == 2) {
                     //вошли читателем
+                    showMainFormForReaders(login);
                 }
             }
         });
@@ -2008,6 +2010,50 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showBookActionForm();
+            }
+        });
+    }
+
+    //главная форма читателя
+    public void showMainFormForReaders(final String login){
+        //отрисовка формы
+        MainFormForReaders form = new MainFormForReaders();
+        frame.setContentPane(form.getMainFormForReadersPanel());
+        frame.revalidate();
+
+        //нажатие на "Мои книги"
+        form.myBookButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[][] data = model.listOfMyBook(login);
+                showMyBookFormForReaders(data);
+            }
+        });
+
+        //нажатие на "Заказать книги"
+
+        //нажатие на "Выход"
+        form.exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAuthorizationForm();
+            }
+        });
+    }
+
+    //форма вывода книг читатателя в личном кабинете
+    public void showMyBookFormForReaders(String[][] data){
+        final MyBookFormForReaders form = new MyBookFormForReaders(data);
+        frame.setContentPane(form.getMyBookPanel());
+        frame.revalidate();
+
+        //нажатие на "Заказать книги"
+
+        //нажатие на "Выход"
+        form.exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAuthorizationForm();
             }
         });
     }

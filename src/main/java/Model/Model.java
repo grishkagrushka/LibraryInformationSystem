@@ -330,7 +330,6 @@ public class Model {
             }
             return num != 0;
         } else {
-            System.out.println("Некорректные данные");
             return false;
         }
     }
@@ -1979,4 +1978,45 @@ public class Model {
         }
         return data;
     }
+
+    //вывод собственных книг для читателя
+    public String[][] listOfMyBook(String login){
+        String query = "SELECT `книги_пункта_выдачи`.`id_пункта_выдачи`," +
+                " `Название`, `Автор`, `дата_получения_книги`, `Допустимый_срок_хранения`," +
+                " `дата_реального_возвращения_книги`" +
+                " FROM `library`.`читатель`" +
+                " JOIN `library`.`книги_читателя`" +
+                " ON `читатель`.`id` = `книги_читателя`.`id_читателя`" +
+                " JOIN `library`.`книга`" +
+                " ON `книги_читателя`.`id_книги` = `книга`.`id`" +
+                " JOIN `library`.`книги_пункта_выдачи`" +
+                " ON `книга`.`id` = `книги_пункта_выдачи`.`id_книги`" +
+                " WHERE (`читатель`.`Логин` = '" + login + "')";
+        ResultSet resultSet;
+        String[][] data = new String[30][6];
+        //задаём первую строку в таблице, которая будет являться шапкой
+        data[0][0] = "П.выдачи";
+        data[0][1] = "Название";
+        data[0][2] = "Автор";
+        data[0][3] = "Дата получения";
+        data[0][4] = "Срок хранения";
+        data[0][5] = "Дата возврата";
+        int i = 1;
+        try {
+            resultSet = connector.statement.executeQuery(query);
+            while(resultSet.next()){
+                data[i][0] = resultSet.getString(1);
+                data[i][1] = resultSet.getString(2);
+                data[i][2] = resultSet.getString(3);
+                data[i][3] = resultSet.getString(4);
+                data[i][4] = resultSet.getString(5);
+                data[i][5] = resultSet.getString(6);
+                i++;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return data;
+    }
+
 }
